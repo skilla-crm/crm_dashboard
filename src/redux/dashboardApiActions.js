@@ -15,27 +15,20 @@ export const dashboardApiActions = createApi({
     },
   }),
   endpoints: (build) => ({
-
-    getWorker: build.query({
-      query: (id) => ({
-        url: `workers/${id}/show`,
+    getDashboard: build.query({
+      query: (params) => ({
+        url: `dashboard`,
         method: "GET",
+        params
       }),
       transformResponse: (response) => response?.data,
-      providesTags: ["Detail"],
+      /* providesTags: ["Main"], */
     }),
 
-   /*  workerCreate: build.mutation({
-      query: (body) => ({
-        url: `workers/create`,
-        method: "POST",
-        body,
-      }),
-      invalidatesTags: ["List"],
-    }) */
+   
   }),
 });
 
 export const {
-  useGetWorkerQuery,
+  useGetDashboardQuery
 } = dashboardApiActions;
