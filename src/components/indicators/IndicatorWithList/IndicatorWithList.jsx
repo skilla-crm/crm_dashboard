@@ -1,4 +1,4 @@
-import s from './Indicator.module.scss';
+import s from './IndicatorWithList.module.scss';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import NumberFlow from '@number-flow/react'
@@ -10,10 +10,9 @@ import useIncreaseState from 'hooks/useIncreaseState';
 import Tooltip from './Tooltip/Tooltip';
 import Loader from './Loader/Loader';
 
-const Indicator = ({ isLoading, title, indicator, increaseView, increase, prevPeriod, info, reverse, data }) => {
+const IndicatorWithList = ({ isLoading, title, indicator, increaseView, increase, prevPeriod, info, reverse, data }) => {
     const [hover, setHover] = useState(false);
     const increaseState = useIncreaseState(reverse, increase);
-
 
     const handleHover = () => {
         setHover(true)
@@ -43,22 +42,23 @@ const Indicator = ({ isLoading, title, indicator, increaseView, increase, prevPe
                 </div>
                 }
 
+                {increaseView && <div className={classNames(s.bottom, isLoading && s.bottom_load)}>
+                    <p className={classNames(s.increase, increaseState.negaive && s.increase_red)}>
+                        <IconArrow className={classNames(increaseState.down && s.arrow_down)} />
+                        {Math.abs(increase)}%
+                    </p>
+                    <span>отн. {prevPeriod}</span>
+                </div>}
 
             </div>
-            {increaseView && <div className={classNames(s.bottom, isLoading && s.bottom_load)}>
-                <p className={classNames(s.increase, increaseState.negaive && s.increase_red)}>
-                    <IconArrow className={classNames(increaseState.down && s.arrow_down)} />
-                    {Math.abs(increase)}%
-                </p>
-                <span>отн. {prevPeriod}</span>
-            </div>}
+
 
 
             <div className={classNames(s.loader, isLoading && s.loader_load)}>
-                <Loader/>
+                <Loader />
             </div>
         </div>
     )
 };
 
-export default Indicator;
+export default IndicatorWithList;
