@@ -8,7 +8,7 @@ import Indicator from 'components/indicators/Indicator/Indicator';
 
 
 const Main = () => {
-    const [period, setPeriod] = useState('month');
+    const [period, setPeriod] = useState('quarter');
     const params = {
         'filter[period]': period
     }

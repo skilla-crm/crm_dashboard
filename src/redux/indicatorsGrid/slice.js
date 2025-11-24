@@ -19,7 +19,7 @@ const initialState = {
     { indicator: 'orders', type_block: 3 },
     { indicator: 'orders', type_block: 3 },
     { indicator: 'lost_revenue', type_block: 3 },
-   /*  { indicator: 'transaction', type_block: 2 }, */
+    { indicator: 'transaction', type_block: 2 },
     { indicator: 'transaction', type_block: 2 },
   ]
 };
