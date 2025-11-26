@@ -3,12 +3,10 @@ import { useState } from 'react';
 //api
 import { useGetDashboardQuery } from '../../redux/dashboardApiActions';
 //components
-import IndicatorsGrid from 'components/IndicatorsGrid/IndicatorsGrid';
-import Indicator from 'components/indicators/Indicator/Indicator';
-
+import IndicatorsFinance from 'components/IndicatorsFinance/IndicatorsFinance';
 
 const Main = () => {
-    const [period, setPeriod] = useState('quarter');
+    const [period, setPeriod] = useState('month');
     const params = {
         'filter[period]': period
     }
@@ -22,8 +20,7 @@ const Main = () => {
                 <h2>Дашборд</h2>
             </div>
 
-            <IndicatorsGrid
-                type={'finance'}
+            <IndicatorsFinance
                 data={data?.finance}
                 isLoading={isLoading}
             />

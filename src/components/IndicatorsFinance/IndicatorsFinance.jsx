@@ -1,4 +1,4 @@
-import s from './IndicatorsGrid.module.scss';
+import s from './IndicatorsFinance.module.scss';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
@@ -11,7 +11,7 @@ import DiagramLarge from 'components/indicators/DiagramLarge/DiagramLarge';
 import Indicator from 'components/indicators/Indicator/Indicator';
 import IndicatorWithList from 'components/indicators/IndicatorWithList/IndicatorWithList';
 
-const IndicatorsGrid = ({ data, type, isLoading }) => {
+const IndicatorsFinance = ({ data, type, isLoading }) => {
     const { financeGrid } = useSelector((state) => state.indicatorsGrid);
     const numberSmallBlock = useNumberSmallBlock(financeGrid)
 
@@ -58,15 +58,14 @@ const IndicatorsGrid = ({ data, type, isLoading }) => {
                                 size={6}
                             >
                                 <Indicator
-                                    const data={el}
                                     isLoading={isLoading}
                                     title={'Выручка'}
                                     indicator={isLoading ? 0 : data[el.indicator]?.indicator}
                                     increaseView={true}
                                     increase={67}
                                     prevPeriod={'авг'}
-                                    info={'sgsdgsdgsdgsdg'}
-                                    reverse={true}
+                                    info={null}
+                                    reverse={false}
                                 />
                             </Grid>
                         )}
@@ -144,4 +143,4 @@ const IndicatorsGrid = ({ data, type, isLoading }) => {
     )
 };
 
-export default IndicatorsGrid;
+export default IndicatorsFinance;
