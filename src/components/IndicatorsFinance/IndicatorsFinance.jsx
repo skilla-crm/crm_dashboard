@@ -2,7 +2,7 @@ import s from './IndicatorsFinance.module.scss';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
-/* import { ThemeProvider, createTheme } from '@material-ui/core/styles' */
+
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 //hooks
 import useNumberSmallBlock from 'hooks/useNumberSmallBlock';
@@ -10,6 +10,7 @@ import useNumberSmallBlock from 'hooks/useNumberSmallBlock';
 import DiagramLarge from 'components/indicators/DiagramLarge/DiagramLarge';
 import Indicator from 'components/indicators/Indicator/Indicator';
 import IndicatorWithList from 'components/indicators/IndicatorWithList/IndicatorWithList';
+import Slider from './components/Slider/Slider';
 
 const IndicatorsFinance = ({ data, type, isLoading }) => {
     const { financeGrid } = useSelector((state) => state.indicatorsGrid);
@@ -28,13 +29,14 @@ const IndicatorsFinance = ({ data, type, isLoading }) => {
                     container
                     spacing={5}
                 >
-
+                    {/* блок со столбчатой диаграммой */}
                     {financeGrid?.filter(el => el.type_block === 1)?.map(el =>
                         <Grid
                             item
                             size={12}
                         >
                             <DiagramLarge />
+                            <Slider />
                         </Grid>
                     )}
 

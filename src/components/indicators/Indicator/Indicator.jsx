@@ -1,6 +1,7 @@
 import s from './Indicator.module.scss';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
+
 import NumberFlow from '@number-flow/react'
 import { ReactComponent as IconInfo } from './assets/iconinfo.svg';
 import { ReactComponent as IconArrow } from './assets/arrow.svg';

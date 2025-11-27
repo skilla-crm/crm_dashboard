@@ -2,21 +2,21 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   financeGrid: [
-    /*  { indicator: 'table', type_block: 1 }, */
+    { indicator: 'table', type_block: 1 }, 
     { indicator: 'orders', type_block: 3 },
     { indicator: 'orders', type_block: 3 },
     { indicator: 'orders', type_block: 3 },
-    /*  { indicator: 'orders', type_block: 3 },
      { indicator: 'orders', type_block: 3 },
-     { indicator: 'orders', type_block: 3 }, */
+     { indicator: 'orders', type_block: 3 },
+     { indicator: 'orders', type_block: 3 }, 
     { indicator: 'orders', type_block: 3 },
     { indicator: 'lost_revenue', type_block: 3 },
     { indicator: 'orders', type_block: 3 },
-    /*  { indicator: 'orders', type_block: 3 },
+     { indicator: 'orders', type_block: 3 },
      { indicator: 'orders', type_block: 3 },
      { indicator: 'lost_revenue', type_block: 3 },
      { indicator: 'orders', type_block: 3 },
-     { indicator: 'orders', type_block: 3 }, */
+     { indicator: 'orders', type_block: 3 }, 
     { indicator: 'orders', type_block: 3 },
     { indicator: 'lost_revenue', type_block: 3 },
     { indicator: 'transaction', type_block: 2 },

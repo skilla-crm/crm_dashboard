@@ -17,7 +17,7 @@ const Main = () => {
     return (
         <div className={s.root}>
             <div className={s.header}>
-                <h2>Дашборд</h2>
+                <h2></h2>
             </div>
 
             <IndicatorsFinance

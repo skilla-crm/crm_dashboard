@@ -1,5 +1,35 @@
 .root {
-    width: 100%;
-    height: 282px;
-    background-color: aquamarine;
+  width: 100%;
+  max-width: 1064px;
+  padding: 24px;
+  background-color: #fff;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  box-shadow: 0 10px 30px rgba(34, 42, 70, 0.08);
+}
+
+.block {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.blockInfo {
+  width: 200px;
+}
+
+.blockTitle {
+  font-weight: 500;
+}
+
+.blockValue {
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.blockChart {
+  flex: 1;
+  height: 12px;
 }
