@@ -1,0 +1,52 @@
+.root {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+
+    width: 100%;
+    color: var(--Text-Primary, #121922);
+    font-family: Inter;
+}
+
+.title {
+    white-space: nowrap;
+}
+
+.icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.inner {
+justify-content: flex-start;
+align-items: center;
+justify-content: space-between;
+gap: 10px;
+}
+
+
+
+.large {
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 40px;
+}
+.medium {
+
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 25px; 
+}
+.small {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0.15px;
+}

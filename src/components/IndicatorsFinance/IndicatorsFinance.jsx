@@ -7,10 +7,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 //hooks
 import useNumberSmallBlock from 'hooks/useNumberSmallBlock';
 //compnonents
-import DiagramLarge from 'components/indicators/DiagramLarge/DiagramLarge';
+import FinanceDiagram from 'components/indicators/DiagramLarge/FinanceDiagram';
 import Indicator from 'components/indicators/Indicator/Indicator';
 import IndicatorWithList from 'components/indicators/IndicatorWithList/IndicatorWithList';
 import Slider from './components/Slider/Slider';
+import HalfCircleDiagram from 'components/indicators/HalfCircleDiagram/HalfCircleDiagram';
 
 const IndicatorsFinance = ({ data, type, isLoading }) => {
     const { financeGrid } = useSelector((state) => state.indicatorsGrid);
@@ -35,8 +36,9 @@ const IndicatorsFinance = ({ data, type, isLoading }) => {
                             item
                             size={12}
                         >
-                            <DiagramLarge />
+                            <FinanceDiagram />
                             <Slider />
+                            <HalfCircleDiagram  />
                         </Grid>
                     )}
 

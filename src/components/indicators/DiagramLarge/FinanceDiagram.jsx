@@ -8,7 +8,7 @@ import {
     LabelList
   } from "recharts"
 
-import s from './DiagramLarge.module.scss';
+import s from './FinanceDiagram.module.scss';
 const data = [
     {
       name: "Выручка",
@@ -30,19 +30,9 @@ const data = [
     }
   ]
   
-// const DiagramLarge = () => {
-//     return (
-//         <div className={s.root}>
-//             большая диаграмма
-
-//         </div>
-//     )
-// };
-
-// export default DiagramLarge;
 
   
-const DiagramLarge = () => {
+const FinanceDiagram = () => {
     return (
       <div className={s.root}>
   
@@ -83,7 +73,7 @@ const DiagramLarge = () => {
     )
 };
 
-export default DiagramLarge;
+export default FinanceDiagram;
 
 
 

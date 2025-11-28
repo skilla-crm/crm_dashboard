@@ -1,7 +1,12 @@
 .root {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
   height: 244px;
-  width: 450px;
+  min-width: 450px;
 
   border-radius: 12px;
   // background-color: #cde0ff;

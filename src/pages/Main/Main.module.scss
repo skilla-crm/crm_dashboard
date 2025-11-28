@@ -1,0 +1,15 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

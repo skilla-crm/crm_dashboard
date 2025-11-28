@@ -5,7 +5,8 @@ const CardSlider = ({ title, total, change, data }) => {
     return (
       <div className={s.root}>
   
-        {/* левая чать  диаграмма */}
+       <div className={s.chartContainer}>
+         {/* левая чать  диаграмма */}
         <div className={s.chart}>
           <DonutChart data={data} />
         </div>
@@ -43,7 +44,7 @@ const CardSlider = ({ title, total, change, data }) => {
             })}
           </div>
   
-        </div>
+        </div></div>
       </div>
     )
   };
