@@ -1,30 +1,36 @@
 .root {
   background-color: #fff;
   border-radius: 12px;
-  padding: 20px;
+
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 20px;
   height: 100%;
-
 }
+
 .chartContainer {
   width: 386px;
+  height: 100px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
+
 .chart {
   width: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 120px;
+  height: 100px;
 }
 
 .data {
-  flex: 1;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
 
+  align-items: center;
 }
 
 .title {
@@ -51,10 +57,9 @@
 }
 
 .list {
-  margin-top: 12px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 12px;
   font-size: 14px;
 }
 
@@ -70,4 +75,3 @@
   border-radius: 999px;
   flex-shrink: 0;
 }
-

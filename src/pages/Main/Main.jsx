@@ -1,51 +1,50 @@
-import s from './Main.module.scss';
-import { useState } from 'react';
+import s from "./Main.module.scss";
+import { useState } from "react";
 //api
-import { useGetDashboardQuery } from '../../redux/dashboardApiActions';
+import { useGetDashboardQuery } from "../../redux/dashboardApiActions";
 //components
-import IndicatorsFinance from 'components/IndicatorsFinance/IndicatorsFinance';
-import { ReactComponent as IconSettings } from 'assets/icons/iconSettings.svg';
+import IndicatorsFinance from "components/IndicatorsFinance/IndicatorsFinance";
+import { ReactComponent as IconSettings } from "assets/icons/iconSettings.svg";
 
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import FinanceDiagram from 'components/indicators/DiagramLarge/FinanceDiagram';
+import FinanceDiagram from "components/indicators/DiagramLarge/FinanceDiagram";
 
-import TitleWithLink from './ui/TitleWithLink/TitleWithLink';
-import UniButton from 'components/ui/UniButton/UniButton';
-import Slider from 'components/IndicatorsFinance/components/Slider/Slider';
+import TitleWithLink from "../../components/ui/UniButton/TitleWithLink/TitleWithLink";
+import UniButton from "components/ui/UniButton/UniButton";
+import Slider from "components/IndicatorsFinance/components/Slider/Slider";
 
 const Main = () => {
-    const [period, setPeriod] = useState('month');
-    const params = {
-        'filter[period]': period
-    }
-    const { data, isLoading } = useGetDashboardQuery(params);
+  const [period, setPeriod] = useState("month");
+  const params = {
+    "filter[period]": period,
+  };
+  const { data, isLoading } = useGetDashboardQuery(params);
 
-
-
-    return (
-        <div className={s.root }>
-            
-       <header className={s.header}>  
-                <h2>Дашборд за {period}</h2>
-                <div classname={s.headerBtns}><UniButton text="Настройка" type='outline' icon={IconSettings} onClick={() => {}} /></div>
-            </header>
-
-            <main className={s.main}>   
-               <IndicatorsFinance
-                   data={data?.finance}
-                 isLoading={isLoading}
-           />
-           </main> 
-
-            <Dashboard />   
+  return (
+    <div className={s.root}>
+      <header className={s.header}>
+        <h2>Дашборд за {period}</h2>
+        <div classname={s.headerBtns}>
+          <UniButton
+            text="Настройка"
+            type="outline"
+            icon={IconSettings}
+            onClick={() => {}}
+          />
         </div>
-    )
+      </header>
+
+      <main className={s.main}>
+        <IndicatorsFinance data={data?.finance} isLoading={isLoading} />
+      </main>
+
+      <Dashboard />
+    </div>
+  );
 };
 
 export default Main;
-
-
 
 // Временные заглушки — дальше заменишь на свои компоненты
 const Card = ({ title }) => (
@@ -54,7 +53,7 @@ const Card = ({ title }) => (
       background: "#fff",
       borderRadius: "20px",
       padding: "20px",
-      minHeight: 120
+      minHeight: 120,
     }}
   >
     <h3>{title}</h3>
@@ -65,14 +64,11 @@ const Dashboard = () => {
   return (
     <Box sx={{ background: "#F5F7FA", padding: 2 }}>
       <Grid container spacing={2}>
-
         {/* ЛЕВАЯ КОЛОНКА */}
-        <Grid item size={8} >
-        <FinanceDiagram />
-        
-          <Grid container >
-             
+        <Grid item size={8}>
+          <FinanceDiagram />
 
+          <Grid container>
             <Grid item xs={12} md={6}>
               <Card title="Выручка" />
             </Grid>
@@ -116,16 +112,13 @@ const Dashboard = () => {
             <Grid item xs={12}>
               <Card title="Исполнители" />
             </Grid>
-
           </Grid>
         </Grid>
 
-
         {/* ПРАВАЯ КОЛОНКА */}
         <Grid item size={4}>
-        <Slider />
+          <Slider />
           <Grid container spacing={2}>
-
             <Grid item xs={12}>
               <Card title="Заказы" />
             </Grid>
@@ -161,12 +154,9 @@ const Dashboard = () => {
             <Grid item xs={6}>
               <Card title="Закупки и учет" />
             </Grid>
-
           </Grid>
         </Grid>
-
       </Grid>
     </Box>
   );
-}
-
+};
