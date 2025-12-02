@@ -1,0 +1,61 @@
+.root {
+    position: relative;
+}
+
+.modal {
+    min-width: 400px;
+    position: absolute;
+    right: 0;
+    top: 44px;
+    z-index: 2;
+    transition: all 0.2s ease-in-out;
+    transform: scale(0.7);
+    opacity: 0;
+    visibility: hidden;
+    padding: 6px 0 6px 0;
+    // padding: 12px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0px 10px 30px 4px rgba(0, 0, 0, 0.1);
+    color: var(--Text-Primary, #121922);
+    text-align: center;
+
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+    &_open {
+        visibility: visible;
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.block {
+    display: flex;
+    flex-direction: column;
+}
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0px 20px;
+    height: 40px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+
+    &:hover {
+        background-color: #f8fafd;
+    }
+}
+
+.checkIcon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}

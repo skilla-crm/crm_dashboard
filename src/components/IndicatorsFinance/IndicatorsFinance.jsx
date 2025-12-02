@@ -7,7 +7,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 //hooks
 import useNumberSmallBlock from "hooks/useNumberSmallBlock";
 //compnonents
-import FinanceDiagram from "components/indicators/DiagramLarge/FinanceDiagram";
+import FinanceDiagram from "components/indicators/FinanceDiagram/FinanceDiagram";
 import Indicator from "components/indicators/Indicator/Indicator";
 import IndicatorWithList from "components/indicators/IndicatorWithList/IndicatorWithList";
 
@@ -23,9 +23,9 @@ const IndicatorsFinance = ({ data, type, isLoading }) => {
     <div className={s.root}>
       <ThemeProvider theme={theme}>
         <Grid container spacing={5}>
-          {/* блок со столбчатой диаграммой */}
+          блок со столбчатой диаграммой
           {financeGrid
-            ?.filter((el) => el.type_block === "large")
+            ?.filter((el) => el.type_block === 1)
             ?.map((el) => (
               <Grid item size={12}>
                 <FinanceDiagram />
@@ -46,7 +46,7 @@ const IndicatorsFinance = ({ data, type, isLoading }) => {
             }}
           >
             {financeGrid
-              ?.filter((el) => el.type_block === "small")
+              ?.filter((el) => el.type_block === 2)
               ?.slice(0, numberSmallBlock)
               ?.map((el) => (
                 <Grid item size={6}>
@@ -76,7 +76,7 @@ const IndicatorsFinance = ({ data, type, isLoading }) => {
             }}
           >
             {financeGrid
-              ?.filter((el) => el.type_block === "small")
+              ?.filter((el) => el.type_block === 3)
               ?.map((el) => (
                 <Grid item size={12}>
                   <IndicatorWithList

@@ -8,8 +8,26 @@
     align-items: center;
     justify-content: space-between;
 }
+.headerBtns {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 6px;
+}
 .main {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+  }
+  
+  .section-blocks {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 12px;
+  }
+  

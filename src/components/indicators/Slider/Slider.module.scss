@@ -1,7 +1,9 @@
 .root {
   position: relative;
   height: 244px;
-  min-width: 450px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   border-radius: 12px;
   overflow: hidden;
 
