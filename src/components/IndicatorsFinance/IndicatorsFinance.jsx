@@ -28,7 +28,7 @@ const IndicatorsFinance = ({ data, type, isLoading }) => {
             ?.filter((el) => el.type_block === 1)
             ?.map((el) => (
               <Grid item size={12}>
-                <FinanceDiagram />
+                <FinanceDiagram profitData={data?.profit} />
                 {/* <Slider />
                 <HalfCircleDiagram /> */}
               </Grid>
@@ -53,9 +53,9 @@ const IndicatorsFinance = ({ data, type, isLoading }) => {
                   <Indicator
                     isLoading={isLoading}
                     title={"Выручка"}
-                    indicator={isLoading ? 0 : data[el.indicator]?.indicator}
+                    indicator={isLoading ? 0 : data?.[el.indicator]?.indicator || 0}
                     increaseView={true}
-                    increase={67}
+                    increase={data?.[el.indicator]?.increase || 0}
                     prevPeriod={"авг"}
                     info={null}
                     reverse={false}
@@ -80,13 +80,12 @@ const IndicatorsFinance = ({ data, type, isLoading }) => {
               ?.map((el) => (
                 <Grid item size={12}>
                   <IndicatorWithList
-                    const
                     data={el}
                     isLoading={isLoading}
                     title={"Входящие транзакции"}
-                    indicator={5345}
+                    indicator={isLoading ? 0 : data?.transactions_income?.indicator || 0}
                     increaseView={true}
-                    increase={67}
+                    increase={data?.transactions_income?.increase || 0}
                     prevPeriod={"авг"}
                     info={null}
                     reverse={true}
@@ -111,15 +110,14 @@ const IndicatorsFinance = ({ data, type, isLoading }) => {
                 ?.map((el) => (
                   <Grid item size={6}>
                     <Indicator
-                      const
                       data={el}
                       isLoading={isLoading}
                       title={"Выручка"}
-                      indicator={isLoading ? 0 : data[el.indicator]?.indicator}
+                      indicator={isLoading ? 0 : data?.[el.indicator]?.indicator || 0}
                       increaseView={true}
-                      increase={67}
-                      prevPeriod={"авг"}
-                      info={"sgsdgsdgsdgsdg"}
+                    increase={data?.[el.indicator]?.increase || 0}
+                    prevPeriod={"авг"}
+                    info={el.info || null}
                       reverse={true}
                     />
                   </Grid>

@@ -2,6 +2,8 @@ import s from './Main.module.scss';
 import { useState } from 'react';
 // api
 import { useGetDashboardQuery } from '../../redux/dashboardApiActions';
+// redux
+import { useSelector } from 'react-redux';
 // components
 import IndicatorsFinance from 'components/IndicatorsFinance/IndicatorsFinance';
 import { ReactComponent as IconSettings } from 'assets/icons/iconSettings.svg';
@@ -9,107 +11,37 @@ import { ReactComponent as IconSave } from 'assets/icons/iconDoneWhite.svg';
 import FinanceDiagram from 'components/indicators/FinanceDiagram/FinanceDiagram';
 import UniButton from 'components/ui/UniButton/UniButton';
 import PeriodFilter from 'components/filters/PeriodFilter/PeriodFilter';
+import DateFilter from 'components/filters/DateFilter/DateFilter';
 import TitleWithLink from 'components/ui/UniButton/TitleWithLink/TitleWithLink';
 import { createTheme, Grid, ThemeProvider } from '@mui/material';
 import Slider from 'components/indicators/Slider/Slider';
 import Indicator from 'components/indicators/Indicator/Indicator';
 import IndicatorWithList from 'components/indicators/IndicatorWithList/IndicatorWithList';
 import HalfCircleDiagram from 'components/indicators/HalfCircleDiagram/HalfCircleDiagram';
+// utils
+import { getTitleDateDuration } from 'components/filters/DateFilter/DateMenu/utils/date';
 
-const PERIODS = [
-    { value: 'month', label: 'Месяц' },
-    { value: 'quarter', label: 'Квартал' },
-    { value: 'year', label: 'Год' },
-];
-
-// const SECTION_COMPONENTS = {
-//   FINANCE: FinanceSection,
-//   ADVERTISING: AdvertisingSection,
-//   ORDERS: OrdersSection,
-//   COUNTERPARTIES: CounterpartiesSection,
-//   FORECAST: ForecastSection,
-//   EMPLOYEES: EmployeesSection,
-//   PERFORMERS: PerformersSection,
-// };
-
-// const BLOCK_COMPONENTS = {
-//   FINANCE_REVENUE: FinanceRevenue,
-//   FINANCE_EXPENSES: FinanceExpenses,
-//   FINANCE_TRANSACTION_INCOME: FinanceTransactionIncome,
-//   FINANCE_PAYMENTS_WORKER: FinancePaymentsWorker,
-//   FINANCE_LOST_REVENUE: FinanceLostRevenue,
-//   FINANCE_DIAGRAM: FinanceDiagram,
-
-//   ADVERTISING_AVERAGE_PRICE_CLICK: AdvertisingPpcClick,
-//   ADVERTISING_AVERAGE_PRICE_ORDER: AdvertisingPpcOrder,
-//   ADVERTISING_AVERAGE_PRICE_CALL: AdvertisingPpcCall,
-//   ADVERTISING_CTR: AdvertisingCtr,
-
-//   QUANTITY_ORDERS: QuantityOrders,
-//   SUM_ORDERS: SumOrders,
-//   PAY_TYPES: PayTypes,
-
-//   COUNTERPARTIES_DEBTS: CounterpartiesDebts,
-//   CLOSING_DOCS: ClosingDocs,
-
-//   MARGINAL_PROFIT: ForecastMarginalProfit,
-//   OPERATION_PROFIT: ForecastOperationProfit,
-//   REVENUE: ForecastRevenue,
-//   ORDERS_COUNT: ForecastOrdersCount,
-//   PAYMENTS_TO_PERFORMERS: ForecastPayments,
-//   PURCHASES_AND_ACCOUNTING: ForecastPurchases,
-// };
-
-// const Dashboard = ({ grid, data }) => {
-//   return (
-//     <div className="dashboard-grid">
-//       {grid
-//         .filter(section => !section.disabled)
-//         .map(section => {
-//           const SectionComponent = SECTION_COMPONENTS[section.indicator];
-//           if (!SectionComponent) return null;
-
-//           return (
-//             <SectionComponent key={section.indicator}>
-//               {/* если у секции есть блоки */}
-//               {section.blocks?.length > 0 && (
-//                 <div className="section-blocks">
-//                   {section.blocks
-//                     .filter(block => !block.disabled)
-//                     .map(block => {
-//                       const BlockComponent = BLOCK_COMPONENTS[block.indicator];
-//                       if (!BlockComponent) return null;
-
-//                       const blockData = block.data || data[block.indicator] || {};
-
-//                       return (
-//                         <div
-//                           key={block.indicator}
-//                           style={{ gridColumn: `span ${block.size || 2}` }}
-//                         >
-//                           <BlockComponent data={blockData} />
-//                         </div>
-//                       );
-//                     })}
-//                 </div>
-//               )}
-
-//               {/* если секция без blocks то просто одиночный компонент */}
-//               {!section.blocks && <SectionComponent data={section.data} />}
-//             </SectionComponent>
-//           );
-//         })}
-//     </div>
-//   );
-// };
+// const PERIODS = [
+//     { value: 'month', label: 'Месяц' },
+//     { value: 'quarter', label: 'Квартал' },
+//     { value: 'year', label: 'Год' },
+// ];
 
 const Main = () => {
     const [period, setPeriod] = useState('month');
     const [isEditing, setIsEditing] = useState(false);
+    const [activeFilter, setActiveFilter] = useState(null);
+    const { dateStartPicker, dateEndPicker } = useSelector(
+        (state) => state.dateRange || {}
+    );
     const params = {
         'filter[period]': period,
     };
     const { data, isLoading } = useGetDashboardQuery(params);
+
+    const clearActiveFilter = () => {
+        setActiveFilter(null);
+    };
 
     const theme = createTheme({
         spacing: 4,
@@ -117,19 +49,22 @@ const Main = () => {
     return (
         <div className={s.root}>
             <header className={s.header}>
-                <h2>
-                    Дашборд за{' '}
-                    {PERIODS.find(
-                        (p) => p.value === period
-                    )?.label.toLowerCase() || 'Месяц'}
-                </h2>
+                <h2>Дашборд</h2>
                 <div className={s.headerBtns}>
-                    {!isEditing && (
+                    {/* {!isEditing && (
                         <PeriodFilter
                             period={period}
                             setPeriod={setPeriod}
                             isLoading={isLoading}
                             periods={PERIODS}
+                        />
+                    )} */}
+
+                    {!isLoading && (
+                        <DateFilter
+                            isFetching={isLoading}
+                            setActiveFilter={setActiveFilter}
+                            clearActiveFilter={clearActiveFilter}
                         />
                     )}
                     <UniButton
@@ -154,8 +89,13 @@ const Main = () => {
                             size={8}
                         >
                             <div className={s.finance}>
-                                <TitleWithLink title="Финансы" />
-                                <FinanceDiagram />
+                                <TitleWithLink
+                                    title="Финансы"
+                                    navigateTo={'/finance'}
+                                />
+                                <FinanceDiagram
+                                    profitData={data?.finance?.profit || {}}
+                                />
 
                                 <Grid
                                     container
@@ -221,7 +161,10 @@ const Main = () => {
                                     item
                                     size={6}
                                 >
-                                    <TitleWithLink title="Реклама" />
+                                    <TitleWithLink
+                                        title="Реклама"
+                                        navigateTo={'/advertising'}
+                                    />
                                     <Grid
                                         container
                                         spacing={3}
@@ -254,7 +197,10 @@ const Main = () => {
                                     item
                                     size={6}
                                 >
-                                    <TitleWithLink title="Контрагенты" />
+                                    <TitleWithLink
+                                        title="Контрагенты"
+                                        navigateTo={'/counterparties'}
+                                    />
                                     <Grid
                                         spacing={3}
                                         container
@@ -302,7 +248,10 @@ const Main = () => {
                                 size={12}
                             >
                                 <div className={s.orders}>
-                                    <TitleWithLink title="Заказы" />
+                                    <TitleWithLink
+                                        title="Заказы"
+                                        navigateTo={'/orders'}
+                                    />
                                     <Slider />
                                 </div>
                             </Grid>

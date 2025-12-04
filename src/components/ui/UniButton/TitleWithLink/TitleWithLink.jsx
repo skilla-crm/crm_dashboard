@@ -9,13 +9,24 @@ import classNames from 'classnames';
  * @param {string} [props.type='default'] - Тип компонента для стилизации (outer | inner)
  * @param {boolean} [props.withLink=true] - Показывать ли иконку ссылки
  */
-const TitleWithLink = ({title, link, size = 'large', type = '', withLink = true}) => {
-
+const TitleWithLink = ({
+    title,
+    navigateTo,
+    size = 'large',
+    type = '',
+    withLink = true,
+}) => {
     return (
         <div className={classNames(s.root, s[type], s[size])}>
             <div className={classNames(s.title, s[size])}>{title}</div>
-            {withLink && <Link to={link}><div className={s.icon}><IconTopRight /></div></Link>}
+            {withLink && (
+                <Link to={navigateTo}>
+                    <div className={s.icon}>
+                        <IconTopRight />
+                    </div>
+                </Link>
+            )}
         </div>
-    )
-}
+    );
+};
 export default TitleWithLink;

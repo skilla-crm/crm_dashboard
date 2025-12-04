@@ -1,35 +1,91 @@
 .root {
-  width: 100%;
+    width: 100%;
 
-  padding: 24px;
-  background-color: #fff;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  box-shadow: 0 10px 30px rgba(34, 42, 70, 0.08);
+    padding: 24px;
+    background-color: #fff;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 0 10px 30px rgba(34, 42, 70, 0.08);
 }
 
 .block {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .blockInfo {
-  width: 200px;
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .blockTitle {
-  font-weight: 500;
+    color: var(--Text-Primary, #121922);
+    width: 100px;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: 0.15px;
 }
 
 .blockValue {
-  font-size: 18px;
-  line-height: 1.3;
+    width: 160px;
+    color: var(--Text-Primary, #121922);
+
+    /* Body 1 Regular */
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px; /* 137.5% */
 }
 
 .blockChart {
-  flex: 1;
-  height: 12px;
+    width: 100%;
+    height: 12px;
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.labelsContainer {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    width: 100%;
+    height: 52px;
+    pointer-events: none;
+    z-index: 10;
+    overflow: visible;
+}
+
+.label {
+    position: absolute;
+    color: var(--Text-Primary, #121922);
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.label.multiLine {
+    white-space: normal;
+}
+
+.label.top {
+    top: -13px;
+}
+
+.label.bottom {
+    top: 53px;
 }
