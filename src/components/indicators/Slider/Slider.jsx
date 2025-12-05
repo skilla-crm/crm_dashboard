@@ -9,7 +9,7 @@ import { ReactComponent as ChevronRightIcon } from 'assets/icons/iconChewronRigh
 import s from './Slider.module.scss';
 import { useRef, useState } from 'react';
 import classNames from 'classnames';
-import TitleWithLink from 'components/ui/UniButton/TitleWithLink/TitleWithLink';
+import TitleWithLink from 'components/ui/TitleWithLink/TitleWithLink';
 
 const slides = [
     {

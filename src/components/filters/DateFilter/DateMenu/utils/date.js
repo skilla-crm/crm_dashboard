@@ -117,6 +117,54 @@ export const getBeforeLastMonth = (value) => {
   }
 };
 
+export const getCurrentMonth = (value) => {
+  if (value === 'start') {
+    const dateStart = dayjs().startOf('month').toDate();
+    return getDateFormatted(dateStart);
+  }
+
+  if (value === 'end') {
+    const dateEnd = dayjs().endOf('month').toDate();
+    return getDateFormatted(dateEnd);
+  }
+};
+
+export const getCurrentQuarter = (value) => {
+  if (value === 'start') {
+    const dateStart = dayjs().startOf('quarter').toDate();
+    return getDateFormatted(dateStart);
+  }
+
+  if (value === 'end') {
+    const dateEnd = dayjs().endOf('quarter').toDate();
+    return getDateFormatted(dateEnd);
+  }
+};
+
+export const getCurrentYear = (value) => {
+  if (value === 'start') {
+    const dateStart = dayjs().startOf('year').toDate();
+    return getDateFormatted(dateStart);
+  }
+
+  if (value === 'end') {
+    const dateEnd = dayjs().endOf('year').toDate();
+    return getDateFormatted(dateEnd);
+  }
+};
+
+export const getPreviousYear = (value) => {
+  if (value === 'start') {
+    const dateStart = dayjs().subtract(1, 'year').startOf('year').toDate();
+    return getDateFormatted(dateStart);
+  }
+
+  if (value === 'end') {
+    const dateEnd = dayjs().subtract(1, 'year').endOf('year').toDate();
+    return getDateFormatted(dateEnd);
+  }
+};
+
 export const getTitleDateDuration = (dateStart, dateEnd, viewFullMonth = false) => {
   const currentYear = new Date().getFullYear();
   const startYear = new Date(`${dateStart}`).getFullYear();

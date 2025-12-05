@@ -2,38 +2,57 @@ import React from 'react';
 import { PieChart, Pie, Cell } from 'recharts';
 import classNames from 'classnames';
 import s from './HalfCircleDiagram.module.scss';
-import TitleWithLink from 'components/ui/UniButton/TitleWithLink/TitleWithLink';
+import TitleWithLink from 'components/ui/TitleWithLink/TitleWithLink';
 
 const ACTIVE_COLORS = {
-    signed: '#A8F0C8',
-    sent: '#BFC9FF',
-    notSent: '#ECBEBE',
+    signed: '#70E093',
+    sent: '#A59ADC',
+    notSent: '#C0CADD',
 };
 
 const DISABLED_COLORS = {
-    signed: '#EFF2F8',
-    sent: '#EFF2F8',
-    notSent: '#EFF2F8',
+    signed: '#C0CADD',
+    sent: '#C0CADD',
+    notSent: '#C0CADD',
 };
 
 const HalfCircleDiagram = ({
     title = 'Закрывающие документы',
-    signed = 10,
-    sent = 20,
-    notSent = 80,
+    data = {
+        send: { count: 0, percent: 0 },
+        sign: { count: 0, percent: 0 },
+        not_send: { count: 0, percent: 0 },
+    },
     disabled = false,
 }) => {
+    const signed = data.sign?.count || 0;
+    const sent = data.send?.count || 0;
+    const notSent = data.not_send?.count || 0;
     const total = signed + sent + notSent;
     const hasNoData = total === 0;
 
-    // Для описания всегда показываем все три элемента
     const legendData = [
-        { name: 'Подписаны', value: signed, key: 'signed' },
-        { name: 'Отправлены', value: sent, key: 'sent' },
-        { name: 'Не отправлены', value: notSent, key: 'notSent' },
+        {
+            name: 'Подписаны',
+            value: signed,
+            percent: data.sign?.percent || 0,
+            key: 'signed',
+        },
+        {
+            name: 'Отправлены',
+            value: sent,
+            percent: data.send?.percent || 0,
+            key: 'sent',
+        },
+        {
+            name: 'Не отправлены',
+            value: notSent,
+            percent: data.not_send?.percent || 0,
+            key: 'notSent',
+        },
     ];
 
-    // Для диаграммы если данных нет, показываем один серый сегмент
+    //если данных нет, показываем один серый сегмент
     const chartData = hasNoData
         ? [{ name: 'Нет данных', value: 100, key: 'notSent' }]
         : legendData;
@@ -63,7 +82,7 @@ const HalfCircleDiagram = ({
                     cy="100%"
                     startAngle={180}
                     endAngle={0}
-                    innerRadius={45}
+                    innerRadius={54}
                     outerRadius={80}
                     cornerRadius={4}
                     paddingAngle={hasNoData ? 0 : 2}
@@ -79,8 +98,7 @@ const HalfCircleDiagram = ({
 
             <div className={s.legend}>
                 {legendData.map((item) => {
-                    const percent =
-                        total > 0 ? Math.round((item.value / total) * 100) : 0;
+                    const percent = item.percent || 0;
                     const value = `${item.value} (${percent}%)`;
 
                     return (

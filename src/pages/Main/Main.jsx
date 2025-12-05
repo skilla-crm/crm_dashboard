@@ -8,18 +8,20 @@ import { useSelector } from 'react-redux';
 import IndicatorsFinance from 'components/IndicatorsFinance/IndicatorsFinance';
 import { ReactComponent as IconSettings } from 'assets/icons/iconSettings.svg';
 import { ReactComponent as IconSave } from 'assets/icons/iconDoneWhite.svg';
-import FinanceDiagram from 'components/indicators/FinanceDiagram/FinanceDiagram';
+import FinanceDiagram from 'components/diagrams/FinanceDiagram/FinanceDiagram';
 import UniButton from 'components/ui/UniButton/UniButton';
 import PeriodFilter from 'components/filters/PeriodFilter/PeriodFilter';
 import DateFilter from 'components/filters/DateFilter/DateFilter';
-import TitleWithLink from 'components/ui/UniButton/TitleWithLink/TitleWithLink';
+import TitleWithLink from 'components/ui/TitleWithLink/TitleWithLink';
 import { createTheme, Grid, ThemeProvider } from '@mui/material';
 import Slider from 'components/indicators/Slider/Slider';
 import Indicator from 'components/indicators/Indicator/Indicator';
 import IndicatorWithList from 'components/indicators/IndicatorWithList/IndicatorWithList';
-import HalfCircleDiagram from 'components/indicators/HalfCircleDiagram/HalfCircleDiagram';
+import HalfCircleDiagram from 'components/diagrams/HalfCircleDiagram/HalfCircleDiagram';
 // utils
 import { getTitleDateDuration } from 'components/filters/DateFilter/DateMenu/utils/date';
+import FunnelChart from 'components/diagrams/FunnelChart/FunnelChart';
+import IndicatorCounterparties from 'components/indicators/IndicatorCounterparties/IndicatorCounterparties';
 
 // const PERIODS = [
 //     { value: 'month', label: 'Месяц' },
@@ -111,25 +113,96 @@ const Main = () => {
                                             container
                                             spacing={3}
                                         >
-                                            {Array.from({ length: 4 }).map(
-                                                (_, index) => (
-                                                    <Grid
-                                                        item
-                                                        size={6}
-                                                        key={index}
-                                                    >
-                                                        <Indicator
-                                                            title={'Выручка'}
-                                                            indicator={67}
-                                                            increaseView={true}
-                                                            increase={67}
-                                                            prevPeriod={'авг'}
-                                                            info={null}
-                                                            reverse={true}
-                                                        />
-                                                    </Grid>
-                                                )
-                                            )}
+                                            <Grid
+                                                item
+                                                size={6}
+                                            >
+                                                <Indicator
+                                                    title={'Выручка'}
+                                                    indicator={
+                                                        data?.finance?.revenue
+                                                            ?.indicator || 0
+                                                    }
+                                                    increaseView={true}
+                                                    increase={
+                                                        data?.finance?.revenue
+                                                            ?.increase || 0
+                                                    }
+                                                    prevPeriod={'авг'}
+                                                    info={null}
+                                                    reverse={false}
+                                                    isLoading={isLoading}
+                                                />
+                                            </Grid>
+                                            <Grid
+                                                item
+                                                size={6}
+                                            >
+                                                <Indicator
+                                                    title={
+                                                        'Заказы с оплатой а р/с'
+                                                    }
+                                                    indicator={
+                                                        data?.finance?.orders
+                                                            ?.indicator || 0
+                                                    }
+                                                    increaseView={true}
+                                                    increase={
+                                                        data?.finance?.orders
+                                                            ?.increase || 0
+                                                    }
+                                                    prevPeriod={'авг'}
+                                                    info={null}
+                                                    reverse={false}
+                                                    isLoading={isLoading}
+                                                />
+                                            </Grid>
+                                            <Grid
+                                                item
+                                                size={6}
+                                            >
+                                                <Indicator
+                                                    title={'Расходы'}
+                                                    indicator={
+                                                        data?.finance?.costs
+                                                            ?.total
+                                                            ?.indicator || 0
+                                                    }
+                                                    increaseView={true}
+                                                    increase={
+                                                        data?.finance?.costs
+                                                            ?.total?.increase ||
+                                                        0
+                                                    }
+                                                    prevPeriod={'авг'}
+                                                    info={null}
+                                                    reverse={true}
+                                                    isLoading={isLoading}
+                                                />
+                                            </Grid>
+                                            <Grid
+                                                item
+                                                size={6}
+                                            >
+                                                <Indicator
+                                                    title={'Упущенная выручка'}
+                                                    indicator={
+                                                        data?.finance
+                                                            ?.lost_revenue
+                                                            ?.indicator || 0
+                                                    }
+                                                    increaseView={true}
+                                                    increase={
+                                                        data?.finance
+                                                            ?.lost_revenue
+                                                            ?.increase || 0
+                                                    }
+                                                    prevPeriod={'авг'}
+                                                    info={null}
+                                                    reverse={false}
+                                                    isLoading={isLoading}
+                                                />
+                                            </Grid>
                                         </Grid>
                                     </Grid>
 
@@ -140,12 +213,37 @@ const Main = () => {
                                     >
                                         <IndicatorWithList
                                             title={'Входящие транзакции'}
-                                            indicator={5345}
-                                            increaseView={true}
-                                            increase={67}
+                                            indicator={
+                                                data?.finance
+                                                    ?.transactions_income
+                                                    ?.indicator || 0
+                                            }
+                                            increaseView={
+                                                data?.finance
+                                                    .transactions_income
+                                                    .increase > 0
+                                            }
+                                            increase={
+                                                data?.finance
+                                                    ?.transactions_income
+                                                    ?.increase || 0
+                                            }
                                             prevPeriod={'авг'}
                                             info={null}
-                                            reverse={true}
+                                            reverse={
+                                                data?.finance
+                                                    .transactions_income
+                                                    .increase > 0
+                                                    ? false
+                                                    : true
+                                            }
+                                            isLoading={isLoading}
+                                            data={
+                                                data?.finance
+                                                    ?.transactions_income
+                                                    ?.last_transactions_income ||
+                                                []
+                                            }
                                         />
                                     </Grid>
                                 </Grid>
@@ -155,7 +253,7 @@ const Main = () => {
                                 spacing={5}
                                 sx={{ mt: '12px' }}
                             >
-                                {/* Левая колонка - 4 элемента в двух столбцах */}
+                                {/* Левая колонка - 6 элемента в двух столбцах */}
 
                                 <Grid
                                     item
@@ -169,25 +267,142 @@ const Main = () => {
                                         container
                                         spacing={3}
                                     >
-                                        {Array.from({ length: 4 }).map(
-                                            (_, index) => (
-                                                <Grid
-                                                    item
-                                                    size={6}
-                                                    key={index}
-                                                >
-                                                    <Indicator
-                                                        title={'Выручка'}
-                                                        indicator={67}
-                                                        increaseView={true}
-                                                        increase={67}
-                                                        prevPeriod={'авг'}
-                                                        info={null}
-                                                        reverse={true}
-                                                    />
-                                                </Grid>
-                                            )
-                                        )}
+                                        <Grid
+                                            item
+                                            size={6}
+                                        >
+                                            <Indicator
+                                                title={'CTR'}
+                                                indicator={
+                                                    data?.advertising?.ctr
+                                                        ?.indicator || 0
+                                                }
+                                                increaseView={true}
+                                                increase={
+                                                    data?.advertising?.ctr
+                                                        ?.increase || 0
+                                                }
+                                                prevPeriod={'авг'}
+                                                info={null}
+                                                reverse={false}
+                                                isLoading={isLoading}
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            size={6}
+                                        >
+                                            <Indicator
+                                                title={'Средняя цена клика'}
+                                                indicator={
+                                                    data?.advertising
+                                                        ?.average_price_click
+                                                        ?.indicator || 0
+                                                }
+                                                increaseView={true}
+                                                increase={
+                                                    data?.advertising
+                                                        ?.average_price_click
+                                                        ?.increase || 0
+                                                }
+                                                prevPeriod={'авг'}
+                                                info={null}
+                                                reverse={true}
+                                                isLoading={isLoading}
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            size={6}
+                                        >
+                                            <Indicator
+                                                title={'Конверсия клик→звонок'}
+                                                indicator={
+                                                    data?.advertising
+                                                        ?.conversion_click_to_call
+                                                        ?.indicator || 0
+                                                }
+                                                increaseView={true}
+                                                increase={
+                                                    data?.advertising
+                                                        ?.conversion_click_to_call
+                                                        ?.increase || 0
+                                                }
+                                                prevPeriod={'авг'}
+                                                info={null}
+                                                reverse={false}
+                                                isLoading={isLoading}
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            size={6}
+                                        >
+                                            <Indicator
+                                                title={'Средняя цена звонка'}
+                                                indicator={
+                                                    data?.advertising
+                                                        ?.average_price_call
+                                                        ?.indicator || 0
+                                                }
+                                                increaseView={true}
+                                                increase={
+                                                    data?.advertising
+                                                        ?.average_price_call
+                                                        ?.increase || 0
+                                                }
+                                                prevPeriod={'авг'}
+                                                info={null}
+                                                reverse={true}
+                                                isLoading={isLoading}
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            size={6}
+                                        >
+                                            <Indicator
+                                                title={'Конверсия звонок→заказ'}
+                                                indicator={
+                                                    data?.advertising
+                                                        ?.conversion_call_to_order
+                                                        ?.indicator || 0
+                                                }
+                                                increaseView={true}
+                                                increase={
+                                                    data?.advertising
+                                                        ?.conversion_call_to_order
+                                                        ?.increase || 0
+                                                }
+                                                prevPeriod={'авг'}
+                                                info={null}
+                                                reverse={false}
+                                                isLoading={isLoading}
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            size={6}
+                                        >
+                                            <Indicator
+                                                title={'Средняя цена заказа'}
+                                                indicator={
+                                                    data?.advertising
+                                                        ?.average_price_order
+                                                        ?.indicator || 0
+                                                }
+                                                increaseView={true}
+                                                increase={
+                                                    data?.advertising
+                                                        ?.average_price_order
+                                                        ?.increase || 0
+                                                }
+                                                prevPeriod={'авг'}
+                                                info={null}
+                                                reverse={true}
+                                                isLoading={isLoading}
+                                            />
+                                        </Grid>
                                     </Grid>
                                 </Grid>
 
@@ -211,14 +426,10 @@ const Main = () => {
                                             item
                                             size={6}
                                         >
-                                            <Indicator
+                                            <IndicatorCounterparties
                                                 title={'Выручка'}
-                                                indicator={67}
-                                                increaseView={true}
-                                                increase={67}
-                                                prevPeriod={'авг'}
-                                                info={null}
-                                                reverse={true}
+                                                data={data?.counterparties}
+                                                isLoading={isLoading}
                                             />
                                         </Grid>
                                         <Grid
@@ -227,9 +438,8 @@ const Main = () => {
                                         >
                                             <HalfCircleDiagram
                                                 title="Закрывающие документы"
-                                                signed={10}
-                                                sent={20}
-                                                notSent={80}
+                                                data={data?.counterparties.docs}
+                                                isLoading={isLoading}
                                             />
                                         </Grid>
                                     </Grid>
@@ -275,7 +485,7 @@ const Main = () => {
                                 size={12}
                             >
                                 <TitleWithLink
-                                    title="Проноз на конец сентября"
+                                    title="Прогноз на конец сентября"
                                     size="medium"
                                     withLink={false}
                                 />
@@ -308,7 +518,7 @@ const Main = () => {
                     </Grid>
                 </ThemeProvider>
             </main>
-
+            <FunnelChart />
             {/* <IndicatorsFinance data={data?.finance} isLoading={isLoading} /> */}
         </div>
     );

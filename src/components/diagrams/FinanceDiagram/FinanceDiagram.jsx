@@ -143,6 +143,7 @@ const FinanceDiagram = ({ profitData }) => {
                     },
                 ]}
                 data={[chartData[0]]}
+                maxValue={revenue}
             />
 
             <Block
@@ -171,6 +172,7 @@ const FinanceDiagram = ({ profitData }) => {
                     },
                 ]}
                 data={[chartData[1]]}
+                maxValue={revenue}
             />
 
             <Block
@@ -207,6 +209,7 @@ const FinanceDiagram = ({ profitData }) => {
                     },
                 ]}
                 data={[chartData[2]]}
+                maxValue={revenue}
             />
         </div>
     );

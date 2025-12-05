@@ -1,0 +1,69 @@
+.root {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    min-width: 220px;
+    height: 280px;
+    width: 100%;
+    gap: 40px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0.15px;
+}
+
+.indicator {
+    display: flex;
+    gap: 2px;
+    flex-direction: column;
+
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 30px;
+}
+
+.redText {
+    color: var(--UI-Red, #e10d0d);
+
+    /* Body normal */
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 100% */
+}
+.greenText {
+    color: var(--UI-Green, #28a879);
+    /* Body normal */
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 100% */
+}
+
+.loader {
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 3;
+    background-color: #fff;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease-in-out;
+
+    &_load {
+        opacity: 1;
+        visibility: visible;
+    }
+}

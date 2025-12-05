@@ -3,14 +3,11 @@ import classNames from 'classnames';
 
 import { DatePickerСhoose } from './DatePickerСhoose/index';
 import {
-  getBeforeLastMonth,
-  getCurrentDay,
+  getCurrentMonth,
+  getCurrentQuarter,
+  getCurrentYear,
   getLastMonth,
-  getLastWeek,
-  getNextDay,
-  getThreeDay,
-  getTwoLastWeek,
-  getWeek,
+  getPreviousYear,
 } from './utils/date';
 
 import styles from './DateMenu.module.scss';
@@ -29,36 +26,9 @@ export const DateMenu = ({
 }) => {
   const dispatch = useDispatch();
 
-  const handlerAll = () => {
-    dispatch(setDateStart(''));
-    dispatch(setDateEnd(''));
-    setIsOpen(false);
-  };
-
-  const handlerThreeDays = () => {
-    dispatch(setDateStart(getThreeDay()));
-    dispatch(setDateEnd(getNextDay()));
-    setActiveFilter('date');
-    setIsOpen(false);
-  };
-
-  const handlerWeek = () => {
-    dispatch(setDateStart(getWeek()));
-    dispatch(setDateEnd(getCurrentDay()));
-    setActiveFilter('date');
-    setIsOpen(false);
-  };
-
-  const handlerLastWeek = () => {
-    dispatch(setDateStart(getLastWeek('start')));
-    dispatch(setDateEnd(getLastWeek('end')));
-    setActiveFilter('date');
-    setIsOpen(false);
-  };
-
-  const handlerTwoLastWeek = () => {
-    dispatch(setDateStart(getTwoLastWeek()));
-    dispatch(setDateEnd(getCurrentDay()));
+  const handlerCurrentMonth = () => {
+    dispatch(setDateStart(getCurrentMonth('start')));
+    dispatch(setDateEnd(getCurrentMonth('end')));
     setActiveFilter('date');
     setIsOpen(false);
   };
@@ -70,9 +40,23 @@ export const DateMenu = ({
     setIsOpen(false);
   };
 
-  const handlerBeforeLastMonth = () => {
-    dispatch(setDateStart(getBeforeLastMonth('start')));
-    dispatch(setDateEnd(getBeforeLastMonth('end')));
+  const handlerCurrentQuarter = () => {
+    dispatch(setDateStart(getCurrentQuarter('start')));
+    dispatch(setDateEnd(getCurrentQuarter('end')));
+    setActiveFilter('date');
+    setIsOpen(false);
+  };
+
+  const handlerCurrentYear = () => {
+    dispatch(setDateStart(getCurrentYear('start')));
+    dispatch(setDateEnd(getCurrentYear('end')));
+    setActiveFilter('date');
+    setIsOpen(false);
+  };
+
+  const handlerPreviousYear = () => {
+    dispatch(setDateStart(getPreviousYear('start')));
+    dispatch(setDateEnd(getPreviousYear('end')));
     setActiveFilter('date');
     setIsOpen(false);
   };
@@ -83,26 +67,20 @@ export const DateMenu = ({
       onClick={(e) => e.stopPropagation()}
     >
       <ul className={styles.list}>
-        <li className={styles.item} onClick={handlerAll}>
-          За все время
+        <li className={styles.item} onClick={handlerCurrentMonth}>
+          Месяц
         </li>
-        <li className={styles.item} onClick={handlerThreeDays}>
-          3 дня
+        <li className={styles.item} onClick={handlerLastMonth}>
+          Предыдущий месяц
         </li>
-        <li className={styles.item} onClick={handlerWeek}>
-          Неделя
+        <li className={styles.item} onClick={handlerCurrentQuarter}>
+          Квартал
         </li>
-        <li className={styles.item} onClick={handlerLastWeek}>
-          Прошлая неделя
+        <li className={styles.item} onClick={handlerCurrentYear}>
+          Год
         </li>
-        <li className={styles.item} onClick={handlerTwoLastWeek}>
-          Две недели
-        </li>
-        <li className={`${styles.item} ${styles.item_month}`} onClick={handlerLastMonth}>
-          {getLastMonth('title')}
-        </li>
-        <li className={`${styles.item} ${styles.item_month}`} onClick={handlerBeforeLastMonth}>
-          {getBeforeLastMonth('title')}
+        <li className={styles.item} onClick={handlerPreviousYear}>
+          Предыдущий год
         </li>
       </ul>
       <div className={styles.date}>
