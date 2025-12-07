@@ -1,7 +1,7 @@
 import React from 'react';
 import { PieChart, Pie, Cell } from 'recharts';
 import classNames from 'classnames';
-import s from './HalfCircleDiagram.module.scss';
+import s from './CounterpartyDocsDiagram.module.scss';
 import TitleWithLink from 'components/ui/TitleWithLink/TitleWithLink';
 
 const ACTIVE_COLORS = {
@@ -16,7 +16,7 @@ const DISABLED_COLORS = {
     notSent: '#C0CADD',
 };
 
-const HalfCircleDiagram = ({
+const CounterpartyDocsDiagram = ({
     title = 'Закрывающие документы',
     data = {
         send: { count: 0, percent: 0 },
@@ -120,4 +120,4 @@ const HalfCircleDiagram = ({
         </div>
     );
 };
-export default HalfCircleDiagram;
+export default CounterpartyDocsDiagram;

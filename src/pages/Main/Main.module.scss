@@ -30,4 +30,10 @@
     grid-template-columns: repeat(12, 1fr);
     gap: 12px;
   }
+
+  .indicatorsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
   

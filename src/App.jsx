@@ -30,7 +30,7 @@ const App = () => {
                     element={<Employees />}
                 />
                 <Route
-                    path="/executors"
+                    path="/performers"
                     element={<Performers />}
                 />
                 <Route
