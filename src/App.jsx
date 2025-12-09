@@ -1,5 +1,8 @@
 import s from './App.module.scss';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { resetDateRange } from './redux/filters/dateRangeSlice';
 //pages
 import Main from 'pages/Main/Main';
 import Finance from 'pages/Finance/Finance';
@@ -10,6 +13,13 @@ import Orders from 'pages/Orders/Orders';
 import Advertising from 'pages/Advertising/Advertising';
 
 const App = () => {
+    const dispatch = useDispatch();
+    const location = useLocation();
+
+    useEffect(() => {
+        dispatch(resetDateRange());
+    }, [location.pathname, dispatch]);
+
     return (
         <div className={s.root}>
             <Routes>

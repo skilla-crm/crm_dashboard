@@ -1,20 +1,31 @@
 .root {
-    padding: 24px;
+    // padding: 24px;
 }
 
 .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: 24px;
-    
+
     h2 {
-        font-size: 40px;
-        font-weight: 500;
-        line-height: 40px;
-        color: #121922;
+        color: var(--Text-Primary, #121922);
+        font-family: Inter;
+        font-size: 22px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 22px; /* 100% */
         margin: 0;
     }
+}
+
+.headerBtns {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 6px;
 }
 
 .main {
     // Стили для основного контента
 }
-

@@ -35,9 +35,10 @@ const Main = () => {
     const [period, setPeriod] = useState('month');
     const [isEditing, setIsEditing] = useState(false);
     const [activeFilter, setActiveFilter] = useState(null);
-    const { dateStartPicker, dateEndPicker } = useSelector(
+    const { dateStartPicker, dateEndPicker, datePeriod } = useSelector(
         (state) => state.dateRange || {}
     );
+    console.log('datePeriod', datePeriod);
     const params = {
         'filter[period]': period,
     };

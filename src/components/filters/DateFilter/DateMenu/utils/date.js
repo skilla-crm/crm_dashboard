@@ -3,10 +3,12 @@ import 'dayjs/locale/ru';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import localeData from 'dayjs/plugin/localeData';
+import quarterOfYear from 'dayjs/plugin/quarterOfYear';
 
 dayjs.extend(weekOfYear);
 dayjs.extend(isoWeek);
 dayjs.extend(localeData);
+dayjs.extend(quarterOfYear);
 dayjs.locale('ru');
 
 const insertZeroNum = (count) => {

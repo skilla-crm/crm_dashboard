@@ -10,6 +10,7 @@ import ru from 'date-fns/locale/ru';
 import {
     setDateEndPicker,
     setDateStartPicker,
+    setDatePeriod,
 } from '../../../../../redux/filters/dateRangeSlice';
 
 // Styles
@@ -38,6 +39,7 @@ export const DatePickerСhoose = ({
         if (start && end) {
             dispatch(setDateStartPicker(dayjs(start).format('YYYY-MM-DD')));
             dispatch(setDateEndPicker(dayjs(end).format('YYYY-MM-DD')));
+            dispatch(setDatePeriod('пред. периода'));
             setActiveFilter('date');
             setOpenDateFilter(false);
         }
