@@ -1,5 +1,5 @@
 .root {
-    // padding: 24px;
+    width: 100%;
 }
 
 .header {
@@ -27,22 +27,15 @@
 }
 
 .main {
-    
+    width: 100%;
 }
-
-.rootDia {
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 16px 16px 8px;
-  }
-  
-  .header {
-    font-size: 16px;
-    font-weight: 500;
-    color: #2b2b2b;
-    margin-bottom: 12px;
+.leftSide {
     display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  
+    flex-direction: column;
+    gap: 24px;
+}
+.rightSide {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}

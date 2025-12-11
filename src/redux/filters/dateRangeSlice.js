@@ -1,9 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import {
+    getCurrentDay,
+    getWeek,
+} from '../../components/filters/DateFilter/DateMenu/utils/date';
+
+const defaultStart = getWeek();
+const defaultEnd = getCurrentDay();
+
 const initialState = {
-    dateStartPicker: null,
-    dateEndPicker: null,
-    datePeriod: 'Месяц',
+    dateStartPicker: defaultStart,
+    dateEndPicker: defaultEnd,
+    datePeriod: 'Неделя',
 };
 
 export const dateRangeSlice = createSlice({

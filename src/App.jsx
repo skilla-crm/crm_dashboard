@@ -11,15 +11,9 @@ import Employees from 'pages/Employees/Employees';
 import Performers from 'pages/Performers/Performers';
 import Orders from 'pages/Orders/Orders';
 import Advertising from 'pages/Advertising/Advertising';
+import ModalManager from 'components/ModalManager/ModalManager';
 
 const App = () => {
-    const dispatch = useDispatch();
-    const location = useLocation();
-
-    useEffect(() => {
-        dispatch(resetDateRange());
-    }, [location.pathname, dispatch]);
-
     return (
         <div className={s.root}>
             <Routes>
@@ -52,6 +46,7 @@ const App = () => {
                     element={<Advertising />}
                 />
             </Routes>
+            <ModalManager />
         </div>
     );
 };

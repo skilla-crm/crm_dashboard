@@ -44,7 +44,7 @@ export const FilterButtonDate = ({
             <p className={classNames(s.title, isSelected && s.title_active)}>
                 {title}
             </p>
-            <div
+            {/* <div
                 className={classNames(
                     s.block,
                     isSelected && s.block_activeDate
@@ -54,7 +54,7 @@ export const FilterButtonDate = ({
                     onClick={(e) => handleReset(e)}
                     className={s.close}
                 />
-            </div>
+            </div> */}
         </div>
     );
 };

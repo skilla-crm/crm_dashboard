@@ -3,12 +3,14 @@ import classNames from 'classnames';
 
 import { DatePickerСhoose } from './DatePickerСhoose/index';
 import {
+    getCurrentDay,
     getCurrentMonth,
     getCurrentQuarter,
     getCurrentYear,
     getLastMonth,
     getPreviousYear,
     getTitleDateDuration,
+    getWeek,
 } from './utils/date';
 
 import styles from './DateMenu.module.scss';
@@ -28,12 +30,22 @@ export const DateMenu = ({
 }) => {
     const dispatch = useDispatch();
 
+    const handlerLastSevenDays = () => {
+        const start = getWeek();
+        const end = getCurrentDay();
+        dispatch(setDateStart(start));
+        dispatch(setDateEnd(end));
+        dispatch(setDatePeriod('Неделя'));
+        setActiveFilter('date');
+        setIsOpen(false);
+    };
+
     const handlerCurrentMonth = () => {
         const start = getCurrentMonth('start');
         const end = getCurrentMonth('end');
         dispatch(setDateStart(start));
         dispatch(setDateEnd(end));
-        dispatch(setDatePeriod(getTitleDateDuration(start, end)));
+        dispatch(setDatePeriod('Месяц'));
         setActiveFilter('date');
         setIsOpen(false);
     };
@@ -43,7 +55,7 @@ export const DateMenu = ({
         const end = getLastMonth('end');
         dispatch(setDateStart(start));
         dispatch(setDateEnd(end));
-        dispatch(setDatePeriod(getTitleDateDuration(start, end)));
+        dispatch(setDatePeriod('Предыдущий месяц'));
         setActiveFilter('date');
         setIsOpen(false);
     };
@@ -86,6 +98,12 @@ export const DateMenu = ({
             <ul className={styles.list}>
                 <li
                     className={styles.item}
+                    onClick={handlerLastSevenDays}
+                >
+                    Неделя
+                </li>
+                <li
+                    className={styles.item}
                     onClick={handlerCurrentMonth}
                 >
                     Месяц
@@ -102,7 +120,7 @@ export const DateMenu = ({
                 >
                     Квартал
                 </li>
-                <li
+                {/* <li
                     className={styles.item}
                     onClick={handlerCurrentYear}
                 >
@@ -113,7 +131,7 @@ export const DateMenu = ({
                     onClick={handlerPreviousYear}
                 >
                     Предыдущий год
-                </li>
+                </li> */}
             </ul>
             <div className={styles.date}>
                 <DatePickerСhoose

@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 //libs
-import DatePicker, { registerLocale } from 'react-datepicker'; // Компонент календаря
-import dayjs from 'dayjs'; // Лёгкая библиотека для работы с датами
+import DatePicker, { registerLocale } from 'react-datepicker';
+import dayjs from 'dayjs';
 import ru from 'date-fns/locale/ru';
 
 // Redux
@@ -50,7 +50,7 @@ export const DatePickerСhoose = ({
     useEffect(() => {
         if (shouldResetPicker) {
             setTempDates([null, null]);
-            setShouldResetPicker(false); // сброс флага
+            setShouldResetPicker(false);
         }
     }, [shouldResetPicker, setShouldResetPicker]);
 
