@@ -6,7 +6,7 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 24px;
-    
+
     h2 {
         color: var(--Text-Primary, #121922);
         font-family: Inter;
@@ -25,7 +25,17 @@
     gap: 6px;
 }
 
-.main {
-    // Стили для основного контента
+.wrapper {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 24px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    width: 100%;
 }
 
+.title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #1c1c1e;
+}

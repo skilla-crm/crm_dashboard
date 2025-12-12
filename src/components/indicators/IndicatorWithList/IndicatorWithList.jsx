@@ -17,12 +17,13 @@ const IndicatorWithList = ({
     isLoading,
     title,
     indicator,
-    increaseView,
+    increaseView = false,
     increase,
     prevPeriod,
-    info,
-    reverse,
-    data,
+    info = null,
+    reverse = false,
+    data = [],
+    navigateTo = '',
 }) => {
     const [hover, setHover] = useState(false);
     const increaseState = useIncreaseState(reverse, increase);
@@ -40,11 +41,11 @@ const IndicatorWithList = ({
                 title={title}
                 size="small"
                 type="inner"
-                navigateTo={'/advertising'}
+                navigateTo={navigateTo}
             />
 
             <div className={s.indicator}>
-                <NumberFlow value={indicator} />
+                {indicator && <NumberFlow value={indicator} />}
                 {info && (
                     <div
                         className={s.info}
