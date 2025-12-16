@@ -287,3 +287,8 @@ const FinanceDiagram = ({
 };
 
 export default FinanceDiagram;
+const data = [{
+    "date": "2025-12-09",
+    "revenue": 70082.68,
+   
+  }]

@@ -24,6 +24,8 @@ import IndicatorForecasting from 'components/indicators/IndicatorForecasting/Ind
 import { getTitleDateDuration } from 'components/filters/DateFilter/DateMenu/utils/date';
 import FunnelChart from 'components/diagrams/FunnelChart/FunnelChart';
 import IndicatorCounterparties from 'components/indicators/IndicatorCounterparties/IndicatorCounterparties';
+import SmoothChart from './SmoothChart';
+import IndicatorWithChart from 'components/indicators/IndicatorWithChart/IndicatorWithChart';
 
 // const PERIODS = [
 //     { value: 'month', label: 'Месяц' },
@@ -150,6 +152,7 @@ const Main = () => {
             prev_period_indicator:
                 employees?.plan_fact?.prev_period_indicator || 0,
             isPercent: true,
+            progress: true
         },
         {
             key: 'supervisor_sum',
@@ -221,9 +224,27 @@ const Main = () => {
                                     title="Финансы"
                                     navigateTo={'/finance'}
                                 />
-                                <FinanceDiagram
+                               
+                                <IndicatorWithChart
+                                chartHeight={'142px'}
+                                width={'390px'}
+                                title={'Выручка'}
+                                                    indicator={
+                                                        data?.finance?.revenue
+                                                            ?.indicator || 0
+                                                    }
+                                                    increaseView={true}
+                                                    increase={
+                                                        data?.finance?.revenue
+                                                            ?.increase || 0
+                                                    }
+                                                    prevPeriod={'авг'}
+                                                    info={null}
+                                                    reverse={false}
+                                                    isLoading={isLoading}/>
+                                {/* <FinanceDiagram
                                     profitData={data?.finance?.profit || {}}
-                                />
+                                /> */}
 
                                 <Grid
                                     container
@@ -566,6 +587,7 @@ const Main = () => {
                                                     title="Сотрудники"
                                                     data={employeesData}
                                                     isLoading={isLoading}
+                                                    
                                                 />
                                             </div>
                                         </Grid>

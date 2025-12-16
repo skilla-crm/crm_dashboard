@@ -138,3 +138,25 @@
         visibility: visible;
     }
 }
+
+
+.progressItem {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.progressElem {
+    width: 24px;
+    height: 6px;
+    border-radius: 100px;
+    background: #DFE5EF;
+    &.red {
+        background: var(--colors-Dashboard-red, #E38888);
+    }
+    &.orange {
+        background: var(--colors-Dashboard-orange, #F3B352)
+    }
+    &.green {
+        background: var(--colors-Dashboard-green, #70E093);
+    }
+}

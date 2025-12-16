@@ -15,13 +15,45 @@ const IndicatorItem = ({
     prev_period_indicator,
     isPercent,
     isLoading,
+    progress = false
 }) => {
     const increaseState = useIncreaseState(false, increase || 0);
+
+    const indicatorValue = Number(indicator) || 0;
+    
+    const green = indicatorValue >= 80;
+    const orange = indicatorValue < 80 && indicatorValue >= 50;
+    const red = indicatorValue < 50;
 
     return (
         <div className={s.item}>
             <div className={s.itemContent}>
                 <div className={s.itemInfo}>
+                    {progress && (
+                        <div className={s.progressContainer}>
+                            {green && (
+                                <div className={s.progressItem}>
+                                    <div className={classNames(s.progressElem, s.green)}></div>
+                                    <div className={classNames(s.progressElem, s.green)}></div>
+                                    <div className={classNames(s.progressElem, s.green)}></div>
+                                </div>
+                            )}
+                            {orange && (
+                                <div className={s.progressItem}>
+                                    <div className={s.progressElem}></div>
+                                    <div className={classNames(s.progressElem, s.orange)}></div>
+                                    <div className={classNames(s.progressElem, s.orange)}></div>
+                                </div>
+                            )}
+                            {red && (
+                                <div className={s.progressItem}>
+                                    <div className={s.progressElem}></div>
+                                    <div className={classNames(s.progressElem)}></div>
+                                    <div className={classNames(s.progressElem, s.red)}></div>
+                                </div>
+                            )}
+                        </div>
+                    )}
                     <div className={s.itemIndicator}>
                         <NumberFlow value={indicator} />
                         {isPercent && <span>%</span>}
@@ -73,6 +105,7 @@ const IndicatorWithPoints = ({ isLoading, title, data = [] }) => {
                         prev_period_indicator={item.prev_period_indicator}
                         isPercent={item.isPercent}
                         isLoading={isLoading}
+                        progress={item.progress}
                     />
                 ))}
             </div>
