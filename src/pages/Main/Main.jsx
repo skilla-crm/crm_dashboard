@@ -1,52 +1,70 @@
-import s from './Main.module.scss';
+// Dependencies
 import { useState } from 'react';
-// api
-import { useGetDashboardQuery } from '../../redux/dashboardApiActions';
-// redux
-import { useSelector } from 'react-redux';
-// components
-import IndicatorsFinance from 'components/IndicatorsFinance/IndicatorsFinance';
-import { ReactComponent as IconSettings } from 'assets/icons/iconSettings.svg';
-import { ReactComponent as IconSave } from 'assets/icons/iconDoneWhite.svg';
-import FinanceDiagram from 'components/diagrams/FinanceDiagram/FinanceDiagram';
-import UniButton from 'components/ui/UniButton/UniButton';
-import PeriodFilter from 'components/filters/PeriodFilter/PeriodFilter';
-import DateFilter from 'components/filters/DateFilter/DateFilter';
-import TitleWithLink from 'components/ui/TitleWithLink/TitleWithLink';
 import { createTheme, Grid, ThemeProvider } from '@mui/material';
-import Slider from 'components/indicators/Slider/Slider';
+import { useSelector } from 'react-redux';
+
+// Hooks
+import { useMainDashboardData } from '../../hooks/useMainDashboardData';
+
+// Components
+import DateFilter from 'components/filters/DateFilter/DateFilter';
+import FunnelChart from 'components/diagrams/FunnelChart/FunnelChart';
 import Indicator from 'components/indicators/Indicator/Indicator';
+import IndicatorForecasting from 'components/indicators/IndicatorForecasting/IndicatorForecasting';
+import IndicatorWithChart from 'components/indicators/IndicatorWithChart/IndicatorWithChart';
 import IndicatorWithList from 'components/indicators/IndicatorWithList/IndicatorWithList';
 import IndicatorWithPoints from 'components/indicators/IndicatorWithPoints/IndicatorWithPoints';
-import HalfCircleDiagram from 'components/diagrams/CounterpartyDocsDiagram/CounterpartyDocsDiagram';
-import IndicatorForecasting from 'components/indicators/IndicatorForecasting/IndicatorForecasting';
-// utils
-import { getTitleDateDuration } from 'components/filters/DateFilter/DateMenu/utils/date';
-import FunnelChart from 'components/diagrams/FunnelChart/FunnelChart';
-import IndicatorCounterparties from 'components/indicators/IndicatorCounterparties/IndicatorCounterparties';
-import SmoothChart from './SmoothChart';
-import IndicatorWithChart from 'components/indicators/IndicatorWithChart/IndicatorWithChart';
+import Slider from 'components/indicators/Slider/Slider';
+import TitleWithLink from 'components/ui/TitleWithLink/TitleWithLink';
+import UniButton from 'components/ui/UniButton/UniButton';
 
-// const PERIODS = [
-//     { value: 'month', label: 'Месяц' },
-//     { value: 'quarter', label: 'Квартал' },
-//     { value: 'year', label: 'Год' },
-// ];
+// Assets
+import { ReactComponent as IconSave } from 'assets/icons/iconDoneWhite.svg';
+import { ReactComponent as IconSettings } from 'assets/icons/iconSettings.svg';
 
+// Utils
+import { getDatePeriodShort } from 'utils/datePeriodMap';
+import buildAppData from './mapers/buildAppData';
+
+// Styles
+import s from './Main.module.scss';
+
+const mockAppData = {
+    registered_percent: {
+        indicator: 75,
+        prev_period_indicator: 44.44,
+        increase: 40.74,
+    },
+    completed_order_percent: {
+        indicator: 400,
+        prev_period_indicator: 200,
+        increase: 50,
+    },
+    smz_percent: {
+        indicator: 0,
+        prev_period_indicator: 0,
+        increase: 0,
+    },
+    smz_pay_percent: {
+        indicator: 0,
+        prev_period_indicator: 0,
+        increase: 0,
+    },
+};
 const Main = () => {
     const [period, setPeriod] = useState('month');
     const [isEditing, setIsEditing] = useState(false);
     const [activeFilter, setActiveFilter] = useState(null);
-    const { dateStartPicker, dateEndPicker, datePeriod } = useSelector(
-        (state) => state.dateRange || {}
-    );
-    console.log('datePeriod', datePeriod);
-    const params = {
-        'filter[period]': period,
-    };
-    const { data, isLoading } = useGetDashboardQuery(params);
-    const { employees, performers, counterparties, forecasting } = data || {};
-    const { new: newPerformers, app: appPerformers } = performers || {};
+    const { datePeriod } = useSelector((state) => state.dateRange || {});
+
+    const {
+        data,
+        isLoading,
+        isLoadingOrders,
+        ordersData,
+        forecastsData,
+        financeData,
+    } = useMainDashboardData(period);
 
     const clearActiveFilter = () => {
         setActiveFilter(null);
@@ -79,100 +97,100 @@ const Main = () => {
         },
     ];
 
-    const performersNewData = [
-        {
-            key: 'added',
-            title: 'добавлены',
-            indicator: newPerformers?.added?.indicator || 0,
-            increase: newPerformers?.added?.increase || 0,
-            prev_period_indicator:
-                newPerformers?.added?.prev_period_indicator || 0,
-            isPercent: false,
-        },
-        {
-            key: 'invitations',
-            title: 'отправлено приглашений',
-            indicator: newPerformers?.invitations?.indicator || 0,
-            increase: newPerformers?.invitations?.increase || 0,
-            prev_period_indicator:
-                newPerformers?.invitations?.prev_period_indicator || 0,
-            isPercent: false,
-        },
-        {
-            key: 'registered',
-            title: 'прошли регистрацию',
-            indicator: newPerformers?.registered?.indicator || 0,
-            increase: newPerformers?.registered?.increase || 0,
-            prev_period_indicator:
-                newPerformers?.registered?.prev_period_indicator || 0,
-            isPercent: false,
-        },
-        {
-            key: 'first_login',
-            title: 'вышли на первый заказ',
-            indicator: newPerformers?.first_login?.indicator || 0,
-            increase: newPerformers?.first_login?.increase || 0,
-            prev_period_indicator:
-                newPerformers?.first_login?.prev_period_indicator || 0,
-            isPercent: false,
-        },
-    ];
+    // const performersNewData = [
+    //     {
+    //         key: 'added',
+    //         title: 'добавлены',
+    //         indicator: newPerformers?.added?.indicator || 0,
+    //         increase: newPerformers?.added?.increase || 0,
+    //         prev_period_indicator:
+    //             newPerformers?.added?.prev_period_indicator || 0,
+    //         isPercent: false,
+    //     },
+    //     {
+    //         key: 'invitations',
+    //         title: 'отправлено приглашений',
+    //         indicator: newPerformers?.invitations?.indicator || 0,
+    //         increase: newPerformers?.invitations?.increase || 0,
+    //         prev_period_indicator:
+    //             newPerformers?.invitations?.prev_period_indicator || 0,
+    //         isPercent: false,
+    //     },
+    //     {
+    //         key: 'registered',
+    //         title: 'прошли регистрацию',
+    //         indicator: newPerformers?.registered?.indicator || 0,
+    //         increase: newPerformers?.registered?.increase || 0,
+    //         prev_period_indicator:
+    //             newPerformers?.registered?.prev_period_indicator || 0,
+    //         isPercent: false,
+    //     },
+    //     {
+    //         key: 'first_login',
+    //         title: 'вышли на первый заказ',
+    //         indicator: newPerformers?.first_login?.indicator || 0,
+    //         increase: newPerformers?.first_login?.increase || 0,
+    //         prev_period_indicator:
+    //             newPerformers?.first_login?.prev_period_indicator || 0,
+    //         isPercent: false,
+    //     },
+    // ];
 
-    const performersAppData = [
-        {
-            key: 'total_percentage_workers',
-            title: 'от общего списка',
-            indicator: appPerformers?.total_percentage_workers?.indicator || 0,
-            increase: appPerformers?.total_percentage_workers?.increase || 0,
-            prev_period_indicator:
-                appPerformers?.total_percentage_workers
-                    ?.prev_period_indicator || 0,
-            isPercent: true,
-        },
-        {
-            key: 'total_percentage_order_workers',
-            title: 'от общего кол-ва исп. на заказах',
-            indicator:
-                appPerformers?.total_percentage_order_workers?.indicator || 0,
-            increase:
-                appPerformers?.total_percentage_order_workers?.increase || 0,
-            prev_period_indicator:
-                appPerformers?.total_percentage_order_workers
-                    ?.prev_period_indicator || 0,
-            isPercent: true,
-        },
-    ];
+    // const performersAppData = [
+    //     {
+    //         key: 'total_percentage_workers',
+    //         title: 'от общего списка',
+    //         indicator: appPerformers?.total_percentage_workers?.indicator || 0,
+    //         increase: appPerformers?.total_percentage_workers?.increase || 0,
+    //         prev_period_indicator:
+    //             appPerformers?.total_percentage_workers
+    //                 ?.prev_period_indicator || 0,
+    //         isPercent: true,
+    //     },
+    //     {
+    //         key: 'total_percentage_order_workers',
+    //         title: 'от общего кол-ва исп. на заказах',
+    //         indicator:
+    //             appPerformers?.total_percentage_order_workers?.indicator || 0,
+    //         increase:
+    //             appPerformers?.total_percentage_order_workers?.increase || 0,
+    //         prev_period_indicator:
+    //             appPerformers?.total_percentage_order_workers
+    //                 ?.prev_period_indicator || 0,
+    //         isPercent: true,
+    //     },
+    // ];
 
-    const employeesData = [
-        {
-            key: 'plan_fact',
-            title: 'план-факт по заказам',
-            indicator: employees?.plan_fact?.indicator || 0,
-            increase: employees?.plan_fact?.increase || 0,
-            prev_period_indicator:
-                employees?.plan_fact?.prev_period_indicator || 0,
-            isPercent: true,
-            progress: true
-        },
-        {
-            key: 'supervisor_sum',
-            title: 'комиссии',
-            indicator: employees?.supervisor_sum?.indicator || 0,
-            increase: employees?.supervisor_sum?.increase || 0,
-            prev_period_indicator:
-                employees?.supervisor_sum?.prev_period_indicator || 0,
-            isPercent: false,
-        },
-        {
-            key: 'operator',
-            title: 'операторы',
-            indicator: employees?.operator?.indicator || 0,
-            increase: employees?.operator?.increase || 0,
-            prev_period_indicator:
-                employees?.operator?.prev_period_indicator || 0,
-            isPercent: true,
-        },
-    ];
+    // const employeesData = [
+    //     {
+    //         key: 'plan_fact',
+    //         title: 'план-факт по заказам',
+    //         indicator: employees?.plan_fact?.indicator || 0,
+    //         increase: employees?.plan_fact?.increase || 0,
+    //         prev_period_indicator:
+    //             employees?.plan_fact?.prev_period_indicator || 0,
+    //         isPercent: true,
+    //         progress: true,
+    //     },
+    //     {
+    //         key: 'supervisor_sum',
+    //         title: 'комиссии',
+    //         indicator: employees?.supervisor_sum?.indicator || 0,
+    //         increase: employees?.supervisor_sum?.increase || 0,
+    //         prev_period_indicator:
+    //             employees?.supervisor_sum?.prev_period_indicator || 0,
+    //         isPercent: false,
+    //     },
+    //     {
+    //         key: 'operator',
+    //         title: 'операторы',
+    //         indicator: employees?.operator?.indicator || 0,
+    //         increase: employees?.operator?.increase || 0,
+    //         prev_period_indicator:
+    //             employees?.operator?.prev_period_indicator || 0,
+    //         isPercent: true,
+    //     },
+    // ];
 
     const theme = createTheme({
         spacing: 4,
@@ -199,7 +217,8 @@ const Main = () => {
                         />
                     )}
                     <UniButton
-                        text={isEditing ? 'Сохранить' : 'Настройка'}
+                        width={isEditing ? '' : 40}
+                        text={isEditing ? 'Сохранить' : ''}
                         type={isEditing ? 'primary' : 'outline'}
                         icon={isEditing ? IconSave : IconSettings}
                         onClick={() => setIsEditing(!isEditing)}
@@ -209,39 +228,37 @@ const Main = () => {
 
             <main className={s.main}>
                 <ThemeProvider theme={theme}>
-                    <Grid
-                        container
-                        spacing={10}
-                        sx={{ flexWrap: 'nowrap' }}
-                    >
-                        {/* Левая колонка – 8/12 */}
-                        <Grid
-                            item
-                            size={8}
-                        >
+                    <div className={s.mainColumns}>
+                        {/* Левая колонка – 9/12 (75%) */}
+                        <div className={s.leftColumn}>
                             <div className={s.finance}>
                                 <TitleWithLink
                                     title="Финансы"
                                     navigateTo={'/finance'}
                                 />
-                               
+
                                 <IndicatorWithChart
-                                chartHeight={'142px'}
-                                width={'390px'}
-                                title={'Выручка'}
-                                                    indicator={
-                                                        data?.finance?.revenue
-                                                            ?.indicator || 0
-                                                    }
-                                                    increaseView={true}
-                                                    increase={
-                                                        data?.finance?.revenue
-                                                            ?.increase || 0
-                                                    }
-                                                    prevPeriod={'авг'}
-                                                    info={null}
-                                                    reverse={false}
-                                                    isLoading={isLoading}/>
+                                    width={'390px'}
+                                    title={'Выручка'}
+                                    indicator={
+                                        data?.finance?.revenue?.indicator || 0
+                                    }
+                                    increaseView={true}
+                                    increase={
+                                        data?.finance?.revenue?.increase || 0
+                                    }
+                                    prevPeriod={getDatePeriodShort(datePeriod)}
+                                    info={null}
+                                    reverse={false}
+                                    isLoading={isLoading}
+                                    chartData={
+                                        data?.finance?.revenue?.graphics || []
+                                    }
+                                    chartConfig={{
+                                        color: '#7499E8',
+                                        gradient: ['#7499E8', '#4A6BC4'],
+                                    }}
+                                />
                                 {/* <FinanceDiagram
                                     profitData={data?.finance?.profit || {}}
                                 /> */}
@@ -577,7 +594,7 @@ const Main = () => {
                                             item
                                             size={12}
                                         >
-                                            <div className={s.employees}>
+                                            {/* <div className={s.employees}>
                                                 <TitleWithLink
                                                     title="Сотрудники"
                                                     navigateTo={'/employees'}
@@ -587,9 +604,8 @@ const Main = () => {
                                                     title="Сотрудники"
                                                     data={employeesData}
                                                     isLoading={isLoading}
-                                                    
                                                 />
-                                            </div>
+                                            </div> */}
                                         </Grid>
                                     </Grid>
                                 </Grid>
@@ -619,7 +635,7 @@ const Main = () => {
                                                 size={12}
                                             >
                                                 {' '}
-                                                <Grid
+                                                {/* <Grid
                                                     item
                                                     size={6}
                                                 >
@@ -643,7 +659,7 @@ const Main = () => {
                                                         }
                                                         isLoading={isLoading}
                                                     />
-                                                </Grid>
+                                                </Grid> */}
                                             </Grid>
                                         </Grid>
                                         <Grid
@@ -655,7 +671,7 @@ const Main = () => {
                                                 navigateTo={'/performers'}
                                                 size="medium"
                                             />
-                                            <div
+                                            {/* <div
                                                 className={s.indicatorsWrapper}
                                             >
                                                 <IndicatorWithPoints
@@ -668,54 +684,38 @@ const Main = () => {
                                                     data={performersAppData}
                                                     isLoading={isLoading}
                                                 />
-                                            </div>
+                                            </div> */}
                                         </Grid>
                                     </Grid>
                                 </Grid>
                             </Grid>
-                        </Grid>
+                        </div>
 
-                        {/* Правая колонка – 4/12 */}
-                        <Grid
-                            container
-                            size={4}
-                            sx={{ flexDirection: 'column', gap: '12px' }}
-                        >
-                            <Grid
-                                item
-                                size={12}
-                            >
-                                <div className={s.orders}>
-                                    <TitleWithLink
-                                        title="Заказы"
-                                        navigateTo={'/orders'}
-                                    />
-                                    <Slider />
-                                </div>
-                            </Grid>
-
-                            <Grid
-                                item
-                                size={12}
-                            >
-                                <Indicator
-                                    title={'Выручка'}
-                                    indicator={67}
-                                    increaseView={true}
-                                    increase={67}
-                                    prevPeriod={'авг'}
-                                    info={null}
-                                    reverse={true}
+                        {/* Правая колонка – 3/12 (25%) */}
+                        <div className={s.rightColumn}>
+                            <div className={s.wrapperWithTitle}>
+                                <TitleWithLink
+                                    title="Заказы"
+                                    navigateTo={'/orders'}
                                 />
-                            </Grid>
-                            <Grid
-                                item
-                                size={12}
-                            >
+                                <Slider
+                                    data={ordersData}
+                                    prevPeriod={getDatePeriodShort(datePeriod)}
+                                    isLoading={isLoadingOrders}
+                                />
+                            </div>
+                            <div className={s.wrapperWithTitle}>
+                                <TitleWithLink title="Приложение" />
+                                <IndicatorWithPoints
+                                    prevPeriod={getDatePeriodShort(datePeriod)}
+                                    isLoading={isLoading}
+                                    data={buildAppData(mockAppData)}
+                                />
+                            </div>
+                            <div className={s.wrapperWithTitle}>
                                 <TitleWithLink
                                     title="Прогноз на конец сентября"
                                     size="medium"
-                                    withLink={false}
                                 />
                                 <Grid
                                     container
@@ -730,17 +730,16 @@ const Main = () => {
                                             <IndicatorForecasting
                                                 title={item.title}
                                                 value={
-                                                    data?.forecasting?.[
-                                                        item.key
-                                                    ]?.indicator || 0
+                                                    forecastsData?.[item.key]
+                                                        ?.indicator || 0
                                                 }
                                             />
                                         </Grid>
                                     ))}
                                 </Grid>
-                            </Grid>
-                        </Grid>
-                    </Grid>
+                            </div>
+                        </div>
+                    </div>
                 </ThemeProvider>
             </main>
             <FunnelChart />

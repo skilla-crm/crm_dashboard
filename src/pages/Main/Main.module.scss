@@ -23,17 +23,39 @@
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     gap: 16px;
-  }
-  
-  .section-blocks {
+}
+
+.section-blocks {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     gap: 12px;
-  }
+}
 
-  .indicatorsWrapper {
+.indicatorsWrapper {
     display: flex;
     flex-direction: column;
     gap: 16px;
-  }
-  
+}
+
+.mainColumns {
+    display: flex;
+    gap: 40px;
+    flex-wrap: nowrap;
+}
+
+.leftColumn {
+    flex: 3;
+    min-width: 0;
+}
+
+.rightColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+.wrapperWithTitle {
+    display: flex;
+    flex-direction: column;
+}

@@ -16,7 +16,7 @@ export const ordersApiActions = createApi({
     endpoints: (build) => ({
         getOrders: build.query({
             query: (params) => ({
-                url: `dashboard/orders`,
+                url: `dashboard/details/orders`,
                 method: 'GET',
                 params,
             }),

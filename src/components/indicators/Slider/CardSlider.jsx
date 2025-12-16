@@ -1,46 +1,104 @@
 import DonutChart from 'components/diagrams/DonutChart/DonutChart';
 import s from './CardSlider.module.scss';
 import TitleWithLink from 'components/ui/TitleWithLink/TitleWithLink';
+import NumberFlow from '@number-flow/react';
+import classNames from 'classnames';
+import { ReactComponent as IconArrow } from './assets/arrow.svg';
+import useIncreaseState from 'hooks/useIncreaseState';
+import { addSpaceNumber2 } from 'utils/addSpaceNumber';
 
-const CardSlider = ({ title, total, change, data }) => {
+const CardSlider = ({
+    title,
+    indicator,
+    increase,
+    data,
+    prevPeriod,
+    isLoading,
+    reverse = false,
+}) => {
+    const increaseState = useIncreaseState(reverse, increase);
+    const chartData = data.map((item) => ({
+        ...item,
+        value: item.count || 0,
+    }));
+
     return (
         <div className={s.root}>
-            <div className={s.chartContainer}>
-                {total && (
-                    <div className={s.totalRow}>
-                        <div className={s.totalValue}>{total}</div>
-                        {change && (
-                            <span className={s.change}>↑ {change}%</span>
+            <TitleWithLink
+                title={title}
+                size="small"
+                withLink={false}
+            />
+            {indicator !== null && (
+                <div className={s.indicator}>
+                    {title === 'Количество заказов' ? (
+                        <>
+                            <NumberFlow value={Math.trunc(indicator)} />{' '}
+                            <span>создано</span>
+                        </>
+                    ) : (
+                        <NumberFlow value={Math.trunc(indicator)} />
+                    )}
+                    <div
+                        className={classNames(
+                            s.bottom,
+                            isLoading && s.bottom_load
                         )}
+                    >
+                        <p
+                            className={classNames(
+                                s.increase,
+                                increaseState.negaive && s.increase_red
+                            )}
+                        >
+                            <IconArrow
+                                className={classNames(
+                                    increaseState.down && s.arrow_down
+                                )}
+                            />
+                            {Math.abs(increase)}%
+                        </p>
+                        <span>отн. {prevPeriod}</span>
                     </div>
+                </div>
+            )}
+            <div
+                className={classNames(
+                    s.chartContainer,
+                    indicator === null && s.chartContainerPadding
                 )}
-
+            >
                 <div className={s.data}>
                     <div className={s.chart}>
-                        <DonutChart data={data} />
+                        <DonutChart data={chartData} />
                     </div>
                     <div className={s.list}>
-                        {data.map((item, i) => {
-                            const sum = data.reduce((a, b) => a + b.value, 0);
-                            const percent = Math.round(
-                                (item.value / sum) * 100
-                            );
-
-                            return (
-                                <div
-                                    key={i}
-                                    className={s.listItem}
-                                >
-                                    <span
-                                        className={s.dot}
-                                        style={{ background: item.color }}
-                                    />
-                                    <p>
-                                        {item.name} {item.value} ({percent}%)
-                                    </p>
-                                </div>
-                            );
-                        })}
+                        {data.map((item, i) => (
+                            <div
+                                key={item.key || i}
+                                className={s.listItem}
+                            >
+                                <span
+                                    className={s.dot}
+                                    style={{ background: item.color }}
+                                />
+                                <p className={s.text}>
+                                    {item.name}{' '}
+                                    {addSpaceNumber2(item.count) || 0}
+                                    {item.percent && (
+                                        <span className={s.percent}>
+                                            {' '}
+                                            {item.percent > 1
+                                                ? Math.trunc(item.percent)
+                                                : Number(
+                                                      item.percent.toFixed(1)
+                                                  )}
+                                            %
+                                        </span>
+                                    )}
+                                </p>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>

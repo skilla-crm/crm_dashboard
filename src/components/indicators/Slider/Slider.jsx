@@ -9,44 +9,10 @@ import { ReactComponent as ChevronRightIcon } from 'assets/icons/iconChewronRigh
 import s from './Slider.module.scss';
 import { useRef, useState } from 'react';
 import classNames from 'classnames';
-import TitleWithLink from 'components/ui/TitleWithLink/TitleWithLink';
+import buildSlides from './buildSlides';
+import Loader from './Loader/Loader';
 
-const slides = [
-    {
-        title: 'Количество заказов',
-        total: 20,
-        change: 12,
-        data: [
-            { name: 'Завершены', value: 245, color: '#A9F3C5' },
-            { name: 'В работе', value: 32, color: '#D7C7FF' },
-            { name: 'Отменены', value: 36, color: '#F3C1B8' },
-            { name: 'В черновиках', value: 7, color: '#F8DB9B' },
-        ],
-    },
-    {
-        title: 'Сумма заказов',
-        total: '400 000 ₽',
-        change: 12,
-        data: [
-            { name: 'Завершены', value: 245000, color: '#A9F3C5' },
-            { name: 'В работе', value: 32000, color: '#D7C7FF' },
-            { name: 'Отменены', value: 36000, color: '#F3C1B8' },
-            { name: 'В черновиках', value: 7000, color: '#F8DB9B' },
-        ],
-    },
-    {
-        title: 'Способ оплаты',
-        total: '',
-        change: null,
-        data: [
-            { name: 'Наличными', value: 5, color: '#D7C7FF' },
-            { name: 'Безнал. расчет', value: 20, color: '#BFD6FF' },
-            { name: 'На карту', value: 1, color: '#F8DB9B' },
-        ],
-    },
-];
-
-const Slider = () => {
+const Slider = ({ data, prevPeriod, isLoading }) => {
     const prevRef = useRef(null);
     const nextRef = useRef(null);
 
@@ -55,15 +21,10 @@ const Slider = () => {
 
     return (
         <div className={s.root}>
-            <TitleWithLink
-                title="Количество заказов"
-                size="small"
-                withLink={false}
-            />
             <div>
                 <button
                     ref={prevRef}
-                    className={`${s.navPrev} ${isBeginning ? s.hidden : ''}`}
+                    className={classNames(s.navPrev, isBeginning && s.hidden)}
                     type="button"
                 >
                     <ChevronLeftIcon />
@@ -71,7 +32,7 @@ const Slider = () => {
 
                 <button
                     ref={nextRef}
-                    className={`${s.navNext} ${isEnd ? s.hidden : ''}`}
+                    className={classNames(s.navNext, isEnd && s.hidden)}
                     type="button"
                 >
                     <ChevronRightIcon />
@@ -98,12 +59,23 @@ const Slider = () => {
                         });
                     }}
                 >
-                    {slides.map((slide, index) => (
+                    {buildSlides(data).map((slide, index) => (
                         <SwiperSlide key={index}>
-                            <CardSlider {...slide} />
+                            <CardSlider
+                                indicator={slide.indicator}
+                                increase={slide.increase}
+                                data={slide.data}
+                                title={slide.title}
+                                prevPeriod={prevPeriod}
+                                isLoading={isLoading}
+                                reverse={slide.reverse}
+                            />
                         </SwiperSlide>
                     ))}
                 </Swiper>
+            </div>
+            <div className={classNames(s.loader, isLoading && s.loader_load)}>
+                <Loader />
             </div>
         </div>
     );

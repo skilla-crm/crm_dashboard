@@ -1,0 +1,36 @@
+.loader {
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 2px;
+    background-color: rgba(243, 243, 243, 0.607);
+    background-size: 800px 200px;
+    animation: blink 1.8s infinite ease-out;
+    transition: all 0.2s ease-in-out;
+    position: relative;
+    overflow: hidden;
+    min-height: 50px;
+}
+
+.loaderInner {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(243, 243, 243, 0.607);
+    animation: blink 1.8s infinite ease-out;
+    border-radius: 2px;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.5;
+    }
+}
+

@@ -22,7 +22,7 @@ const defaultData = [
     },
 ];
 
-const LastDot = ({ cx, cy, index, dataLength }) => {
+const LastDot = ({ cx, cy, index, dataLength, strokeColor = '#A59ADC' }) => {
     if (index !== dataLength - 1) return null;
 
     return (
@@ -31,7 +31,7 @@ const LastDot = ({ cx, cy, index, dataLength }) => {
             cy={cy}
             r={5}
             fill="#FFFFFF"
-            stroke="#A59ADC"
+            stroke={strokeColor}
             strokeWidth={3}
             pointerEvents="none"
         />
@@ -43,39 +43,62 @@ const SmoothChart = ({
     width = '100%',
     height = 142,
     className,
+    strokeColor = '#A59ADC',
+    gradientStartColor = '#8B7CF6',
+    gradientEndColor = '#A59ADC',
+    dotStrokeColor = '#A59ADC',
 }) => {
     const chartData = data && data.length ? data : defaultData;
+    const gradientId = `chartGradient-${Math.random()
+        .toString(36)
+        .substr(2, 9)}`;
+
     return (
         <div
             className={classNames(s.wrapper, className)}
             style={{ width, height }}
         >
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer
+                width="100%"
+                height="100%"
+            >
                 <AreaChart
                     data={chartData}
-                    margin={{ top: 0, right: 16, bottom: 0, left: 0 }}
+                    margin={{ top: 0, right: 16, bottom: 12, left: 0 }}
                 >
                     <defs>
                         <linearGradient
-                            id="revenueGradient"
+                            id={gradientId}
                             x1="0"
                             y1="0"
                             x2="0"
                             y2="1"
                         >
-                            <stop offset="0%" stopColor="#8B7CF6" stopOpacity={0.35} />
-                            <stop offset="100%" stopColor="#A59ADC" stopOpacity={0} />
+                            <stop
+                                offset="0%"
+                                stopColor={gradientStartColor}
+                                stopOpacity={0.4}
+                            />
+                            <stop
+                                offset="100%"
+                                stopColor={gradientEndColor}
+                                stopOpacity={0}
+                            />
                         </linearGradient>
                     </defs>
 
                     <Area
                         type="monotone"
                         dataKey="revenue"
-                        stroke="#A59ADC"
+                        stroke={strokeColor}
                         strokeWidth={3}
-                        fill="url(#revenueGradient)"
+                        fill={`url(#${gradientId})`}
                         dot={(props) => (
-                            <LastDot {...props} dataLength={chartData.length} />
+                            <LastDot
+                                {...props}
+                                dataLength={chartData.length}
+                                strokeColor={dotStrokeColor}
+                            />
                         )}
                         activeDot={false}
                     />

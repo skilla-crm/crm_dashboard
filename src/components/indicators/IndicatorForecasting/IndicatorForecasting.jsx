@@ -8,8 +8,8 @@ const IndicatorForecasting = ({ title, value, direction }) => {
         <div className={s.root}>
             <p className={s.title}>{title}</p>
             <div className={s.valueContainer}>
-                <div className={s.value}>{`~${value}`}</div>
-                <div
+                <div className={s.value}>{`~${value.toFixed()}`}</div>
+                {/* <div
                     className={classNames(
                         s.direction,
                         s[`direction_${actualDirection}`]
@@ -17,7 +17,7 @@ const IndicatorForecasting = ({ title, value, direction }) => {
                 >
                     {value > 0 && '↑'}
                     {value <= 0 && '↓'}
-                </div>
+                </div> */}
             </div>
         </div>
     );

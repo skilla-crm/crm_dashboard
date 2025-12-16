@@ -1,26 +1,30 @@
-import s from './IndicatorWithPoints.module.scss';
+// External
 import classNames from 'classnames';
-
 import NumberFlow from '@number-flow/react';
-import { ReactComponent as IconArrow } from '../Indicator/assets/arrow.svg';
-//hooks
+
+// Hooks
 import useIncreaseState from 'hooks/useIncreaseState';
-//components
+
+// Components
 import Loader from '../Indicator/Loader/Loader';
+import { ReactComponent as IconArrow } from '../Indicator/assets/arrow.svg';
+
+// Styles
+import s from './IndicatorWithPoints.module.scss';
 
 const IndicatorItem = ({
     title,
     indicator,
     increase,
-    prev_period_indicator,
+    prevPeriodIndicator,
     isPercent,
     isLoading,
-    progress = false
+    progress = false,
 }) => {
     const increaseState = useIncreaseState(false, increase || 0);
 
     const indicatorValue = Number(indicator) || 0;
-    
+
     const green = indicatorValue >= 80;
     const orange = indicatorValue < 80 && indicatorValue >= 50;
     const red = indicatorValue < 50;
@@ -29,68 +33,109 @@ const IndicatorItem = ({
         <div className={s.item}>
             <div className={s.itemContent}>
                 <div className={s.itemInfo}>
-                    {progress && (
-                        <div className={s.progressContainer}>
-                            {green && (
-                                <div className={s.progressItem}>
-                                    <div className={classNames(s.progressElem, s.green)}></div>
-                                    <div className={classNames(s.progressElem, s.green)}></div>
-                                    <div className={classNames(s.progressElem, s.green)}></div>
-                                </div>
-                            )}
-                            {orange && (
-                                <div className={s.progressItem}>
-                                    <div className={s.progressElem}></div>
-                                    <div className={classNames(s.progressElem, s.orange)}></div>
-                                    <div className={classNames(s.progressElem, s.orange)}></div>
-                                </div>
-                            )}
-                            {red && (
-                                <div className={s.progressItem}>
-                                    <div className={s.progressElem}></div>
-                                    <div className={classNames(s.progressElem)}></div>
-                                    <div className={classNames(s.progressElem, s.red)}></div>
-                                </div>
-                            )}
+                    <div className={s.itemTopRow}>
+                        {' '}
+                        {progress && (
+                            <div className={s.progressContainer}>
+                                {green && (
+                                    <div className={s.progressItem}>
+                                        <div
+                                            className={classNames(
+                                                s.progressElem,
+                                                s.green
+                                            )}
+                                        ></div>
+                                        <div
+                                            className={classNames(
+                                                s.progressElem,
+                                                s.green
+                                            )}
+                                        ></div>
+                                        <div
+                                            className={classNames(
+                                                s.progressElem,
+                                                s.green
+                                            )}
+                                        ></div>
+                                    </div>
+                                )}
+                                {orange && (
+                                    <div className={s.progressItem}>
+                                        <div className={s.progressElem}></div>
+                                        <div
+                                            className={classNames(
+                                                s.progressElem,
+                                                s.orange
+                                            )}
+                                        ></div>
+                                        <div
+                                            className={classNames(
+                                                s.progressElem,
+                                                s.orange
+                                            )}
+                                        ></div>
+                                    </div>
+                                )}
+                                {red && (
+                                    <div className={s.progressItem}>
+                                        <div className={s.progressElem}></div>
+                                        <div
+                                            className={classNames(
+                                                s.progressElem
+                                            )}
+                                        ></div>
+                                        <div
+                                            className={classNames(
+                                                s.progressElem,
+                                                s.red
+                                            )}
+                                        ></div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                        <div className={s.itemIndicator}>
+                            <NumberFlow value={indicator} />
+                            {isPercent && <span>%</span>}
                         </div>
-                    )}
-                    <div className={s.itemIndicator}>
-                        <NumberFlow value={indicator} />
-                        {isPercent && <span>%</span>}
                     </div>
-                    <div className={s.itemTitle}>{title}</div>
-                    {increase !== undefined && (
-                        <div
-                            className={classNames(
-                                s.itemBottom,
-                                isLoading && s.itemBottom_load
-                            )}
-                        >
-                            <p
+                    <div className={s.bottomRow}>
+                        {' '}
+                        <div className={s.itemTitle}>{title}</div>
+                        {increase !== undefined && (
+                            <div
                                 className={classNames(
-                                    s.itemIncrease,
-                                    increaseState.negaive && s.itemIncrease_red
+                                    s.itemBottom,
+                                    isLoading && s.itemBottom_load
                                 )}
                             >
-                                <IconArrow
+                                <p
                                     className={classNames(
-                                        increaseState.down && s.arrow_down
+                                        s.itemIncrease,
+                                        increaseState.negaive &&
+                                            s.itemIncrease_red
                                     )}
-                                />
-                                {Math.abs(increase)}%
-                            </p>
-                            {prev_period_indicator !== undefined && (
-                                <span>отн. {prev_period_indicator}</span>
-                            )}
-                        </div>
-                    )}
+                                >
+                                    <IconArrow
+                                        className={classNames(
+                                            increaseState.down && s.arrow_down
+                                        )}
+                                    />
+                                    {Math.abs(increase)}%
+                                </p>
+                                {prevPeriodIndicator !== undefined && (
+                                    <span>отн. {prevPeriodIndicator}</span>
+                                )}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
     );
 };
 
-const IndicatorWithPoints = ({ isLoading, title, data = [] }) => {
+const IndicatorWithPoints = ({ isLoading, title, data = [], prevPeriod }) => {
     return (
         <div className={s.root}>
             {title && <p className={s.title}>{title}</p>}
@@ -102,7 +147,7 @@ const IndicatorWithPoints = ({ isLoading, title, data = [] }) => {
                         title={item.title}
                         indicator={item.indicator}
                         increase={item.increase}
-                        prev_period_indicator={item.prev_period_indicator}
+                        prevPeriodIndicator={prevPeriod}
                         isPercent={item.isPercent}
                         isLoading={isLoading}
                         progress={item.progress}
