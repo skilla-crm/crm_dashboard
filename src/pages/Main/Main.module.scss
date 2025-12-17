@@ -59,3 +59,21 @@
     display: flex;
     flex-direction: column;
 }
+.financeWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.finance {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.financeGrid {
+    max-width: 400px;
+    flex-shrink: 0;
+}

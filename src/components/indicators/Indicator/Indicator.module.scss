@@ -101,3 +101,11 @@
         visibility: visible;
     }
 }
+.percentOf {
+    color: var(--Text-Secondary, #71869D);
+font-family: Inter;
+font-size: 30px;
+font-style: normal;
+font-weight: 500;
+line-height: 30px; /* 100% */
+}

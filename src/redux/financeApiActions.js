@@ -16,7 +16,7 @@ export const financeApiActions = createApi({
     endpoints: (build) => ({
         getFinance: build.query({
             query: (params) => ({
-                url: `dashboard/datails/finance`,
+                url: `dashboard/finance`,
                 method: 'GET',
                 params,
             }),

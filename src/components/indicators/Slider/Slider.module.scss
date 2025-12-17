@@ -1,6 +1,6 @@
 .root {
     position: relative;
-    height: 244px;
+    // min-height: 244px;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
@@ -68,7 +68,7 @@
     right: 8px;
 }
 .swiper :global(.swiper-pagination) {
-    height: 12px;
+    height: 10px;
     // bottom: 12px !important;
     position: absolute;
     padding-bottom: 0;

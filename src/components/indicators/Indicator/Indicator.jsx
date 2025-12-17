@@ -21,6 +21,7 @@ const Indicator = ({
     info,
     reverse,
     data,
+    percentOf
 }) => {
     const [hover, setHover] = useState(false);
     const increaseState = useIncreaseState(reverse, increase);
@@ -38,6 +39,7 @@ const Indicator = ({
 
             <div className={s.indicator}>
                 <NumberFlow value={indicator} />
+                {percentOf && <div className={s.percentOf}><NumberFlow value={percentOf} />%</div>}
                 {info && (
                     <div
                         className={s.info}

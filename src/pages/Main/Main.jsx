@@ -64,6 +64,7 @@ const Main = () => {
         ordersData,
         forecastsData,
         financeData,
+        isLoadingFinance
     } = useMainDashboardData(period);
 
     const clearActiveFilter = () => {
@@ -216,13 +217,13 @@ const Main = () => {
                             clearActiveFilter={clearActiveFilter}
                         />
                     )}
-                    <UniButton
+                    {/* <UniButton
                         width={isEditing ? '' : 40}
                         text={isEditing ? 'Сохранить' : ''}
                         type={isEditing ? 'primary' : 'outline'}
                         icon={isEditing ? IconSave : IconSettings}
                         onClick={() => setIsEditing(!isEditing)}
-                    />
+                    /> */}
                 </div>
             </header>
 
@@ -231,186 +232,138 @@ const Main = () => {
                     <div className={s.mainColumns}>
                         {/* Левая колонка – 9/12 (75%) */}
                         <div className={s.leftColumn}>
-                            <div className={s.finance}>
+                            <div className={s.financeWrapper}>
                                 <TitleWithLink
                                     title="Финансы"
                                     navigateTo={'/finance'}
                                 />
-
-                                <IndicatorWithChart
-                                    width={'390px'}
-                                    title={'Выручка'}
-                                    indicator={
-                                        data?.finance?.revenue?.indicator || 0
-                                    }
-                                    increaseView={true}
-                                    increase={
-                                        data?.finance?.revenue?.increase || 0
-                                    }
-                                    prevPeriod={getDatePeriodShort(datePeriod)}
-                                    info={null}
-                                    reverse={false}
-                                    isLoading={isLoading}
-                                    chartData={
-                                        data?.finance?.revenue?.graphics || []
-                                    }
-                                    chartConfig={{
-                                        color: '#7499E8',
-                                        gradient: ['#7499E8', '#4A6BC4'],
-                                    }}
-                                />
-                                {/* <FinanceDiagram
-                                    profitData={data?.finance?.profit || {}}
-                                /> */}
-
-                                <Grid
-                                    container
-                                    spacing={5}
-                                    sx={{ mt: '12px' }}
-                                >
-                                    {/* Левая колонка - 4 элемента в двух столбцах */}
+                                <div className={s.finance}>
+                                    <IndicatorWithChart
+                                        width={'390px'}
+                                        title={'Выручка'}
+                                        indicator={
+                                            data?.finance?.revenue?.indicator || 0
+                                        }
+                                        increaseView={true}
+                                        increase={
+                                            data?.finance?.revenue?.increase || 0
+                                        }
+                                        prevPeriod={getDatePeriodShort(datePeriod)}
+                                        info={null}
+                                        reverse={false}
+                                        isLoading={isLoadingFinance}
+                                        chartData={
+                                            data?.finance?.revenue?.graphics || []
+                                        }
+                                        chartConfig={{
+                                            color: '#7499E8',
+                                            gradient: ['#7499E8', '#4A6BC4'],
+                                        }}
+                                    />
                                     <Grid
-                                        item
-                                        size={6}
+                                        container
+                                        spacing={3}
+                                        // className={s.financeGrid}
                                     >
                                         <Grid
-                                            container
-                                            spacing={3}
+                                            item
+                                            size={6}
                                         >
-                                            <Grid
-                                                item
-                                                size={6}
-                                            >
-                                                <Indicator
-                                                    title={'Выручка'}
-                                                    indicator={
-                                                        data?.finance?.revenue
-                                                            ?.indicator || 0
-                                                    }
-                                                    increaseView={true}
-                                                    increase={
-                                                        data?.finance?.revenue
-                                                            ?.increase || 0
-                                                    }
-                                                    prevPeriod={'авг'}
-                                                    info={null}
-                                                    reverse={false}
-                                                    isLoading={isLoading}
-                                                />
-                                            </Grid>
-                                            <Grid
-                                                item
-                                                size={6}
-                                            >
-                                                <Indicator
-                                                    title={
-                                                        'Заказы с оплатой а р/с'
-                                                    }
-                                                    indicator={
-                                                        data?.finance?.orders
-                                                            ?.indicator || 0
-                                                    }
-                                                    increaseView={true}
-                                                    increase={
-                                                        data?.finance?.orders
-                                                            ?.increase || 0
-                                                    }
-                                                    prevPeriod={'авг'}
-                                                    info={null}
-                                                    reverse={false}
-                                                    isLoading={isLoading}
-                                                />
-                                            </Grid>
-                                            <Grid
-                                                item
-                                                size={6}
-                                            >
-                                                <Indicator
-                                                    title={'Расходы'}
-                                                    indicator={
-                                                        data?.finance?.costs
-                                                            ?.total
-                                                            ?.indicator || 0
-                                                    }
-                                                    increaseView={true}
-                                                    increase={
-                                                        data?.finance?.costs
-                                                            ?.total?.increase ||
-                                                        0
-                                                    }
-                                                    prevPeriod={'авг'}
-                                                    info={null}
-                                                    reverse={true}
-                                                    isLoading={isLoading}
-                                                />
-                                            </Grid>
-                                            <Grid
-                                                item
-                                                size={6}
-                                            >
-                                                <Indicator
-                                                    title={'Упущенная выручка'}
-                                                    indicator={
-                                                        data?.finance
-                                                            ?.lost_revenue
-                                                            ?.indicator || 0
-                                                    }
-                                                    increaseView={true}
-                                                    increase={
-                                                        data?.finance
-                                                            ?.lost_revenue
-                                                            ?.increase || 0
-                                                    }
-                                                    prevPeriod={'авг'}
-                                                    info={null}
-                                                    reverse={false}
-                                                    isLoading={isLoading}
-                                                />
-                                            </Grid>
+                                            <Indicator
+                                                title={'Выручка'}
+                                                indicator={
+                                                    data?.finance?.revenue
+                                                        ?.indicator || 0
+                                                }
+                                                increaseView={true}
+                                                increase={
+                                                    data?.finance?.revenue
+                                                        ?.increase || 0
+                                                }
+                                                prevPeriod={'авг'}
+                                                info={null}
+                                                reverse={false}
+                                                isLoading={isLoading}
+                                            />
                                         </Grid>
+                                        <Grid
+                                            item
+                                            size={6}
+                                        >
+                                            <Indicator percentOf={12}
+                                                title={
+                                                    'Заказы с оплатой а р/с'
+                                                }
+                                                indicator={
+                                                    data?.finance?.orders
+                                                        ?.indicator || 0
+                                                }
+                                                increaseView={true}
+                                                increase={
+                                                    data?.finance?.orders
+                                                        ?.increase || 0
+                                                }
+                                                prevPeriod={'авг'}
+                                                info={null}
+                                                reverse={false}
+                                                isLoading={isLoading}
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            size={6}
+                                        >
+                                            <Indicator
+                                                title={'Расходы'}
+                                                indicator={
+                                                    data?.finance?.costs
+                                                        ?.total
+                                                        ?.indicator || 0
+                                                }
+                                                increaseView={true}
+                                                increase={
+                                                    data?.finance?.costs
+                                                        ?.total?.increase ||
+                                                    0
+                                                }
+                                                prevPeriod={'авг'}
+                                                info={null}
+                                                reverse={true}
+                                                isLoading={isLoading}
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            size={6}
+                                        >
+                                            <Indicator
+                                                title={'Упущенная выручка'}
+                                                indicator={
+                                                    data?.finance
+                                                        ?.lost_revenue
+                                                        ?.indicator || 0
+                                                }
+                                                increaseView={true}
+                                                increase={
+                                                    data?.finance
+                                                        ?.lost_revenue
+                                                        ?.increase || 0
+                                                }
+                                                prevPeriod={'авг'}
+                                                info={null}
+                                                reverse={false}
+                                                isLoading={isLoading}
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            size={6}
+                                        >
+                                           <IndicatorWithList/>
+                                        </Grid>
+                                        
                                     </Grid>
-
-                                    {/* Правая колонка - FinanceDiagram */}
-                                    <Grid
-                                        item
-                                        size={6}
-                                    >
-                                        <IndicatorWithList
-                                            title={'Входящие транзакции'}
-                                            indicator={
-                                                data?.finance
-                                                    ?.transactions_income
-                                                    ?.indicator || 0
-                                            }
-                                            increaseView={
-                                                (data?.finance
-                                                    ?.transactions_income
-                                                    ?.increase || 0) > 0
-                                            }
-                                            increase={
-                                                data?.finance
-                                                    ?.transactions_income
-                                                    ?.increase || 0
-                                            }
-                                            prevPeriod={'авг'}
-                                            info={null}
-                                            reverse={
-                                                (data?.finance
-                                                    ?.transactions_income
-                                                    ?.increase || 0) > 0
-                                                    ? false
-                                                    : true
-                                            }
-                                            isLoading={isLoading}
-                                            data={
-                                                data?.finance
-                                                    ?.transactions_income
-                                                    ?.last_transactions_income ||
-                                                []
-                                            }
-                                        />
-                                    </Grid>
-                                </Grid>
+                                </div>
                             </div>
                             <Grid
                                 container
