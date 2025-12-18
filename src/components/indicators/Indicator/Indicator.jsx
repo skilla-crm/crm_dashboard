@@ -10,6 +10,7 @@ import useIncreaseState from 'hooks/useIncreaseState';
 //components
 import Tooltip from './Tooltip/Tooltip';
 import Loader from './Loader/Loader';
+import TitleWithLink from 'components/ui/TitleWithLink/TitleWithLink';
 
 const Indicator = ({
     isLoading,
@@ -22,6 +23,7 @@ const Indicator = ({
     reverse,
     data,
     percentOf,
+    navigateTo,
 }) => {
     const [hover, setHover] = useState(false);
     const increaseState = useIncreaseState(reverse, increase);
@@ -35,7 +37,12 @@ const Indicator = ({
     };
     return (
         <div className={s.root}>
-            <p className={s.title}>{title}</p>
+            <TitleWithLink
+                title={title}
+                navigateTo={navigateTo}
+                size="small"
+                type="inner"
+            />
 
             <div className={s.indicator}>
                 <div className={s.indicatorContent}>

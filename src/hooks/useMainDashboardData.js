@@ -169,14 +169,17 @@ export const useMainDashboardData = (period = 'month') => {
         isFetchingApp;
 
     return {
+        employeesData,
         data,
         isLoading,
         isLoadingMap,
         newPerformers,
         appPerformers,
+        performersData,
         ordersData,
         forecastsData,
         financeData,
+        counterpartiesData,
         appData,
     };
 };

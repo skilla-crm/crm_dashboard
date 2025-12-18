@@ -1,8 +1,8 @@
 import formatDateToRuLong from 'utils/formatDateToRuLong';
 
 const buildBankAccountsData = (data = []) =>
-    data.map((item) => ({
-        id: item.id,
+    data.map((item, index) => ({
+        id: item.id || index,
         name: item.bank,
         additional: item.rs,
         label: item.is_main === 1 ? 'Основной' : undefined,

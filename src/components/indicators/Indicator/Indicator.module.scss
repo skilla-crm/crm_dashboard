@@ -10,19 +10,12 @@
     width: 100%;
     box-sizing: border-box;
     border-radius: 8px;
+
     background-color: #fff;
 }
 
-.title {
-    margin-bottom: 12px;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 22px;
-    letter-spacing: 0.15px;
-    text-wrap: nowrap;
-}
-
 .indicator {
+    padding-top: 12px;
     display: flex;
     gap: 6px;
     align-items: center;
