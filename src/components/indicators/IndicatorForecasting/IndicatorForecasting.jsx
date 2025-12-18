@@ -1,7 +1,8 @@
 import s from './IndicatorForecasting.module.scss';
 import classNames from 'classnames';
+import Loader from './Loader/Loader';
 
-const IndicatorForecasting = ({ title, value, direction }) => {
+const IndicatorForecasting = ({ title, value, direction, isLoading }) => {
     const actualDirection = value > 0 ? 'up' : 'down';
 
     return (
@@ -18,6 +19,9 @@ const IndicatorForecasting = ({ title, value, direction }) => {
                     {value > 0 && '↑'}
                     {value <= 0 && '↓'}
                 </div> */}
+            </div>
+            <div className={classNames(s.loader, isLoading && s.loader_load)}>
+                <Loader />
             </div>
         </div>
     );

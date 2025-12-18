@@ -1,12 +1,16 @@
 import s from './Loader.module.scss';
 
-const Loader = () => {
+const Loader = ({ width, height, top }) => {
     return (
-        <div className={s.loader}>
-            <div className={s.loaderInner}></div>
-        </div>
+        <div
+            style={{
+                width: `${width}px`,
+                height: `${height}px`,
+                marginTop: `${top}px`,
+            }}
+            className={`${s.loader}`}
+        ></div>
     );
 };
 
 export default Loader;
-

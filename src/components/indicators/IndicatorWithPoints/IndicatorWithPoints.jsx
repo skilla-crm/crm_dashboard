@@ -24,6 +24,7 @@ const IndicatorItem = ({
     const increaseState = useIncreaseState(false, increase || 0);
 
     const indicatorValue = Number(indicator) || 0;
+    const roundedIndicatorValue = Number(indicatorValue.toFixed(1));
 
     const green = indicatorValue >= 80;
     const orange = indicatorValue < 80 && indicatorValue >= 50;
@@ -95,7 +96,7 @@ const IndicatorItem = ({
                             </div>
                         )}
                         <div className={s.itemIndicator}>
-                            <NumberFlow value={indicator} />
+                            <NumberFlow value={roundedIndicatorValue} />
                             {isPercent && <span>%</span>}
                         </div>
                     </div>
@@ -121,7 +122,8 @@ const IndicatorItem = ({
                                             increaseState.down && s.arrow_down
                                         )}
                                     />
-                                    {Math.abs(increase)}%
+                                    {Number(Math.abs(increase || 0).toFixed(1))}
+                                    %
                                 </p>
                                 {prevPeriodIndicator !== undefined && (
                                     <span>отн. {prevPeriodIndicator}</span>

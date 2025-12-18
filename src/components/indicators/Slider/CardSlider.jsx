@@ -32,34 +32,40 @@ const CardSlider = ({
             {indicator !== null && (
                 <div className={s.indicator}>
                     {title === 'Количество заказов' ? (
-                        <>
-                            <NumberFlow value={Math.trunc(indicator)} />{' '}
+                        <div>
+                            <NumberFlow
+                                value={Number((indicator || 0).toFixed(1))}
+                            />{' '}
                             <span>создано</span>
-                        </>
+                        </div>
                     ) : (
-                        <NumberFlow value={Math.trunc(indicator)} />
+                        <NumberFlow
+                            value={Number((indicator || 0).toFixed(1))}
+                        />
                     )}
-                    <div
-                        className={classNames(
-                            s.bottom,
-                            isLoading && s.bottom_load
-                        )}
-                    >
-                        <p
+                    {increase && (
+                        <div
                             className={classNames(
-                                s.increase,
-                                increaseState.negaive && s.increase_red
+                                s.bottom,
+                                isLoading && s.bottom_load
                             )}
                         >
-                            <IconArrow
+                            <p
                                 className={classNames(
-                                    increaseState.down && s.arrow_down
+                                    s.increase,
+                                    increaseState.negaive && s.increase_red
                                 )}
-                            />
-                            {Math.abs(increase)}%
-                        </p>
-                        <span>отн. {prevPeriod}</span>
-                    </div>
+                            >
+                                <IconArrow
+                                    className={classNames(
+                                        increaseState.down && s.arrow_down
+                                    )}
+                                />
+                                {Number(Math.abs(increase || 0).toFixed(1))}%
+                            </p>
+                            <span>отн. {prevPeriod}</span>
+                        </div>
+                    )}
                 </div>
             )}
             <div
@@ -88,11 +94,9 @@ const CardSlider = ({
                                     {item.percent && (
                                         <span className={s.percent}>
                                             {' '}
-                                            {item.percent > 1
-                                                ? Math.trunc(item.percent)
-                                                : Number(
-                                                      item.percent.toFixed(1)
-                                                  )}
+                                            {Number(
+                                                (item.percent || 0).toFixed(1)
+                                            )}
                                             %
                                         </span>
                                     )}

@@ -62,7 +62,7 @@
 .financeWrapper {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    // gap: 12px;
 }
 
 .finance {
@@ -76,4 +76,17 @@
 .financeGrid {
     max-width: 400px;
     flex-shrink: 0;
+}
+
+.forecastGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    width: 100%;
+}
+
+@media (min-width: 1450px) {
+    .forecastGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }

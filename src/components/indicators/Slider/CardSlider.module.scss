@@ -7,19 +7,19 @@
     gap: 20px;
     height: 100%;
     padding-left: 12px;
-    padding-right: 12pxs;
+    padding-right: 12px;
 }
 
 .chartContainer {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
 }
-.chartContainerPadding {
-    padding-top: 8px;
-}
+// .chartContainerPadding {
+//     padding-top: 8px;
+// }
 .chart {
     width: 120px;
     display: flex;
@@ -33,6 +33,13 @@
     flex-direction: row;
     gap: 12px;
     align-items: center;
+}
+@media (max-width: 1920px) {
+    .data {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
 }
 
 .list {
@@ -58,13 +65,20 @@
 .indicator {
     display: flex;
     gap: 6px;
-    
+
     align-items: center;
     font-size: 30px;
     font-weight: 500;
     line-height: 30px;
-    height: 30px;
+    // height: 30px;
 }
+@media (max-width: 1920px) {
+    .indicator {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
 .percent {
     color: var(--Text-Secondary, #71869d);
 
@@ -81,7 +95,6 @@
     font-style: normal;
     font-weight: 400;
     line-height: 16px; /* 100% */
-    
 }
 .bottom {
     display: flex;

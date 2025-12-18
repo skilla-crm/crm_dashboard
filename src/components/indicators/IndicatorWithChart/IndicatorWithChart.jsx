@@ -3,11 +3,12 @@ import classNames from 'classnames';
 
 // Components
 import Indicator from '../Indicator/Indicator';
-import Loader from './Loader/Loader';
+
 import SmoothChart from './SmoothChart/SmoothChart';
 
 // Styles
 import s from './IndicatorWithChart.module.scss';
+import Loader from './Loader/Loader';
 
 const IndicatorWithChart = ({
     width,
@@ -50,11 +51,9 @@ const IndicatorWithChart = ({
                     dotStrokeColor={dotStrokeColor}
                 />
             </div>
-            {isLoading && (
-                <div className={s.loaderOverlay}>
-                    <Loader />
-                </div>
-            )}
+            <div className={classNames(s.loader, isLoading && s.loader_load)}>
+                <Loader />
+            </div>
         </div>
     );
 };
