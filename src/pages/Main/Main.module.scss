@@ -8,6 +8,16 @@
     align-items: center;
     justify-content: space-between;
 }
+.headerTitle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.iconInfo {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+}
 .headerBtns {
     display: flex;
     align-items: center;
@@ -18,23 +28,6 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-}
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 16px;
-}
-
-.section-blocks {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 12px;
-}
-
-.indicatorsWrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
 }
 
 .mainColumns {
@@ -54,39 +47,4 @@
     gap: 12px;
     flex: 1;
     min-width: 0;
-}
-.wrapperWithTitle {
-    display: flex;
-    flex-direction: column;
-}
-.financeWrapper {
-    display: flex;
-    flex-direction: column;
-    // gap: 12px;
-}
-
-.finance {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: 20px;
-    align-items: flex-start;
-}
-
-.financeGrid {
-    max-width: 400px;
-    flex-shrink: 0;
-}
-
-.forecastGrid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
-    width: 100%;
-}
-
-@media (min-width: 1450px) {
-    .forecastGrid {
-        grid-template-columns: repeat(2, 1fr);
-    }
 }

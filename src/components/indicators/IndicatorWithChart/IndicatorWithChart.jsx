@@ -4,11 +4,11 @@ import classNames from 'classnames';
 // Components
 import Indicator from '../Indicator/Indicator';
 
-import SmoothChart from './SmoothChart/SmoothChart';
+import SmoothChart from './ui/SmoothChart/SmoothChart';
 
 // Styles
 import s from './IndicatorWithChart.module.scss';
-import Loader from './Loader/Loader';
+import Loader from './ui/Loader/Loader';
 
 const IndicatorWithChart = ({
     width,
@@ -18,7 +18,7 @@ const IndicatorWithChart = ({
     chartConfig,
     ...indicatorProps
 }) => {
-    const { isLoading } = indicatorProps;
+    const { isLoading, title } = indicatorProps;
 
     const strokeColor = chartConfig?.color || '#A59ADC';
     const gradientStartColor = chartConfig?.gradient?.[0] || '#8B7CF6';
@@ -41,6 +41,7 @@ const IndicatorWithChart = ({
             </div>
             <div className={s.chartCard}>
                 <SmoothChart
+                    title={title}
                     data={chartData}
                     width="100%"
                     height={chartHeight}

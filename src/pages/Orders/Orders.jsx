@@ -52,7 +52,7 @@ const Orders = () => {
                 </div>
             </header>
             <main className={s.main}>
-                <PlanFactChart graph_plan_fact={data?.graph_plan_fact} />
+                {/* <PlanFactChart graph_plan_fact={data?.graph_plan_fact} /> */}
                 <pre>{JSON.stringify(data, null, 2)}</pre>
             </main>
         </div>

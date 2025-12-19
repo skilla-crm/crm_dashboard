@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-width: 390px;
+
     box-sizing: border-box;
     height: 282px;
     border-radius: 8px;
@@ -17,6 +17,27 @@
 .chartCard {
     position: relative;
     min-height: 0;
+    outline: none;
+
+    &:focus {
+        outline: none;
+    }
+
+    &:focus-visible {
+        outline: none;
+    }
+
+    * {
+        outline: none;
+
+        &:focus {
+            outline: none;
+        }
+
+        &:focus-visible {
+            outline: none;
+        }
+    }
 }
 
 .chart {

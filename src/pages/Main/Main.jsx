@@ -5,29 +5,22 @@ import { useSelector } from 'react-redux';
 
 // Hooks
 import { useMainDashboardData } from '../../hooks/useMainDashboardData';
-
+import { useModal } from 'hooks/useModal';
 // Components
 import DateFilter from 'components/filters/DateFilter/DateFilter';
-import FunnelChart from 'components/diagrams/FunnelChart/FunnelChart';
-import Indicator from 'components/indicators/Indicator/Indicator';
-import IndicatorForecasting from 'components/indicators/IndicatorForecasting/IndicatorForecasting';
-import IndicatorWithChart from 'components/indicators/IndicatorWithChart/IndicatorWithChart';
-import IndicatorWithList from 'components/indicators/IndicatorWithList/IndicatorWithList';
-import IndicatorWithPoints from 'components/indicators/IndicatorWithPoints/IndicatorWithPoints';
-import Slider from 'components/indicators/Slider/Slider';
-import IndicatorWithScroll from 'components/indicators/IndicatorWithScroll/IndicatorWithScroll';
-import TitleWithLink from 'components/ui/TitleWithLink/TitleWithLink';
-import UniButton from 'components/ui/UniButton/UniButton';
 
-// Utils
-import { getDatePeriodShort } from 'utils/datePeriodMap';
-import getPercent from 'utils/getPercent';
-// Mapers
-import buildAppData from './mapers/buildAppData';
-import buildBankAccountsData from './mapers/buildBankAccountsData';
-import buildCounterpartiesData from './mapers/buildCounterpartiesData';
-import buildSupervisorsData from './mapers/buildSupervisorsData';
-import buildOperatorsData from './mapers/buildOperatorsData';
+// Icons
+import { ReactComponent as IconInfo } from 'components/indicators/Indicator/assets/iconinfo.svg';
+
+// Blocks
+import FinanceBlock from './blocks/FinanceBlock/FinanceBlock';
+import PerformersBlock from './blocks/PerformersBlock/PerformersBlock';
+import EmployeesBlock from './blocks/EmployeesBlock/EmployeesBlock';
+import CounterpartiesBlock from './blocks/CounterpartiesBlock/CounterpartiesBlock';
+import OrdersBlock from './blocks/OrdersBlock/OrdersBlock';
+import AppBlock from './blocks/AppBlock/AppBlock';
+import ForecastBlock from './blocks/ForecastBlock/ForecastBlock';
+import { forecastingIndicators } from './blocks/ForecastBlock/forecastingIndicators';
 
 // Styles
 import s from './Main.module.scss';
@@ -37,7 +30,7 @@ const Main = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [activeFilter, setActiveFilter] = useState(null);
     const { datePeriod } = useSelector((state) => state.dateRange || {});
-
+    const { showModal } = useModal();
     const {
         isLoading,
         data,
@@ -50,38 +43,10 @@ const Main = () => {
         counterpartiesData,
         employeesData,
     } = useMainDashboardData(period);
-    console.log(employeesData);
 
     const clearActiveFilter = () => {
         setActiveFilter(null);
     };
-
-    const forecastingIndicators = [
-        {
-            key: 'marginal_profit',
-            title: 'Маржинальная прибыль',
-        },
-        {
-            key: 'operating_profit',
-            title: 'Операционная прибыль',
-        },
-        {
-            key: 'orders_count',
-            title: 'Количество заказов',
-        },
-        {
-            key: 'revenue',
-            title: 'Выручка',
-        },
-        {
-            key: 'expenses_costs',
-            title: 'Выплаты исполнителям',
-        },
-        {
-            key: 'permanent_costs',
-            title: 'Закупки и ручной учет',
-        },
-    ];
 
     const theme = createTheme({
         spacing: 4,
@@ -89,7 +54,18 @@ const Main = () => {
     return (
         <div className={s.root}>
             <header className={s.header}>
-                <h2>Дашборд</h2>
+                <div className={s.headerTitle}>
+                    {' '}
+                    <h2>Дашборд</h2>
+                    <button
+                        className={s.iconInfo}
+                        onClick={() => {
+                            showModal('MAIN_INFO');
+                        }}
+                    >
+                        <IconInfo />
+                    </button>
+                </div>
                 <div className={s.headerBtns}>
                     <DateFilter
                         isFetching={isLoading}
@@ -108,568 +84,81 @@ const Main = () => {
             </header>
 
             <main className={s.main}>
-                <ThemeProvider theme={theme}>
-                    <div className={s.mainColumns}>
-                        {/* Левая колонка – 9/12 (75%) */}
-                        <div className={s.leftColumn}>
-                            <div className={s.financeWrapper}>
-                                <TitleWithLink
-                                    title="Финансы"
-                                    navigateTo={'/finance'}
-                                />
-                                <div className={s.finance}>
-                                    <Grid
-                                        container
-                                        spacing={3}
-                                        sx={{
-                                            paddingBottom: '12px',
-                                        }}
-                                    >
-                                        {/* Первая строка: слева диаграмма, справа 4 индикатора (2x2) */}
-                                        <Grid
-                                            item
-                                            size={6}
-                                        >
-                                            <IndicatorWithChart
-                                                width={'390px'}
-                                                title={'Выручка'}
-                                                indicator={
-                                                    financeData?.revenue
-                                                        ?.indicator || 0
-                                                }
-                                                increaseView={true}
-                                                increase={
-                                                    financeData?.revenue
-                                                        ?.increase || 0
-                                                }
-                                                prevPeriod={getDatePeriodShort(
-                                                    datePeriod
-                                                )}
-                                                info={null}
-                                                reverse={false}
-                                                isLoading={
-                                                    isLoadingMap.isLoadingFinance
-                                                }
-                                                chartData={
-                                                    financeData?.revenue
-                                                        ?.graphics || []
-                                                }
-                                                chartConfig={{
-                                                    color: '#7499E8',
-                                                    gradient: [
-                                                        '#7499E8',
-                                                        '#4A6BC4',
-                                                    ],
-                                                }}
-                                            />
-                                        </Grid>
-                                        <Grid
-                                            item
-                                            size={6}
-                                        >
-                                            <Grid
-                                                container
-                                                spacing={3}
-                                            >
-                                                <Grid
-                                                    item
-                                                    size={6}
-                                                >
-                                                    <Indicator
-                                                        title={'Комиссия'}
-                                                        indicator={
-                                                            financeData
-                                                                ?.marginal_profit
-                                                                ?.indicator || 0
-                                                        }
-                                                        increaseView={true}
-                                                        increase={
-                                                            financeData
-                                                                ?.marginal_profit
-                                                                ?.increase || 0
-                                                        }
-                                                        prevPeriod={getDatePeriodShort(
-                                                            datePeriod
-                                                        )}
-                                                        reverse={true}
-                                                        isLoading={
-                                                            isLoadingMap.isLoadingFinance
-                                                        }
-                                                        percentOf={getPercent(
-                                                            financeData?.revenue
-                                                                ?.indicator,
-                                                            financeData
-                                                                ?.marginal_profit
-                                                                ?.indicator
-                                                        )}
-                                                    />
-                                                </Grid>
-                                                <Grid
-                                                    item
-                                                    size={6}
-                                                >
-                                                    <Indicator
-                                                        title={'Расходы'}
-                                                        indicator={
-                                                            financeData?.costs
-                                                                ?.total
-                                                                ?.indicator || 0
-                                                        }
-                                                        increaseView={true}
-                                                        increase={
-                                                            financeData?.costs
-                                                                ?.total
-                                                                ?.increase || 0
-                                                        }
-                                                        prevPeriod={getDatePeriodShort(
-                                                            datePeriod
-                                                        )}
-                                                        reverse={true}
-                                                        isLoading={
-                                                            isLoadingMap.isLoadingFinance
-                                                        }
-                                                        percentOf={getPercent(
-                                                            financeData?.revenue
-                                                                ?.indicator,
-                                                            financeData?.costs
-                                                                ?.total
-                                                                ?.indicator
-                                                        )}
-                                                    />
-                                                </Grid>
-                                                <Grid
-                                                    item
-                                                    size={6}
-                                                >
-                                                    <Indicator
-                                                        title={'Прибыль'}
-                                                        indicator={
-                                                            financeData
-                                                                ?.operating_profit
-                                                                ?.indicator || 0
-                                                        }
-                                                        increaseView={true}
-                                                        increase={
-                                                            financeData
-                                                                ?.operating_profit
-                                                                ?.increase || 0
-                                                        }
-                                                        prevPeriod={getDatePeriodShort(
-                                                            datePeriod
-                                                        )}
-                                                        info={null}
-                                                        reverse={true}
-                                                        isLoading={
-                                                            isLoadingMap.isLoadingFinance
-                                                        }
-                                                        percentOf={getPercent(
-                                                            financeData?.revenue
-                                                                ?.indicator,
-                                                            financeData
-                                                                ?.operating_profit
-                                                                ?.indicator
-                                                        )}
-                                                    />
-                                                </Grid>
-                                                <Grid
-                                                    item
-                                                    size={6}
-                                                >
-                                                    <Indicator
-                                                        title={
-                                                            'Упущенная выручка'
-                                                        }
-                                                        indicator={
-                                                            financeData
-                                                                ?.lost_revenue
-                                                                ?.indicator || 0
-                                                        }
-                                                        increaseView={true}
-                                                        increase={
-                                                            financeData
-                                                                ?.lost_revenue
-                                                                ?.increase || 0
-                                                        }
-                                                        prevPeriod={getDatePeriodShort(
-                                                            datePeriod
-                                                        )}
-                                                        info={null}
-                                                        reverse={false}
-                                                        isLoading={
-                                                            isLoadingMap.isLoadingFinance
-                                                        }
-                                                        percentOf={getPercent(
-                                                            financeData?.revenue
-                                                                ?.indicator,
-                                                            financeData
-                                                                ?.lost_revenue
-                                                                ?.indicator
-                                                        )}
-                                                    />
-                                                </Grid>
-                                            </Grid>
-                                        </Grid>
-
-                                        {/* Вторая строка: слева два индикатора столбиком, справа банковские счета */}
-                                        <Grid
-                                            item
-                                            size={6}
-                                        >
-                                            <Grid
-                                                container
-                                                spacing={3}
-                                            >
-                                                <Grid
-                                                    item
-                                                    size={12}
-                                                >
-                                                    <Indicator
-                                                        title={
-                                                            'Заказы с оплатой а р/с'
-                                                        }
-                                                        indicator={
-                                                            financeData
-                                                                ?.orders_sum_beznal
-                                                                ?.indicator || 0
-                                                        }
-                                                        increaseView={true}
-                                                        increase={
-                                                            financeData
-                                                                ?.orders_sum_beznal
-                                                                ?.increase || 0
-                                                        }
-                                                        prevPeriod={getDatePeriodShort(
-                                                            datePeriod
-                                                        )}
-                                                        info={null}
-                                                        reverse={false}
-                                                        isLoading={
-                                                            isLoadingMap.isLoadingFinance
-                                                        }
-                                                        percentOf={getPercent(
-                                                            financeData?.revenue
-                                                                ?.indicator,
-                                                            financeData
-                                                                ?.orders_sum_beznal
-                                                                ?.indicator
-                                                        )}
-                                                    />
-                                                </Grid>
-                                                <Grid
-                                                    item
-                                                    size={12}
-                                                >
-                                                    <Indicator
-                                                        title={
-                                                            'Входящие транзакции'
-                                                        }
-                                                        indicator={
-                                                            financeData
-                                                                ?.transactions_income
-                                                                ?.indicator || 0
-                                                        }
-                                                        increaseView={true}
-                                                        increase={
-                                                            data?.finance
-                                                                ?.orders
-                                                                ?.increase || 0
-                                                        }
-                                                        prevPeriod={getDatePeriodShort(
-                                                            datePeriod
-                                                        )}
-                                                        info={null}
-                                                        reverse={false}
-                                                        isLoading={
-                                                            isLoadingMap.isLoadingFinance
-                                                        }
-                                                        navigateTo={
-                                                            '/transactions'
-                                                        }
-                                                    />
-                                                </Grid>
-                                            </Grid>
-                                        </Grid>
-                                        <Grid
-                                            item
-                                            size={6}
-                                        >
-                                            <IndicatorWithScroll
-                                                title={'Мои банковские счета'}
-                                                leftColumnTitle={'Счета'}
-                                                rightColumnTitle={
-                                                    'Дата последней выписки'
-                                                }
-                                                isLoading={
-                                                    isLoadingMap.isLoadingFinance
-                                                }
-                                                list={buildBankAccountsData(
-                                                    financeData?.transaction_details ||
-                                                        []
-                                                )}
-                                            />
-                                        </Grid>
-                                    </Grid>
-                                </div>
-                            </div>
-                            <div className={s.wrapperWithTitle}>
-                                <TitleWithLink
-                                    title="Исполнители"
-                                    navigateTo={'/performers'}
-                                />
-                                <div className={s.finance}>
-                                    <IndicatorWithChart
-                                        width={'390px'}
-                                        title={'Добавлены'}
-                                        indicator={
-                                            performersData?.added?.indicator ||
-                                            0
+                <div className={s.mainColumns}>
+                    <div className={s.leftColumn}>
+                        <ThemeProvider theme={theme}>
+                            <Grid
+                                container
+                                size={12}
+                                spacing={3}
+                                sx={{ flexDirection: 'column' }}
+                            >
+                                <Grid
+                                    item
+                                    size={12}
+                                >
+                                    <FinanceBlock
+                                        financeData={financeData}
+                                        isLoading={
+                                            isLoadingMap.isLoadingFinance
                                         }
-                                        increaseView={true}
-                                        increase={
-                                            performersData?.added?.increase || 0
-                                        }
-                                        prevPeriod={getDatePeriodShort(
-                                            datePeriod
-                                        )}
-                                        info={null}
-                                        reverse={false}
+                                        datePeriod={datePeriod}
+                                        data={data}
+                                    />
+                                </Grid>
+                                <Grid
+                                    item
+                                    size={12}
+                                >
+                                    <PerformersBlock
+                                        performersData={performersData}
                                         isLoading={
                                             isLoadingMap.isLoadingPerformers
                                         }
-                                        chartData={
-                                            performersData?.graphics || []
-                                        }
-                                        chartConfig={{
-                                            color: '#A59ADC',
-                                            gradient: ['#A59ADC', '#8B7FD9'],
-                                        }}
+                                        datePeriod={datePeriod}
                                     />
-                                    <Grid
-                                        container
-                                        spacing={3}
-                                    >
-                                        <Grid
-                                            item
-                                            size={6}
-                                        >
-                                            <Indicator
-                                                title={'Отправлено приглашений'}
-                                                indicator={
-                                                    performersData?.invitations
-                                                        ?.indicator || 0
-                                                }
-                                                increaseView={true}
-                                                increase={
-                                                    performersData?.invitations
-                                                        ?.increase || 0
-                                                }
-                                                prevPeriod={getDatePeriodShort(
-                                                    datePeriod
-                                                )}
-                                                info={null}
-                                                reverse={false}
-                                                isLoading={
-                                                    isLoadingMap.isLoadingPerformers
-                                                }
-                                            />
-                                        </Grid>
-                                        <Grid
-                                            item
-                                            size={6}
-                                        >
-                                            <Indicator
-                                                title={'Прошли регистрацию'}
-                                                indicator={
-                                                    performersData?.registered
-                                                        ?.indicator || 0
-                                                }
-                                                increaseView={true}
-                                                increase={
-                                                    performersData?.registered
-                                                        ?.increase || 0
-                                                }
-                                                prevPeriod={getDatePeriodShort(
-                                                    datePeriod
-                                                )}
-                                                info={null}
-                                                reverse={false}
-                                                isLoading={
-                                                    isLoadingMap.isLoadingPerformers
-                                                }
-                                            />
-                                        </Grid>
-                                        <Grid
-                                            item
-                                            size={6}
-                                        >
-                                            <Indicator
-                                                title={'Вышли на первый заказ'}
-                                                indicator={
-                                                    performersData?.first_order
-                                                        ?.indicator || 0
-                                                }
-                                                increaseView={true}
-                                                increase={
-                                                    performersData?.first_order
-                                                        ?.increase || 0
-                                                }
-                                                prevPeriod={getDatePeriodShort(
-                                                    datePeriod
-                                                )}
-                                                info={null}
-                                                reverse={false}
-                                                isLoading={
-                                                    isLoadingMap.isLoadingPerformers
-                                                }
-                                            />
-                                        </Grid>
-                                        <Grid
-                                            item
-                                            size={6}
-                                        >
-                                            <Indicator
-                                                title={'На заказах'}
-                                                indicator={
-                                                    performersData?.in_orders
-                                                        ?.indicator || 0
-                                                }
-                                                increaseView={true}
-                                                increase={
-                                                    performersData?.in_orders
-                                                        ?.increase || 0
-                                                }
-                                                prevPeriod={getDatePeriodShort(
-                                                    datePeriod
-                                                )}
-                                                info={null}
-                                                reverse={false}
-                                                isLoading={
-                                                    isLoadingMap.isLoadingPerformers
-                                                }
-                                            />
-                                        </Grid>
-                                    </Grid>
-                                </div>
-                                <Grid
-                                    container
-                                    spacing={3}
-                                    sx={{
-                                        marginTop: '12px',
-                                    }}
-                                >
-                                    <Grid
-                                        item
-                                        size={6}
-                                    >
-                                        <div className={s.wrapperWithTitle}>
-                                            <TitleWithLink
-                                                title="Сотрудники"
-                                                navigateTo={'/employees'}
-                                            />
-                                            <div
-                                                className={s.indicatorsWrapper}
-                                            >
-                                                {' '}
-                                                <IndicatorWithPoints
-                                                    title="Менеджеры по персоналу"
-                                                    data={buildSupervisorsData(
-                                                        employeesData?.employees
-                                                            ?.supervisor
-                                                    )}
-                                                    isLoading={
-                                                        isLoadingMap.isLoadingEmployees
-                                                    }
-                                                />
-                                                <IndicatorWithPoints
-                                                    title="Клиентские менеджеры"
-                                                    data={buildOperatorsData(
-                                                        employeesData?.employees
-                                                            ?.operator
-                                                    )}
-                                                    isLoading={
-                                                        isLoadingMap.isLoadingEmployees
-                                                    }
-                                                />
-                                            </div>
-                                        </div>
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        size={6}
-                                    >
-                                        <div className={s.wrapperWithTitle}>
-                                            <TitleWithLink
-                                                title="Контрагенты"
-                                                navigateTo={'/counterparties'}
-                                            />
-                                            <IndicatorWithScroll
-                                                title="Тип должников"
-                                                leftColumnTitle={'Заказчик'}
-                                                rightColumnTitle={
-                                                    'Задолженность'
-                                                }
-                                                isLoading={
-                                                    isLoadingMap.isLoadingCounterparties
-                                                }
-                                                list={buildCounterpartiesData(
-                                                    counterpartiesData || []
-                                                )}
-                                                navigateTo={'/counterparties'}
-                                            />
-                                        </div>
-                                    </Grid>
                                 </Grid>
-                            </div>
-                        </div>
-
-                        {/* Правая колонка – 3/12 (25%) */}
-                        <div className={s.rightColumn}>
-                            <div className={s.wrapperWithTitle}>
-                                <TitleWithLink
-                                    title="Заказы"
-                                    navigateTo={'/orders'}
-                                />
-                                <Slider
-                                    data={ordersData}
-                                    prevPeriod={getDatePeriodShort(datePeriod)}
-                                    isLoading={isLoadingMap.isLoadingOrders}
-                                />
-                            </div>
-                            <div className={s.wrapperWithTitle}>
-                                <TitleWithLink title="Приложение" />
-                                <IndicatorWithPoints
-                                    prevPeriod={getDatePeriodShort(datePeriod)}
-                                    isLoading={isLoading}
-                                    data={buildAppData(appData)}
-                                />
-                            </div>
-                            <div className={s.wrapperWithTitle}>
-                                <TitleWithLink
-                                    title="Прогноз на конец сентября"
-                                    size="medium"
-                                />
-                                <div className={s.forecastGrid}>
-                                    {forecastingIndicators.map((item) => (
-                                        <IndicatorForecasting
-                                            key={item.key}
-                                            title={item.title}
-                                            value={
-                                                forecastsData?.[item.key]
-                                                    ?.indicator || 0
-                                            }
-                                            isLoading={
-                                                isLoadingMap.isLoadingForecasts
-                                            }
-                                        />
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
+                                <Grid
+                                    item
+                                    size={12}
+                                    container
+                                >
+                                    <EmployeesBlock
+                                        employeesData={employeesData}
+                                        isLoading={
+                                            isLoadingMap.isLoadingEmployees
+                                        }
+                                    />
+                                    <CounterpartiesBlock
+                                        counterpartiesData={counterpartiesData}
+                                        isLoading={
+                                            isLoadingMap.isLoadingCounterparties
+                                        }
+                                    />
+                                </Grid>
+                            </Grid>
+                        </ThemeProvider>
                     </div>
-                </ThemeProvider>
+
+                    <div className={s.rightColumn}>
+                        <OrdersBlock
+                            ordersData={ordersData}
+                            isLoading={isLoadingMap.isLoadingOrders}
+                            datePeriod={datePeriod}
+                        />
+                        <AppBlock
+                            appData={appData}
+                            isLoading={isLoadingMap.isLoadingApp}
+                            datePeriod={datePeriod}
+                        />
+                        <ForecastBlock
+                            forecastsData={forecastsData}
+                            isLoading={isLoadingMap.isLoadingForecasts}
+                            forecastingIndicators={forecastingIndicators}
+                        />
+                    </div>
+                </div>
             </main>
-            {/* <FunnelChart /> */}
-            {/* <IndicatorsFinance data={data?.finance} isLoading={isLoading} /> */}
         </div>
     );
 };

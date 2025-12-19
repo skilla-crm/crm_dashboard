@@ -46,7 +46,7 @@ const Indicator = ({
 
             <div className={s.indicator}>
                 <div className={s.indicatorContent}>
-                    <NumberFlow value={indicator.toFixed(0)} />
+                    <NumberFlow value={typeof indicator === 'number' ? indicator.toFixed(0) : '0'} />
                     {Boolean(percentOf) && (
                         <div className={s.percentOf}>
                             <NumberFlow value={percentOf} />
@@ -85,7 +85,7 @@ const Indicator = ({
                                 increaseState.down && s.arrow_down
                             )}
                         />
-                        {Math.abs(increase).toFixed(1)}%
+                        {typeof increase === 'number' ? Math.abs(increase).toFixed(1) : '0.0'}%
                     </p>
                     <span>отн. {prevPeriod}</span>
                 </div>
