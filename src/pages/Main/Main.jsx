@@ -90,7 +90,7 @@ const Main = () => {
                             <Grid
                                 container
                                 size={12}
-                                spacing={3}
+                                spacing={6}
                                 sx={{ flexDirection: 'column' }}
                             >
                                 <Grid

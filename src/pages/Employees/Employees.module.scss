@@ -1,19 +1,17 @@
-.root {
-}
-
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 24px;
-    
+
     h2 {
         color: var(--Text-Primary, #121922);
         font-family: Inter;
         font-size: 22px;
         font-style: normal;
         font-weight: 600;
-        line-height: 22px; /* 100% */
+        line-height: 22px;
+        /* 100% */
         margin: 0;
     }
 }
@@ -26,6 +24,33 @@
 }
 
 .main {
-    // Стили для основного контента
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 24px;
+    background-color: #fff;
+    border-radius: 8px;
+
+    h3 {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 22px;
+        letter-spacing: 0.15px;
+    }
+
+    &_2 {
+        padding-right: 0;
+    }
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}

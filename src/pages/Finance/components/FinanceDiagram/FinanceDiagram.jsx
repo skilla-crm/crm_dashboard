@@ -1,4 +1,5 @@
 import { useId, useState } from 'react';
+import s from './FinanceDiagram.module.scss';
 import {
     ResponsiveContainer,
     AreaChart,
@@ -12,41 +13,10 @@ import { ReactComponent as IconInfo } from 'assets/icons/iconInfo.svg';
 import { useModal } from 'hooks/useModal';
 
 import FinanceTooltip from './ui/FinanceTooltip';
-import s from './FinanceDiagram.module.scss';
 
-export const formatDateRu = (dateStr) => {
-    if (!dateStr) return '';
-
-    const date = new Date(dateStr);
-    const parts = new Intl.DateTimeFormat('ru-RU', {
-        day: 'numeric',
-        month: 'short',
-    }).formatToParts(date);
-
-    const day = parts.find((p) => p.type === 'day')?.value;
-    const month = parts.find((p) => p.type === 'month')?.value.replace('.', '');
-
-    return [day, month].filter(Boolean).join(' ');
-};
-
-const getDateTicks = (data, maxTicks = 7) => {
-    if (!data.length) return [];
-
-    const step = Math.max(1, Math.floor((data.length - 1) / (maxTicks - 1)));
-    const ticks = [];
-
-    for (let i = 0; i < data.length; i += step) {
-        ticks.push(data[i].date);
-        if (ticks.length >= maxTicks - 1) break;
-    }
-
-    const lastDate = data[data.length - 1].date;
-    if (ticks[ticks.length - 1] !== lastDate) {
-        ticks.push(lastDate);
-    }
-
-    return ticks.slice(0, maxTicks);
-};
+//utils
+import { getDateTicks } from 'utils/getDataTicks';
+import { formatDateRu } from 'utils/formatDateRu';
 
 const defaultYAxisFormatter = (value) =>
     value === 0 ? '0 тыс' : `${value / 1000} тыс`;
@@ -179,7 +149,8 @@ const FinanceDiagram = ({
                     </defs>
 
                     <CartesianGrid
-                        strokeDasharray="4 4"
+                        strokeDasharray="10 8"
+                        height={0.5}
                         vertical={false}
                         stroke="#EAEAEA"
                     />
@@ -189,8 +160,10 @@ const FinanceDiagram = ({
                         interval={0}
                         dataKey="date"
                         tick={renderCustomTick}
-                        axisLine={false}
+                        axisLine={true}
+                        stroke="#EAEAEA"
                         tickLine={false}
+                     
                     />
 
                     <YAxis
@@ -237,7 +210,7 @@ const FinanceDiagram = ({
                                 valueFormatter={tooltipValueFormatter}
                             />
                         }
-                        // cursor={{ stroke: '#DDE3EA', strokeWidth: 1 }}
+                    // cursor={{ stroke: '#DDE3EA', strokeWidth: 1 }}
                     />
                 </AreaChart>
             </ResponsiveContainer>
@@ -290,5 +263,5 @@ export default FinanceDiagram;
 const data = [{
     "date": "2025-12-09",
     "revenue": 70082.68,
-   
-  }]
+
+}]

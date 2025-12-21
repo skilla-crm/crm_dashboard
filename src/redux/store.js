@@ -3,6 +3,7 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { dashboardApiActions } from './dashboardApiActions';
 import { financeApiActions } from './financeApiActions';
 import { ordersApiActions } from './ordersApiActions';
+import { employeesApiActions } from './employeesApiActions';
 //slice
 import indicatorsGridSlice from './indicatorsGrid/slice';
 import dateRangeSlice from './filters/dateRangeSlice';
@@ -16,6 +17,7 @@ export const store = configureStore({
         [dashboardApiActions.reducerPath]: dashboardApiActions.reducer,
         [financeApiActions.reducerPath]: financeApiActions.reducer,
         [ordersApiActions.reducerPath]: ordersApiActions.reducer,
+        [employeesApiActions.reducerPath]: employeesApiActions.reducer,
     },
 
     middleware: (getDefaultMiddleware) =>
@@ -25,7 +27,8 @@ export const store = configureStore({
         }).concat(
             dashboardApiActions.middleware,
             financeApiActions.middleware,
-            ordersApiActions.middleware
+            ordersApiActions.middleware,
+            employeesApiActions.middleware
         ),
 });
 

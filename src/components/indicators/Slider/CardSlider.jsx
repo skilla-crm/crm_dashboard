@@ -24,11 +24,10 @@ const CardSlider = ({
 
     return (
         <div className={s.root}>
-            <TitleWithLink
-                title={title}
-                size="small"
-                withLink={false}
-            />
+ 
+               
+
+
             {indicator !== null && (
                 <div className={s.indicator}>
                     {title === 'Количество заказов' ? (
@@ -91,7 +90,7 @@ const CardSlider = ({
                                 <p className={s.text}>
                                     {item.name}{' '}
                                     {addSpaceNumber2(item.count) || 0}
-                                    {item.percent && (
+                                    {item.percent ? (
                                         <span className={s.percent}>
                                             {' '}
                                             {Number(
@@ -99,7 +98,7 @@ const CardSlider = ({
                                             )}
                                             %
                                         </span>
-                                    )}
+                                    ) : ''}
                                 </p>
                             </div>
                         ))}
