@@ -33,7 +33,7 @@ const FilterButton = ({
       className={classNames(s.filter, mounted && count > 0 && s.filter_active)}
     >
       <div className={s.icon}>
-        <Icon className={load && s.hidden} />
+        <Icon className={(load || done) && s.hidden} />
         <div className={classNames(s.loader, load && !done && s.loader_vis)}>
           <LoaderCircle />
         </div>
@@ -48,7 +48,17 @@ const FilterButton = ({
         </div>
       </div>
 
-      <p className={classNames(s.title, mounted && count > 0 && s.title_active)}>{title}</p>
+      <p
+        className={classNames(
+          s.title,
+          mounted && count > 0 && s.title_active
+        )}
+      >
+        {title}
+      </p>
+
+      {count > 0 && <span className={s.count}>{count}</span>}
+
       <div className={classNames(s.block, mounted && count > 0 && s.block_active)}>
         <IconClose onClick={(e) => handleReset(e)} className={s.close} />
       </div>

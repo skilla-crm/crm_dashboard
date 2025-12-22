@@ -24,6 +24,7 @@ const IndicatorWithList = ({
   reverse = false,
   data = [],
   navigateTo = "",
+  navigateToNewTab,
 }) => {
   const [hover, setHover] = useState(false);
   const increaseState = useIncreaseState(reverse, increase);
@@ -42,6 +43,7 @@ const IndicatorWithList = ({
         size="small"
         type="inner"
         navigateTo={navigateTo}
+        navigateToNewTab={navigateToNewTab}
       />
 
       <div className={s.indicator}>

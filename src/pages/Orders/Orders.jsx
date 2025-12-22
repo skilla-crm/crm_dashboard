@@ -1,11 +1,12 @@
-import { useState } from 'react';
 import s from './Orders.module.scss';
-import DateFilter from 'components/filters/DateFilter/DateFilter';
+import FiltersContainer from 'components/filters/FiltersContainer/FiltersContainer';
 import { ReactComponent as IconBackForward } from 'assets/icons/iconBackForwardBlack.svg';
 // api
 import { useGetOrdersQuery } from '../../redux/ordersApiActions';
 // redux
 import { useSelector } from 'react-redux';
+// hooks
+import { useDashboardNavigation } from 'hooks/useDashboardNavigation';
 
 import {
     ResponsiveContainer,
@@ -19,36 +20,39 @@ import {
 } from 'recharts';
 
 const Orders = () => {
-    const [activeFilter, setActiveFilter] = useState(null);
     const { dateStartPicker, dateEndPicker } = useSelector(
         (state) => state.dateRange || {}
     );
+    const selectedPartnerships = useSelector(
+        (state) => state.companies?.selectedPartnerships || []
+    );
+    const handleDashboardClick = useDashboardNavigation();
 
     const params = {
         'filter[date_start]': dateStartPicker,
         'filter[date_end]': dateEndPicker,
+        'filter.partnership_id': selectedPartnerships,
     };
 
-    const { data, isLoading } = useGetOrdersQuery(params, {
+    const { data, isLoading, isFetching } = useGetOrdersQuery(params, {
         skip: !dateStartPicker || !dateEndPicker,
     });
-
-    const clearActiveFilter = () => {
-        setActiveFilter(null);
-    };
 
     return (
         <div className={s.root}>
             <header className={s.header}>
                 <h2>
-                    Дашборд <IconBackForward /> Заказы
+                    <span 
+                        onClick={handleDashboardClick}
+                        style={{ cursor: "pointer" }}
+                    >
+                        Дашборд
+                    </span>{" "}
+                    <IconBackForward />{" "}
+                    Заказы
                 </h2>
                 <div className={s.headerBtns}>
-                    <DateFilter
-                        isFetching={isLoading}
-                        setActiveFilter={setActiveFilter}
-                        clearActiveFilter={clearActiveFilter}
-                    />
+                    <FiltersContainer isFetching={isFetching} isLoading={isLoading} />
                 </div>
             </header>
             <main className={s.main}>

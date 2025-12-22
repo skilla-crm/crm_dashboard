@@ -3,6 +3,8 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { resetDateRange } from './redux/filters/dateRangeSlice';
+import { setCompaniesList, setLoadingCompanies } from './redux/filters/companyFilterSlice';
+import { useGetCompaniesQuery } from './redux/companiesForFilterApiActions';
 //pages
 import Main from 'pages/Main/Main';
 import Finance from 'pages/Finance/Finance';
@@ -13,9 +15,27 @@ import Orders from 'pages/Orders/Orders';
 import Advertising from 'pages/Advertising/Advertising';
 import ModalManager from 'components/ModalManager/ModalManager';
 
+const CompaniesLoader = () => {
+    const dispatch = useDispatch();
+    const { data: companiesList, isLoading: isCompaniesLoading } = useGetCompaniesQuery();
+
+    useEffect(() => {
+        dispatch(setLoadingCompanies(isCompaniesLoading));
+    }, [isCompaniesLoading, dispatch]);
+
+    useEffect(() => {
+        if (companiesList) {
+            dispatch(setCompaniesList(companiesList));
+        }
+    }, [companiesList, dispatch]);
+
+    return null;
+};
+
 const App = () => {
     return (
         <div className={s.root}>
+            <CompaniesLoader />
             <Routes>
                 <Route
                     path="/"
