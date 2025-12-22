@@ -1,19 +1,18 @@
 .wrapperWithTitle {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .forecastGrid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
-    width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  width: 100%;
 }
 
-@media (min-width: 1450px) {
-    .forecastGrid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+@media (min-width: 1700px) {
+  .forecastGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
-
