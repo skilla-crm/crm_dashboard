@@ -42,7 +42,7 @@ const CardSlider = ({
                             value={Number((indicator || 0).toFixed(1))}
                         />
                     )}
-                    {increase && (
+                    {Boolean(increase) && (
                         <div
                             className={classNames(
                                 s.bottom,

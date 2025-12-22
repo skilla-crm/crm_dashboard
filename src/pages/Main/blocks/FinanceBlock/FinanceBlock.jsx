@@ -21,7 +21,11 @@ const FinanceBlock = ({ financeData, isLoading, datePeriod, data }) => {
     <ThemeProvider theme={theme}>
       <Grid container spacing={3} sx={{ flexDirection: "column" }}>
         <Grid item size={12}>
-          <TitleWithLink title="Финансы" navigateTo={"/finance"} />
+          <TitleWithLink 
+            title="Финансы" 
+            navigateTo={"/finance"}
+            state={{ from: "/" }}
+          />
         </Grid>
         <Grid container item size={12}>
           <Grid item size={4} spacing={3}>

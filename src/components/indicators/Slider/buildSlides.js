@@ -27,7 +27,7 @@ const buildSlides = (data = {}) => {
         {
             title: 'Количество заказов',
             indicator: ordersIndicator,
-            increase: ordersIncrease,
+            increase: true,
             reverse: false,
             data: [
                 {
@@ -64,7 +64,7 @@ const buildSlides = (data = {}) => {
         {
             title: 'Сумма заказов',
             indicator: ordersSumIndicator,
-            increase: ordersSumIncrease,
+            increase: true,
             reverse: false,
             data: safeEntries(ordersSumDetails).map(([key, value = {}]) => ({
                 key,

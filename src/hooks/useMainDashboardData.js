@@ -14,10 +14,14 @@ export const useMainDashboardData = (period = 'month') => {
     const { dateStartPicker, dateEndPicker } = useSelector(
         (state) => state.dateRange || {}
     );
+    const selectedPartnerships = useSelector(
+        (state) => state.companies?.selectedPartnerships || []
+    );
 
     const params = {
         'filter[date_start]': dateStartPicker,
         'filter[date_end]': dateEndPicker,
+        'filter.partnership_id': selectedPartnerships
     };
 
     const {
@@ -168,10 +172,21 @@ export const useMainDashboardData = (period = 'month') => {
         isLoadingApp ||
         isFetchingApp;
 
+
+    const isFetching =
+        isFetchingFinance ||
+        isFetchingOrders ||
+        isFetchingCounterparties ||
+        isFetchingEmployees ||
+        isFetchingPerformers ||
+        isFetchingForecasts ||
+        isFetchingApp;
+
     return {
         employeesData,
         data,
         isLoading,
+        isFetching,
         isLoadingMap,
         newPerformers,
         appPerformers,

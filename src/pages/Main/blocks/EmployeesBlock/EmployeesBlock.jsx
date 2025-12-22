@@ -24,7 +24,11 @@ const EmployeesBlock = ({ employeesData, isLoading }) => {
         sx={{ flexDirection: "column" }}
       >
         <Grid item size={12}>
-          <TitleWithLink title="Сотрудники" navigateTo={"/employees"} />
+          <TitleWithLink 
+            title="Сотрудники" 
+            navigateTo={"/employees"}
+            state={{ from: "/" }}
+          />
         </Grid>
         <Grid item size={12}>
           <IndicatorWithPoints

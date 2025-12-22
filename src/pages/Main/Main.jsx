@@ -1,18 +1,14 @@
 // Dependencies
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createTheme, Grid, ThemeProvider } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { setSelectedPartnerships } from "../../redux/filters/companyFilterSlice";
-
-//Api
-import { useGetCompaniesQuery } from "../../redux/companiesForFilterApiActions";
+import { useSelector } from "react-redux";
 
 // Hooks
 import { useMainDashboardData } from "../../hooks/useMainDashboardData";
 import { useModal } from "hooks/useModal";
 
 // Components
-import DateFilter from "components/filters/DateFilter/DateFilter";
+import FiltersContainer from "components/filters/FiltersContainer/FiltersContainer";
 
 // Icons
 import { ReactComponent as IconInfo } from "components/indicators/Indicator/assets/iconinfo.svg";
@@ -26,29 +22,19 @@ import OrdersBlock from "./blocks/OrdersBlock/OrdersBlock";
 import AppBlock from "./blocks/AppBlock/AppBlock";
 import ForecastBlock from "./blocks/ForecastBlock/ForecastBlock";
 import { forecastingIndicators } from "./blocks/ForecastBlock/forecastingIndicators";
-import DetailsFilter from "components/filters/DetailsFilter/DetailsFilter";
 
 // Styles
 import s from "./Main.module.scss";
 
 const Main = () => {
-  const dispatch = useDispatch();
 
-  const [period, setPeriod] = useState("month");
-  const [isEditing, setIsEditing] = useState(false);
-  const [activeFilter, setActiveFilter] = useState(null);
+  
   const { datePeriod } = useSelector((state) => state.dateRange || {});
   const { showModal } = useModal();
 
-  const { data: companiesListForFilters } = useGetCompaniesQuery();
-  useEffect(() => {
-    if (companiesListForFilters) {
-      dispatch(setSelectedPartnerships(companiesListForFilters));
-    }
-  }, [companiesListForFilters, dispatch]);
-
   const {
     isLoading,
+    isFetching,
     data,
     ordersData,
     forecastsData,
@@ -58,11 +44,7 @@ const Main = () => {
     performersData,
     counterpartiesData,
     employeesData,
-  } = useMainDashboardData(period);
-
-  const clearActiveFilter = () => {
-    setActiveFilter(null);
-  };
+  } = useMainDashboardData();
 
   const theme = createTheme({
     spacing: 4,
@@ -83,21 +65,8 @@ const Main = () => {
           </button>
         </div>
         <div className={s.headerBtns}>
-          <DateFilter
-            isFetching={isLoading}
-            setActiveFilter={setActiveFilter}
-            clearActiveFilter={clearActiveFilter}
-          />
-          <DetailsFilter
-            key="company"
-            name="company"
-            data={[]}
-            isFetching={false}
-            activeFilter={activeFilter}
-            setActiveFilter={setActiveFilter}
-            clearActiveFilter={clearActiveFilter}
-          />
-          ,
+          <FiltersContainer isFetching={isFetching} isLoading={isLoading} />
+          
           {/* <UniButton
                         width={isEditing ? '' : 40}
                         text={isEditing ? 'Сохранить' : ''}

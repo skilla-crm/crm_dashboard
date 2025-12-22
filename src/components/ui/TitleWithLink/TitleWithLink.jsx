@@ -14,6 +14,7 @@ import s from "./TitleWithLink.module.scss";
  * @param {string} [props.type='default'] - Тип компонента для стилизации (outer | inner)
  * @param {string} [props.navigateTo = ''] - Ссылка 
  * @param {boolean} [props.navigateToNewTab = false] - Открывать ссылку в новом окне
+ * @param {object} [props.state] - state для передачи при навигации
 
  */
 const TitleWithLink = ({
@@ -22,6 +23,7 @@ const TitleWithLink = ({
   navigateToNewTab = false,
   size = "large",
   type = "default",
+  state,
 }) => {
   const content = <IconTopRight />;
 
@@ -43,6 +45,7 @@ const TitleWithLink = ({
         ) : (
           <Link
             to={navigateTo}
+            state={state}
             className={s.link}
             aria-label={`Перейти к ${title}`}
           >

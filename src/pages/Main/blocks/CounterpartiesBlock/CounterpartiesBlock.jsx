@@ -23,7 +23,11 @@ const CounterpartiesBlock = ({ counterpartiesData, isLoading }) => {
         size={6}
       >
         <Grid item size={12}>
-          <TitleWithLink title="Контрагенты" navigateTo={"/counterparties"} />
+          <TitleWithLink 
+            title="Контрагенты" 
+            navigateTo={"/counterparties"}
+            state={{ from: "/" }}
+          />
         </Grid>
         <Grid item size={12}>
           <IndicatorWithScroll

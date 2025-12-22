@@ -4,7 +4,13 @@
     flex-direction: column;
     gap: 20px;
 }
+.root :focus {
+    outline: none;
+}
 
+.root :focus-visible {
+    outline: none;
+}
 .footerDia {
     display: flex;
     align-items: center;

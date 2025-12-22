@@ -18,7 +18,11 @@ const PerformersBlock = ({ performersData, isLoading, datePeriod }) => {
     <ThemeProvider theme={theme}>
       <Grid container spacing={3} sx={{ flexDirection: "column" }}>
         <Grid item size={12}>
-          <TitleWithLink title="Исполнители" navigateTo={"/performers"} />
+          <TitleWithLink 
+            title="Исполнители" 
+            navigateTo={"/performers"}
+            state={{ from: "/" }}
+          />
         </Grid>
         <Grid container item size={12}>
           <Grid item size={6}>

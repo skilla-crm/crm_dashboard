@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import s from './Employees.module.scss';
 import classNames from 'classnames';
-import DateFilter from 'components/filters/DateFilter/DateFilter';
+import FiltersContainer from 'components/filters/FiltersContainer/FiltersContainer';
 import { ReactComponent as IconBackForward } from 'assets/icons/iconBackForwardBlack.svg';
 //api
 import { useGetEmployeesQuery } from '../../redux/employeesApiActions';
 //redux
 import { useSelector } from 'react-redux';
+//hooks
+import { useDashboardNavigation } from 'hooks/useDashboardNavigation';
 //components
 import EmployeesList from './components/EmployeesList/EmployeesList';
 import SupervisorsDiagram from './components/SupervisorsDiagram/SupervisorsDiagram';
@@ -16,16 +18,20 @@ import { EMPLOYES_SERIES } from './config';
 
 const Employees = () => {
     const { dateStartPicker, dateEndPicker } = useSelector((state) => state.dateRange || {});
-    const [activeFilter, setActiveFilter] = useState(null);
+    const selectedPartnerships = useSelector(
+        (state) => state.companies?.selectedPartnerships || []
+    );
     const [personId, setPersonId] = useState('');
+    const handleDashboardClick = useDashboardNavigation();
 
     const params = {
         'filter[date_start]': dateStartPicker,
         'filter[date_end]': dateEndPicker,
+        'filter.partnership_id': selectedPartnerships,
         'filter.person_id': personId,
     };
 
-    const { data, isLoading } = useGetEmployeesQuery(params, {
+    const { data, isLoading, isFetching } = useGetEmployeesQuery(params, {
         skip: !dateStartPicker || !dateEndPicker,
     });
 
@@ -33,13 +39,17 @@ const Employees = () => {
         <div className={s.root}>
             <header className={s.header}>
                 <h2>
-                    Дашборд <IconBackForward /> Сотрудники
+                    <span 
+                        onClick={handleDashboardClick}
+                        style={{ cursor: "pointer" }}
+                    >
+                        Дашборд
+                    </span>{" "}
+                    <IconBackForward />{" "}
+                    Сотрудники
                 </h2>
                 <div className={s.headerBtns}>
-                    <DateFilter
-                        isFetching={false}
-                        setActiveFilter={setActiveFilter}
-                    />
+                <FiltersContainer isFetching={isFetching} isLoading={isLoading}/>
                 </div>
             </header>
             <main className={s.main}>

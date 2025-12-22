@@ -5,12 +5,13 @@ import Grid from "@mui/material/Grid";
 import { ReactComponent as IconBackForward } from "assets/icons/iconBackForwardBlack.svg";
 
 // components
-import DateFilter from "components/filters/DateFilter/DateFilter";
+import FiltersContainer from "components/filters/FiltersContainer/FiltersContainer";
 import Indicator from "components/indicators/Indicator/Indicator";
 import IndicatorWithList from "components/indicators/IndicatorWithList/IndicatorWithList";
 
 // hooks
 import { useModal } from "hooks/useModal";
+import { useDashboardNavigation } from "hooks/useDashboardNavigation";
 
 // redux
 import { useSelector } from "react-redux";
@@ -43,15 +44,19 @@ const formatCurrency = (value) =>
 
 const Finance = () => {
   const { showModal } = useModal();
-  const [activeFilter, setActiveFilter] = useState(null);
+  const handleDashboardClick = useDashboardNavigation();
   const { dateStartPicker, dateEndPicker, datePeriod } = useSelector(
     (state) => state.dateRange || {}
+  );
+  const selectedPartnerships = useSelector(
+    (state) => state.companies?.selectedPartnerships || []
   );
   const prevPeriod = getDatePeriodShort(datePeriod);
 
   const params = {
     "filter[date_start]": dateStartPicker,
     "filter[date_end]": dateEndPicker,
+    "filter.partnership_id": selectedPartnerships,
   };
 
   const { data, isLoading, isFetching } = useGetFinanceQuery(params, {
@@ -65,16 +70,21 @@ const Finance = () => {
   return (
     <div className={s.root}>
       <header className={s.header}>
-        <h2 onClick={() => showModal("FINANCE_INFO")}>
-          Дашборд <IconBackForward /> Финансы
+        <h2>
+          <span 
+            onClick={handleDashboardClick}
+            style={{ cursor: "pointer" }}
+          >
+            Дашборд
+          </span>{" "}
+          <IconBackForward />{" "}
+          <span onClick={() => showModal("FINANCE_INFO")}>
+            Финансы
+          </span>
         </h2>
 
         <div className={s.headerBtns}>
-          <DateFilter
-            isFetching={isLoadingData}
-            setActiveFilter={setActiveFilter}
-            clearActiveFilter={() => setActiveFilter(null)}
-          />
+          <FiltersContainer isFetching={isFetching} isLoading={isLoading}/>
         </div>
       </header>
       <main className={s.main}>

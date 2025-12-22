@@ -48,43 +48,46 @@ const CompanyItem = ({ data, selected, toggleSelection }) => {
 };
 
 export const DetailsFilter = ({
-  isFetching,
+  isLoading,
   setActiveFilter,
   clearActiveFilter,
   name,
+  data: propData,
 }) => {
   const dispatch = useDispatch();
-  const selectedPartnerships = useSelector((state) => state.companies);
-  const partnershipsList =
-    useSelector((state) => state.companiesList?.partnerships) ?? [];
+  const selectedCompanyIds = useSelector(
+    (state) => state.companies?.selectedPartnerships || []
+  );
+  const companiesListFromRedux = useSelector(
+    (state) => state.companies?.companiesList || []
+  );
+ 
+  const data = propData !== undefined ? propData : companiesListFromRedux;
 
   const [open, setOpen] = useState(false);
-  const [localSelected, setLocalSelected] = useState([]);
+  const [localSelectedIds, setLocalSelectedIds] = useState([]);
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
 
-  const [load, setLoad] = useState(false);
-  const [done, setDone] = useState(false);
+  const [isDone, setIsDone] = useState(false);
 
   useEffect(() => {
-    if (selectedPartnerships !== localSelected) {
-      setLocalSelected(selectedPartnerships || []);
-    }
-  }, [selectedPartnerships]);
+    setLocalSelectedIds(selectedCompanyIds);
+  }, [selectedCompanyIds]);
 
   useEffect(() => {
-    setLoad(isFetching);
-    setDone(!isFetching && selectedPartnerships?.length > 0);
-  }, [isFetching, selectedPartnerships]);
+    const isLoadingFilteredData = isLoading !== undefined ? isLoading : false;
+    setIsDone(!isLoadingFilteredData && selectedCompanyIds?.length > 0);
+  }, [selectedCompanyIds, isLoading]);
 
   const toggleSelection = useCallback((id) => {
-    setLocalSelected((prev) =>
+    setLocalSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
   }, []);
 
   const handleConfirm = () => {
-    dispatch(setSelectedPartnerships(localSelected));
+    dispatch(setSelectedPartnerships(localSelectedIds));
     setActiveFilter(name);
     setOpen(false);
   };
@@ -96,9 +99,9 @@ export const DetailsFilter = ({
   const handleReset = (e) => {
     e?.preventDefault();
     e?.stopPropagation();
-    setLocalSelected([]);
+    setLocalSelectedIds([]);
     dispatch(setSelectedPartnerships([]));
-    setDone(false);
+    setIsDone(false);
     setOpen(false);
     clearActiveFilter();
   };
@@ -119,8 +122,8 @@ export const DetailsFilter = ({
   }, []);
 
   const companiesByCity = useMemo(
-    () => groupCompaniesByCity(partnershipsList),
-    [partnershipsList]
+    () => groupCompaniesByCity(data),
+    [data]
   );
   return (
     <div className={s.container}>
@@ -129,11 +132,11 @@ export const DetailsFilter = ({
       <FilterButton
         title="Компания"
         Icon={IconHome}
-        count={selectedPartnerships.length}
+        count={selectedCompanyIds.length}
         handleReset={handleReset}
         handleOpen={handleOpen}
-        load={load}
-        done={done}
+        load={isLoading}
+        done={isDone}
         buttonRef={buttonRef}
       />
 
@@ -153,7 +156,7 @@ export const DetailsFilter = ({
                 <CompanyItem
                   key={`${company.id}-${index}`}
                   data={company}
-                  selected={localSelected.includes(company.id)}
+                  selected={localSelectedIds.includes(company.id)}
                   toggleSelection={toggleSelection}
                 />
               ))}

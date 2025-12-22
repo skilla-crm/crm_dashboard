@@ -14,6 +14,7 @@ const OrdersBlock = ({ ordersData, isLoading, datePeriod }) => {
             <TitleWithLink
                 title="Заказы"
                 navigateTo={'/orders'}
+                state={{ from: "/" }}
             />
             <Slider
                 data={ordersData}
