@@ -57,7 +57,7 @@ const FinanceBlock = ({ financeData, isLoading, datePeriod, data }) => {
                                     financeData?.marginal_profit?.increase || 0
                                 }
                                 prevPeriod={getDatePeriodShort(datePeriod)}
-                                reverse={true}
+                                reverse={false}
                                 isLoading={isLoading}
                                 percentOf={getPercent(
                                     financeData?.revenue?.indicator,
@@ -69,18 +69,18 @@ const FinanceBlock = ({ financeData, isLoading, datePeriod, data }) => {
                             <Indicator
                                 title={'Расходы'}
                                 indicator={
-                                    financeData?.costs?.total?.indicator || 0
+                                    financeData?.costs_total?.indicator || 0
                                 }
                                 increaseView={true}
                                 increase={
-                                    financeData?.costs?.total?.increase || 0
+                                    financeData?.costs_total?.increase || 0
                                 }
                                 prevPeriod={getDatePeriodShort(datePeriod)}
                                 reverse={true}
                                 isLoading={isLoading}
                                 percentOf={getPercent(
                                     financeData?.revenue?.indicator,
-                                    financeData?.costs?.total?.indicator
+                                    financeData?.costs_total?.indicator
                                 )}
                             />
                         </Grid>
@@ -97,7 +97,7 @@ const FinanceBlock = ({ financeData, isLoading, datePeriod, data }) => {
                                 }
                                 prevPeriod={getDatePeriodShort(datePeriod)}
                                 info={null}
-                                reverse={true}
+                                reverse={false}
                                 isLoading={isLoading}
                                 percentOf={getPercent(
                                     financeData?.revenue?.indicator,
