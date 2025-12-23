@@ -1,2 +1,15 @@
-// Styles for FinanceBlock if needed
+.contentWrapper {
+    position: relative;
+    width: 100%;
+    // min-height: 500px;
+}
 
+.content {
+    transition: opacity 0.3s ease-in-out;
+    width: 100%;
+}
+
+.contentBlurred {
+    opacity: 0.3;
+    pointer-events: none;
+}

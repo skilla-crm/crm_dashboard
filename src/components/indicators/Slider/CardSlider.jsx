@@ -17,17 +17,22 @@ const CardSlider = ({
     reverse = false,
 }) => {
     const increaseState = useIncreaseState(reverse, increase);
-    const chartData = data.map((item) => ({
-        ...item,
-        value: item.count || 0,
-    }));
+    const empty = indicator === 0;
+    const chartData = empty
+        ? [
+              {
+                  key: 'empty',
+                  value: 1,
+                  color: '#DFE5EF',
+              },
+          ]
+        : data.map((item) => ({
+              ...item,
+              value: item.count || 0,
+          }));
 
     return (
         <div className={s.root}>
- 
-               
-
-
             {indicator !== null && (
                 <div className={s.indicator}>
                     {title === 'Количество заказов' ? (
@@ -98,7 +103,9 @@ const CardSlider = ({
                                             )}
                                             %
                                         </span>
-                                    ) : ''}
+                                    ) : (
+                                        ''
+                                    )}
                                 </p>
                             </div>
                         ))}

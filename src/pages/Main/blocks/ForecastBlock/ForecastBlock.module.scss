@@ -1,18 +1,33 @@
 .wrapperWithTitle {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.contentWrapper {
+    position: relative;
+    width: 100%;
+}
+
+.content {
+    transition: opacity 0.3s ease-in-out;
+    width: 100%;
+}
+
+.contentBlurred {
+    opacity: 0.3;
+    pointer-events: none;
 }
 
 .forecastGrid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    width: 100%;
 }
 
 @media (min-width: 1700px) {
-  .forecastGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+    .forecastGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }

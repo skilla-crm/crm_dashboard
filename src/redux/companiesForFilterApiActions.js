@@ -1,35 +1,35 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const baseURL = "https://api2.skilla.ru/api";
+const baseURL = 'https://api2.skilla.ru/api';
 
 export const filtersApiActions = createApi({
-  reducerPath: "filtersApiActions",
-  tagTypes: ["companies"],
-  baseQuery: fetchBaseQuery({
-    baseUrl: baseURL,
-    prepareHeaders: (headers) => {
-      const token = document
-        .getElementById("root_dashboard")
-        ?.getAttribute("token");
+    reducerPath: 'filtersApiActions',
+    tagTypes: ['companies'],
+    baseQuery: fetchBaseQuery({
+        baseUrl: baseURL,
+        prepareHeaders: (headers) => {
+            const token = document
+                .getElementById('root_dashboard')
+                ?.getAttribute('token');
 
-      if (token) {
-        headers.set("Authorization", token);
-      }
-      headers.set("Accept", "application/json");
-      headers.set("Content-Type", "application/json");
-      return headers;
-    },
-  }),
-  endpoints: (build) => ({
-    getCompanies: build.query({
-      query: () => ({
-        url: `/counterparties/partnerships`,
-        method: "GET",
-      }),
-      transformResponse: (response) => response?.data,
-      providesTags: ["companies"],
+            if (token) {
+                headers.set('Authorization', token);
+            }
+            headers.set('Accept', 'application/json');
+            headers.set('Content-Type', 'application/json');
+            return headers;
+        },
     }),
-  }),
+    endpoints: (build) => ({
+        getCompanies: build.query({
+            query: () => ({
+                url: `/counterparties/partnerships`,
+                method: 'GET',
+            }),
+            transformResponse: (response) => response?.data,
+            providesTags: ['companies'],
+        }),
+    }),
 });
 
 export const { useGetCompaniesQuery } = filtersApiActions;

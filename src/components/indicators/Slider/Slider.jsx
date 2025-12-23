@@ -19,11 +19,10 @@ const Slider = ({ data, prevPeriod, isLoading }) => {
 
     const [isBeginning, setIsBeginning] = useState(true);
     const [isEnd, setIsEnd] = useState(false);
-    const [activeSlideIndex, setActiveSlideIndex] = useState(0)
+    const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
     return (
         <div className={s.root}>
-
             <TitleWithLink
                 title={buildSlides(data)?.[activeSlideIndex]?.title}
                 size="small"
@@ -47,20 +46,19 @@ const Slider = ({ data, prevPeriod, isLoading }) => {
                 </button>
 
                 <Swiper
-
                     modules={[Pagination, Navigation]}
                     slidesPerView={1}
                     spaceBetween={20}
                     className={s.swiper}
                     pagination={{ clickable: true }}
-                    onSlideChange={(swiper) => setActiveSlideIndex(swiper.activeIndex)}
-
+                    onSlideChange={(swiper) =>
+                        setActiveSlideIndex(swiper.activeIndex)
+                    }
                     onSwiper={(swiper) => {
                         swiper.params.navigation.prevEl = prevRef.current;
                         swiper.params.navigation.nextEl = nextRef.current;
                         swiper.navigation.init();
                         swiper.navigation.update();
-
 
                         setIsBeginning(swiper.isBeginning);
                         setIsEnd(swiper.isEnd);
