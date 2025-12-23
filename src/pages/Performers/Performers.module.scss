@@ -24,8 +24,24 @@
     flex-direction: row;
     gap: 6px;
 }
-
-.main {
-    // Стили для основного контента
-}
-
+/////////chart
+.card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    width: 100%;
+    max-width: 320px;
+  }
+  
+  .title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  
+  .chart {
+    width: 146px;
+    height: 146px;
+    margin: 0 auto;
+  }
+  
