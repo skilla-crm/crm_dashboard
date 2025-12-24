@@ -3,6 +3,8 @@ import FiltersContainer from 'components/filters/FiltersContainer/FiltersContain
 import { ReactComponent as IconBackForward } from 'assets/icons/iconBackForwardBlack.svg';
 import { useDashboardNavigation } from 'hooks/useDashboardNavigation';
 
+
+
 const Performers = () => {
     const handleDashboardClick = useDashboardNavigation();
 
@@ -29,3 +31,4 @@ const Performers = () => {
 };
 
 export default Performers;
+

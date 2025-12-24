@@ -1,200 +1,187 @@
-import { useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 import {
-    useGetMainDashboardFinanceQuery,
-    useGetMainDashboardOrdersQuery,
-    useGetMainDashboardCounterpartiesQuery,
-    useGetMainDashboardEmployeesQuery,
-    useGetMainDashboardPerformersQuery,
-    useGetMainDashboardForecastsQuery,
-    useGetMainDashboardAppQuery,
-} from '../redux/dashboardApiActions';
+  useGetMainDashboardFinanceQuery,
+  useGetMainDashboardOrdersQuery,
+  useGetMainDashboardCounterpartiesQuery,
+  useGetMainDashboardEmployeesQuery,
+  useGetMainDashboardPerformersQuery,
+  useGetMainDashboardForecastsQuery,
+  useGetMainDashboardAppQuery,
+} from "../redux/dashboardApiActions";
 
-export const useMainDashboardData = (period = 'month') => {
-    const { dateStartPicker, dateEndPicker } = useSelector(
-        (state) => state.dateRange || {}
-    );
-    const selectedPartnerships = useSelector(
-        (state) => state.companies?.selectedPartnerships || []
-    );
+export const useMainDashboardData = (period = "month") => {
+  const { dateStartPicker, dateEndPicker } = useSelector(
+    (state) => state.dateRange || {}
+  );
+  const selectedPartnerships = useSelector(
+    (state) => state.companies?.selectedPartnerships || []
+  );
 
-    const params = {
-        'filter[date_start]': dateStartPicker,
-        'filter[date_end]': dateEndPicker,
-        'filter.partnership_id': selectedPartnerships
-    };
+  const params = {
+    "filter[date_start]": dateStartPicker,
+    "filter[date_end]": dateEndPicker,
+    "filter.partnership_id": selectedPartnerships,
+  };
 
-    const {
-        data: financeDataRaw,
-        isLoading: isLoadingFinance,
-        isFetching: isFetchingFinance,
-    } = useGetMainDashboardFinanceQuery(params, {
-        skip: !dateStartPicker || !dateEndPicker,
-    });
+  const {
+    data: financeDataRaw,
+    isLoading: isLoadingFinance,
+    isFetching: isFetchingFinance,
+    error: financeError,
+    refetch: refetchFinance,
+  } = useGetMainDashboardFinanceQuery(params, {
+    skip: !dateStartPicker || !dateEndPicker,
+  });
 
-    const {
-        data: ordersDataRaw,
-        isLoading: isLoadingOrders,
-        isFetching: isFetchingOrders,
-    } = useGetMainDashboardOrdersQuery(params, {
-        skip: !dateStartPicker || !dateEndPicker,
-    });
+  const {
+    data: ordersDataRaw,
+    isLoading: isLoadingOrders,
+    isFetching: isFetchingOrders,
+    error: ordersError,
+    refetch: refetchOrders,
+  } = useGetMainDashboardOrdersQuery(params, {
+    skip: !dateStartPicker || !dateEndPicker,
+  });
 
-    const isPrimaryLoaded =
-        !isLoadingFinance &&
-        !isFetchingFinance &&
-        !isLoadingOrders &&
-        !isFetchingOrders &&
-        !!financeDataRaw &&
-        !!ordersDataRaw;
+  const {
+    data: counterpartiesDataRaw,
+    isLoading: isLoadingCounterparties,
+    isFetching: isFetchingCounterparties,
+    error: counterpartiesError,
+    refetch: refetchCounterparties,
+  } = useGetMainDashboardCounterpartiesQuery(params, {
+    skip: !dateStartPicker || !dateEndPicker,
+  });
 
-    const {
-        data: counterpartiesDataRaw,
-        isLoading: isLoadingCounterparties,
-        isFetching: isFetchingCounterparties,
-    } = useGetMainDashboardCounterpartiesQuery(params, {
-        skip: !dateStartPicker || !dateEndPicker || !isPrimaryLoaded,
-    });
+  const {
+    data: employeesDataRaw,
+    isLoading: isLoadingEmployees,
+    isFetching: isFetchingEmployees,
+    error: employeesError,
+    refetch: refetchEmployees,
+  } = useGetMainDashboardEmployeesQuery(params, {
+    skip: !dateStartPicker || !dateEndPicker,
+  });
 
-    const {
-        data: employeesDataRaw,
-        isLoading: isLoadingEmployees,
-        isFetching: isFetchingEmployees,
-    } = useGetMainDashboardEmployeesQuery(params, {
-        skip: !dateStartPicker || !dateEndPicker || !isPrimaryLoaded,
-    });
+  const {
+    data: performersDataRaw,
+    isLoading: isLoadingPerformers,
+    isFetching: isFetchingPerformers,
+    error: performersError,
+    refetch: refetchPerformers,
+  } = useGetMainDashboardPerformersQuery(params, {
+    skip: !dateStartPicker || !dateEndPicker,
+  });
 
-    const {
-        data: performersDataRaw,
-        isLoading: isLoadingPerformers,
-        isFetching: isFetchingPerformers,
-    } = useGetMainDashboardPerformersQuery(params, {
-        skip: !dateStartPicker || !dateEndPicker || !isPrimaryLoaded,
-    });
+  const {
+    data: appDataRaw,
+    isLoading: isLoadingApp,
+    isFetching: isFetchingApp,
+    error: appError,
+    refetch: refetchApp,
+  } = useGetMainDashboardAppQuery(params, {
+    skip: !dateStartPicker || !dateEndPicker,
+  });
 
-    const {
-        data: appDataRaw,
-        isLoading: isLoadingApp,
-        isFetching: isFetchingApp,
-    } = useGetMainDashboardAppQuery(params, {
-        skip: !dateStartPicker || !dateEndPicker || !isPrimaryLoaded,
-    });
+  const forecastsParams = {
+    ...params,
+    "filter[period]": period,
+  };
+  const {
+    data: forecastsDataRaw,
+    isLoading: isLoadingForecasts,
+    isFetching: isFetchingForecasts,
+    error: forecastsError,
+    refetch: refetchForecasts,
+  } = useGetMainDashboardForecastsQuery(forecastsParams, {
+    skip: !dateStartPicker || !dateEndPicker,
+  });
 
-    const forecastsParams = {
-        ...params,
-        'filter[period]': period,
-    };
-    const {
-        data: forecastsDataRaw,
-        isLoading: isLoadingForecasts,
-        isFetching: isFetchingForecasts,
-    } = useGetMainDashboardForecastsQuery(forecastsParams, {
-        skip: !dateStartPicker || !dateEndPicker || !isPrimaryLoaded,
-    });
+  const financeData = financeDataRaw;
+  const ordersData = ordersDataRaw;
+  const counterpartiesData = counterpartiesDataRaw;
+  const employeesData = employeesDataRaw;
+  const performersData = performersDataRaw;
+  const appData = appDataRaw;
+  const forecastsData = forecastsDataRaw;
 
-    const financeRef = useRef();
-    const ordersRef = useRef();
-    const counterpartiesRef = useRef();
-    const employeesRef = useRef();
-    const performersRef = useRef();
-    const appRef = useRef();
-    const forecastsRef = useRef();
+  const newPerformers = performersData?.new;
+  const appPerformers = performersData?.app;
 
-    if (financeDataRaw !== undefined) {
-        financeRef.current = financeDataRaw;
-    }
-    if (ordersDataRaw !== undefined) {
-        ordersRef.current = ordersDataRaw;
-    }
-    if (counterpartiesDataRaw !== undefined) {
-        counterpartiesRef.current = counterpartiesDataRaw;
-    }
-    if (employeesDataRaw !== undefined) {
-        employeesRef.current = employeesDataRaw;
-    }
-    if (performersDataRaw !== undefined) {
-        performersRef.current = performersDataRaw;
-    }
-    if (appDataRaw !== undefined) {
-        appRef.current = appDataRaw;
-    }
-    if (forecastsDataRaw !== undefined) {
-        forecastsRef.current = forecastsDataRaw;
-    }
+  const data = {
+    finance: financeData,
+    orders: ordersData,
+    counterparties: counterpartiesData,
+    employees: employeesData,
+    performers: performersData,
+    forecasting: forecastsData,
+    app: appData,
+  };
 
-    const financeData = financeDataRaw ?? financeRef.current;
-    const ordersData = ordersDataRaw ?? ordersRef.current;
-    const counterpartiesData =
-        counterpartiesDataRaw ?? counterpartiesRef.current;
-    const employeesData = employeesDataRaw ?? employeesRef.current;
-    const performersData = performersDataRaw ?? performersRef.current;
-    const appData = appDataRaw ?? appRef.current;
-    const forecastsData = forecastsDataRaw ?? forecastsRef.current;
+  const isLoadingMap = {
+    isLoadingFinance: isLoadingFinance || isFetchingFinance,
+    isLoadingOrders: isLoadingOrders || isFetchingOrders,
+    isLoadingCounterparties:
+      isLoadingCounterparties || isFetchingCounterparties,
+    isLoadingEmployees: isLoadingEmployees || isLoadingEmployees,
+    isLoadingPerformers: isLoadingPerformers || isFetchingPerformers,
+    isLoadingForecasts: isLoadingForecasts || isFetchingForecasts,
+    isLoadingApp: isLoadingApp || isFetchingApp,
+  };
 
-    const newPerformers = performersData?.new;
-    const appPerformers = performersData?.app;
+  const isLoading =
+    isLoadingFinance ||
+    isLoadingOrders ||
+    isLoadingCounterparties ||
+    isLoadingEmployees ||
+    isLoadingPerformers ||
+    isLoadingForecasts ||
+    isLoadingApp;
 
-    const data = {
-        finance: financeData,
-        orders: ordersData,
-        counterparties: counterpartiesData,
-        employees: employeesData,
-        performers: performersData,
-        forecasting: forecastsData,
-        app: appData,
-    };
+  const isFetching =
+    isFetchingFinance ||
+    isFetchingOrders ||
+    isFetchingCounterparties ||
+    isFetchingEmployees ||
+    isFetchingPerformers ||
+    isFetchingForecasts ||
+    isFetchingApp;
 
-    const isLoadingMap = {
-        isLoadingFinance: isLoadingFinance || isFetchingFinance,
-        isLoadingOrders: isLoadingOrders || isFetchingOrders,
-        isLoadingCounterparties:
-            isLoadingCounterparties || isFetchingCounterparties,
-        isLoadingEmployees: isLoadingEmployees || isFetchingEmployees,
-        isLoadingPerformers: isLoadingPerformers || isFetchingPerformers,
-        isLoadingForecasts:
-            isLoadingForecasts || isFetchingForecasts || !forecastsData,
-        isLoadingApp: isLoadingApp || isFetchingApp,
-    };
+  const errorMap = {
+    financeError,
+    ordersError,
+    counterpartiesError,
+    employeesError,
+    performersError,
+    forecastsError,
+    appError,
+  };
 
-    const isLoading =
-        isLoadingFinance ||
-        isFetchingFinance ||
-        isLoadingOrders ||
-        isFetchingOrders ||
-        isLoadingCounterparties ||
-        isFetchingCounterparties ||
-        isLoadingEmployees ||
-        isFetchingEmployees ||
-        isLoadingPerformers ||
-        isFetchingPerformers ||
-        isLoadingForecasts ||
-        isFetchingForecasts ||
-        isLoadingApp ||
-        isFetchingApp;
+  const refetchMap = {
+    refetchFinance,
+    refetchOrders,
+    refetchCounterparties,
+    refetchEmployees,
+    refetchPerformers,
+    refetchForecasts,
+    refetchApp,
+  };
 
-
-    const isFetching =
-        isFetchingFinance ||
-        isFetchingOrders ||
-        isFetchingCounterparties ||
-        isFetchingEmployees ||
-        isFetchingPerformers ||
-        isFetchingForecasts ||
-        isFetchingApp;
-
-    return {
-        employeesData,
-        data,
-        isLoading,
-        isFetching,
-        isLoadingMap,
-        newPerformers,
-        appPerformers,
-        performersData,
-        ordersData,
-        forecastsData,
-        financeData,
-        counterpartiesData,
-        appData,
-    };
+  return {
+    employeesData,
+    data,
+    isLoading,
+    isFetching,
+    isLoadingMap,
+    errorMap,
+    refetchMap,
+    newPerformers,
+    appPerformers,
+    performersData,
+    ordersData,
+    forecastsData,
+    financeData,
+    counterpartiesData,
+    appData,
+  };
 };

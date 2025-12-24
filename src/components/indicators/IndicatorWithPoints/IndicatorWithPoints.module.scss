@@ -18,6 +18,15 @@
     letter-spacing: 0.15px;
 }
 
+.emptyTitle {
+    color: var(--Text-Primary, #121922);
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px;
+}
+
 .indicatorsList {
     display: flex;
     flex-direction: column;
@@ -179,4 +188,14 @@
     &.green {
         background: var(--colors-Dashboard-green, #70e093);
     }
+}
+.emptyTitle {
+    color: var(--Text-Secondary, #71869d);
+
+    /* Body normal */
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 100% */
 }

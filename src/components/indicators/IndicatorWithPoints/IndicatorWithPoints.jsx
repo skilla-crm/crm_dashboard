@@ -25,10 +25,10 @@ const IndicatorItem = ({
 
     const indicatorValue = Number(indicator) || 0;
     const roundedIndicatorValue = Number(indicatorValue.toFixed(1));
-
+    const empty = indicatorValue === 0;
     const green = indicatorValue >= 80;
     const orange = indicatorValue < 80 && indicatorValue >= 50;
-    const red = indicatorValue < 50;
+    const red = indicatorValue < 50 && !empty;
 
     return (
         <div className={s.item}>
@@ -93,6 +93,13 @@ const IndicatorItem = ({
                                         ></div>
                                     </div>
                                 )}
+                                {empty && (
+                                    <div className={s.progressItem}>
+                                        <div className={s.progressElem}></div>
+                                        <div className={s.progressElem}></div>
+                                        <div className={s.progressElem}></div>
+                                    </div>
+                                )}
                             </div>
                         )}
                         <div className={s.itemIndicator}>
@@ -103,7 +110,7 @@ const IndicatorItem = ({
                     <div className={s.bottomRow}>
                         {' '}
                         <div className={s.itemTitle}>{title}</div>
-                        {increase !== undefined && (
+                        {increase !== undefined && indicator !== 0 && (
                             <div
                                 className={classNames(
                                     s.itemBottom,
@@ -137,26 +144,37 @@ const IndicatorItem = ({
     );
 };
 
-const IndicatorWithPoints = ({ isLoading, title, data = [], prevPeriod }) => {
+const IndicatorWithPoints = ({
+    isLoading,
+    title,
+    data = [],
+    prevPeriod,
+    emptyTitle = 'Пока нет данных',
+}) => {
+    const allIndicatorsZero = data.length === 0;
+
     return (
         <div className={s.root}>
             {title && <p className={s.title}>{title}</p>}
 
-            <div className={s.indicatorsList}>
-                {data.map((item) => (
-                    <IndicatorItem
-                        key={item.key}
-                        title={item.title}
-                        indicator={item.indicator}
-                        increase={item.increase}
-                        prevPeriodIndicator={prevPeriod}
-                        isPercent={item.isPercent}
-                        isLoading={isLoading}
-                        progress={item.progress}
-                    />
-                ))}
-            </div>
-
+            {allIndicatorsZero && emptyTitle ? (
+                <div className={s.emptyTitle}>{emptyTitle}</div>
+            ) : (
+                <div className={s.indicatorsList}>
+                    {data.map((item) => (
+                        <IndicatorItem
+                            key={item.key}
+                            title={item.title}
+                            indicator={item.indicator}
+                            increase={item.increase}
+                            prevPeriodIndicator={prevPeriod}
+                            isPercent={item.isPercent}
+                            isLoading={isLoading}
+                            progress={item.progress}
+                        />
+                    ))}
+                </div>
+            )}
             <div className={classNames(s.loader, isLoading && s.loader_load)}>
                 <Loader />
             </div>

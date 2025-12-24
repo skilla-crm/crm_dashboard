@@ -4,3 +4,17 @@
     gap: 12px;
 }
 
+.contentWrapper {
+    position: relative;
+    width: 100%;
+}
+
+.content {
+    transition: opacity 0.3s ease-in-out;
+    width: 100%;
+}
+
+.contentBlurred {
+    opacity: 0.3;
+    pointer-events: none;
+}
