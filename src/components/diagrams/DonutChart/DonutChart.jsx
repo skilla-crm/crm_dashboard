@@ -1,6 +1,7 @@
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts"
 import s from './DonutChart.module.scss';
  const  DonutChart = ({ data }) => {
+  console.log('диаграмма', data)
     return (
         <div className={s.root}>
       <ResponsiveContainer width="100%" height="100%">
