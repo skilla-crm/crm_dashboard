@@ -80,7 +80,7 @@ const Indicator = ({
                     </div>
                 )}
             </div>
-            {increaseView && (
+            {increaseView && indicator !== 0 && (
                 <div
                     className={classNames(s.bottom, isLoading && s.bottom_load)}
                 >

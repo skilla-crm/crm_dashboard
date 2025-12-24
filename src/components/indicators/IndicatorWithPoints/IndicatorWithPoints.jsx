@@ -133,7 +133,7 @@ const IndicatorItem = ({
                                     %
                                 </p>
                                 {prevPeriodIndicator !== undefined && (
-                                    <span>отн. {prevPeriodIndicator}</span>
+                                    <span>{/* отн. {prevPeriodIndicator} */}</span>
                                 )}
                             </div>
                         )}

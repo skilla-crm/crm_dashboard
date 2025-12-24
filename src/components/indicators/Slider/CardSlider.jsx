@@ -67,7 +67,7 @@ const CardSlider = ({
                                 />
                                 {Number(Math.abs(increase || 0).toFixed(1))}%
                             </p>
-                            <span>отн. {prevPeriod}</span>
+                            {/* <span>отн. {prevPeriod}</span> */}
                         </div>
                     )}
                 </div>

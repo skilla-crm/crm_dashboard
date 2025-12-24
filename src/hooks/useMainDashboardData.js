@@ -23,6 +23,7 @@ export const useMainDashboardData = (period = "month") => {
     "filter.partnership_id": selectedPartnerships,
   };
 
+
   const {
     data: financeDataRaw,
     isLoading: isLoadingFinance,
@@ -84,8 +85,8 @@ export const useMainDashboardData = (period = "month") => {
   });
 
   const forecastsParams = {
-    ...params,
     "filter[period]": period,
+    "filter.partnership_id": selectedPartnerships,
   };
   const {
     data: forecastsDataRaw,

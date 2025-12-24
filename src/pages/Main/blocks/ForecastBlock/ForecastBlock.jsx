@@ -5,6 +5,7 @@ import ErrorMessage from 'components/ui/ErrorMessage/ErrorMessage';
 
 // Utils
 import classNames from 'classnames';
+import dayjs from 'dayjs';
 
 // Styles
 import s from './ForecastBlock.module.scss';
@@ -16,10 +17,12 @@ const ForecastBlock = ({
     error,
     refetch,
 }) => {
+
+    const currentMonth = dayjs().format('D MMMM')?.split(' ')?.pop()
     return (
         <div className={s.wrapperWithTitle}>
             <TitleWithLink
-                title="Прогноз на конец сентября"
+                title={`Прогноз на конец ${currentMonth}`}
                 size="medium"
             />
 

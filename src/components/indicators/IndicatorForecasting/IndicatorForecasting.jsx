@@ -1,6 +1,8 @@
 import s from './IndicatorForecasting.module.scss';
 import classNames from 'classnames';
 import Loader from './Loader/Loader';
+//utils
+import { addSpaceNumber } from 'utils/addSpaceNumber';
 
 const IndicatorForecasting = ({ title, value, direction, isLoading }) => {
     const actualDirection = value > 0 ? 'up' : 'down';
@@ -9,7 +11,7 @@ const IndicatorForecasting = ({ title, value, direction, isLoading }) => {
         <div className={s.root}>
             <p className={s.title}>{title}</p>
             <div className={s.valueContainer}>
-                <div className={s.value}>{`~${value.toFixed()}`}</div>
+                <div className={s.value}>{`~${addSpaceNumber(value.toFixed())}`}</div>
                 {/* <div
                     className={classNames(
                         s.direction,
