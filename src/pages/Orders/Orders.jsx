@@ -8,8 +8,6 @@ import { useSelector } from "react-redux";
 // hooks
 import { useDashboardNavigation } from "hooks/useDashboardNavigation";
 
-import PlanFactChart from "./PlanFactChart/PlanFactChart";
-
 const Orders = () => {
   const { dateStartPicker, dateEndPicker } = useSelector(
     (state) => state.dateRange || {}
@@ -43,7 +41,6 @@ const Orders = () => {
         </div>
       </header>
       <main className={s.main}>
-        <PlanFactChart data={data?.graph_plan_fact} />
         <pre>{JSON.stringify(data, null, 2)}</pre>
       </main>
     </div>
