@@ -14,13 +14,13 @@ import { useDashboardNavigation } from 'hooks/useDashboardNavigation';
 import EmployeesList from './components/EmployeesList/EmployeesList';
 import SupervisorsDiagram from './components/SupervisorsDiagram/SupervisorsDiagram';
 import EmployeesTable from './components/EmployeesTable/EmployeesTable';
+import Loader from './components/Loader/Loader';
 //constants
 import { EMPLOYES_SERIES } from './config';
 
 const containerElem = document.getElementById('scrollableDiv')
 
 const Employees = () => {
-    const [anim, setAnim] = useState(false);
     const { dateStartPicker, dateEndPicker } = useSelector((state) => state.dateRange || {});
     const selectedPartnerships = useSelector(
         (state) => state.companies?.selectedPartnerships || []
@@ -30,7 +30,6 @@ const Employees = () => {
 
 
     useEffect(() => {
-        setAnim(true)
         window.scrollTo({
             top: 0,
             left: 0,
@@ -42,8 +41,8 @@ const Employees = () => {
     const params = {
         'filter[date_start]': dateStartPicker,
         'filter[date_end]': dateEndPicker,
-/*         'filter[partnership_id]': selectedPartnerships, */
-      /*   'filter[person_id]': personId, */
+        /*         'filter[partnership_id]': selectedPartnerships, */
+        'filter[person_id]': personId,
     };
 
     const { data, isLoading, isFetching } = useGetEmployeesQuery(params, {
@@ -51,12 +50,12 @@ const Employees = () => {
     });
 
     return (
-        <div className={classNames(s.root, anim && s.root_anim)}>
+        <div className={s.root}>
             <header className={s.header}>
                 <h2>
                     <span
                         onClick={handleDashboardClick}
-                        style={{ cursor: "pointer" }}
+                        className={s.back}
                     >
                         Дашборд
                     </span>{" "}
@@ -74,6 +73,7 @@ const Employees = () => {
                         <SupervisorsDiagram
                             data={data?.indicators}
                             series={EMPLOYES_SERIES}
+                            isLoading={isLoading}
                         />
                         <EmployeesList
                             active={personId}
@@ -81,6 +81,13 @@ const Employees = () => {
                             list={data?.supervisors || []}
                             total={data?.supervisors_total}
                         />
+
+
+
+                    </div>
+
+                    <div className={classNames(s.loader, isLoading && s.loader_vis)}>
+                        <Loader />
                     </div>
                 </div>
                 <div className={classNames(s.wrapper, s.wrapper_2)}>
@@ -89,8 +96,13 @@ const Employees = () => {
                         <EmployeesTable
                             list={data?.performance_indicators}
                             total={data?.performance_indicators_result}
+                   
 
                         />
+                    </div>
+
+                     <div className={classNames(s.loader, isLoading && s.loader_vis)}>
+                        <Loader />
                     </div>
                 </div>
             </main>

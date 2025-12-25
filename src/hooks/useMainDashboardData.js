@@ -20,7 +20,7 @@ export const useMainDashboardData = (period = "month") => {
   const params = {
     "filter[date_start]": dateStartPicker,
     "filter[date_end]": dateEndPicker,
-    "filter[partnership_id]": selectedPartnerships,
+    /* "filter[partnership_id]": selectedPartnerships, */
   };
 
 
@@ -86,7 +86,7 @@ export const useMainDashboardData = (period = "month") => {
 
   const forecastsParams = {
     "filter[period]": period,
-    "filter[partnership_id]": selectedPartnerships,
+ /*    "filter[partnership_id]": selectedPartnerships, */
   };
   const {
     data: forecastsDataRaw,

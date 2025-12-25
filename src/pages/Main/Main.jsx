@@ -1,3 +1,5 @@
+// Styles
+import s from './Main.module.scss';
 // Dependencies
 import { useState } from 'react';
 import { createTheme, Grid, ThemeProvider } from '@mui/material';
@@ -23,8 +25,7 @@ import AppBlock from './blocks/AppBlock/AppBlock';
 import ForecastBlock from './blocks/ForecastBlock/ForecastBlock';
 import { forecastingIndicators } from './blocks/ForecastBlock/forecastingIndicators';
 
-// Styles
-import s from './Main.module.scss';
+
 
 const Main = () => {
     const { datePeriod } = useSelector((state) => state.dateRange || {});
@@ -52,8 +53,7 @@ const Main = () => {
         <div className={s.root}>
             <header className={s.header}>
                 <div className={s.headerTitle}>
-                    {' '}
-                    <h2>Дашборд</h2>
+                    <p className={s.title}>Дашборд</p>
                     <button
                         className={s.iconInfo}
                         onClick={() => {
@@ -67,6 +67,7 @@ const Main = () => {
                     <FiltersContainer
                         isFetching={isFetching}
                         isLoading={isLoading}
+                        noDetails={true}
                     />
 
                     {/* <UniButton

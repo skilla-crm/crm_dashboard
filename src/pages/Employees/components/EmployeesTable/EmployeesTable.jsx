@@ -6,7 +6,7 @@ import AvatarDefault from '../../../../assets/images/AvatarDefault.png';
 //utils
 import { addSpaceNumber } from 'utils/addSpaceNumber';
 
-const EmployeesTable = ({ list, total }) => {
+const EmployeesTable = ({ list, total, isLoading }) => {
     return (
         <div className={s.root}>
             <div className={s.header}>

@@ -24,24 +24,24 @@ const FINANCE_STATISTICS_SERIES = [
 
 const TRANSACTION_SERIES = [
   {
-    key: "cashlessOrders",
+    key: "transactionIncome",
     color: "#5CCF9C",
     gradient: ["#70E093", "#7BDCB5"],
     name: "Входящие",
     isSwitch: false,
   },
   {
-    key: "transactionIncome",
+    key: "transactionOutcome",
     color: "#F07167",
     gradient: ["#F4978E", "#F4978E"],
     name: "Исходящие",
     isSwitch: false,
   },
   {
-    key: "transactionOutcome",
+    key: "cashlessOrders",
     color: "#A59ADC",
     gradient: ["#B8ADEB", "#B8ADEB"],
-    name: "Сумма заказов с оплатой на р/с",
+    name: "Заказы с оплатой на р/с",
     isSwitch: true,
   },
 ];
@@ -62,21 +62,21 @@ const INDICATORS_CONFIG = [
     reverseView: false,
   },
   {
-    title: "Маржинальная прибыль",
+    title: "Коммисия",
     dataKey: "marginal_profit",
     reverse: false,
     increaseView: true,
     reverseView: true,
   },
   {
-    title: "Операционная прибыль",
+    title: "Прибыль",
     dataKey: "operating_profit",
     reverse: false,
     increaseView: true,
     reverseView: true,
   },
   {
-    title: "Закупки и ручной учет",
+    title: "Выплаты исполнителям",
     dataKey: "worker_sum",
     reverse: true,
     increaseView: true,

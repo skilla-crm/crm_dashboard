@@ -44,7 +44,6 @@ const formatCurrency = (value) =>
         : '—';
 
 const Finance = () => {
-      const [anim, setAnim] = useState(false);
     const { showModal } = useModal();
     const handleDashboardClick = useDashboardNavigation();
     const { dateStartPicker, dateEndPicker, datePeriod } = useSelector(
@@ -70,7 +69,6 @@ const Finance = () => {
     const isLoadingData = isLoading || isFetching;
 
     useEffect(() => {
-        setAnim(true)
         window.scrollTo({
             top: 0,
             left: 0,
@@ -78,12 +76,12 @@ const Finance = () => {
     }, []);
 
     return (
-        <div className={classNames(s.root, anim && s.root_anim)}>
+        <div className={s.root}>
             <header className={s.header}>
                 <h2>
                     <span
                         onClick={handleDashboardClick}
-                        style={{ cursor: 'pointer' }}
+                        className={s.back}
                     >
                         Дашборд
                     </span>{' '}
@@ -166,7 +164,7 @@ const Finance = () => {
                     <IndicatorWithList
                         emptyTitle="Нет транзакций"
                         title="Входящие транзакции"
-                        isLoading={isLoading}
+                        isLoading={isLoadingData}
                         navigateTo="https://lk.skilla.ru/new/bank"
                         navigateToNewTab
                         data={finance_indicators?.last_transactions || []}

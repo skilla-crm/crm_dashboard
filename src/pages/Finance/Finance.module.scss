@@ -1,11 +1,5 @@
 .root {
     width: 100%;
-     opacity: 0;
-    transition: all 0.15s ease-in-out;
-
-    &_anim {
-        opacity: 1;
-    }
 }
 
 .header {
@@ -53,4 +47,13 @@
 }
 .indicators {
     width: 100%;
+}
+
+.back {
+    cursor: pointer;
+    transition: all 0.15s;
+
+    &:hover {
+        opacity: 0.8;
+    }
 }

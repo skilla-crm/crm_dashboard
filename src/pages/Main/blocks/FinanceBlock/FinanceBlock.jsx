@@ -33,7 +33,7 @@ const FinanceBlock = ({ data, isLoading, datePeriod, error, refetch }) => {
     buttonIcon: IconPlusBlue,
   };
   const buttonAddOrderConfig = {
-    buttonText: "Добавить счет",
+    buttonText: "Добавить заказ",
     onButtonClick: () => {
       window.open("https://lk.skilla.ru/new/orders/create", "_blank");
     },
