@@ -27,9 +27,7 @@ const EmployeesList = ({ active, setActive, list, total }) => {
 
                 <li onClick={handleSelect} className={classNames(s.item, active == '' && s.item_active)}>
                     <div className={s.person}>
-                        <div className={s.avatar}>
-                           
-                        </div>
+
                         <p>Все</p>
                     </div>
                     <p>{total}</p>

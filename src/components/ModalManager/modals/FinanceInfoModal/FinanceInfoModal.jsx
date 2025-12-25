@@ -37,23 +37,23 @@ const FinanceInfoModal = () => {
 
                 <div className={s.content}>
                     <div className={s.item}>
-                        <h4>Маржинальная прибыль</h4>
+                        <h4>Коммисия</h4>
 
                         <div className={s.formula}>
-                            <div className={s.block}>Маржинальная прибыль</div>
+                            <div className={s.block}>Коммисия</div>
                             <span className={s.equals}>=</span>
                             <div className={s.block}>Выручка</div>
                             <span className={s.minus}>−</span>
                             <div className={s.block}>Выплаты исполнителям</div>
                         </div>
 
-                        <p>
+                        {/* <p>
                             Рассчитывается как <br /> выручка − выплаты
                             исполнителям.
-                        </p>
+                        </p> */}
 
                         <p>
-                            Маржинальная прибыль учитывает в расходах переменные
+                            Коммисия учитывает в расходах переменные
                             издержки (выплаты исполнителям), которые напрямую
                             зависят от количества заказов компании.
                         </p>
@@ -66,7 +66,7 @@ const FinanceInfoModal = () => {
                         </p>
                     </div>
 
-                    <div className={s.item}>
+                    {/*  <div className={s.item}>
                         {' '}
                         <h4>Операционная прибыль</h4>
                         <div className={s.formulaContainer}>
@@ -104,7 +104,7 @@ const FinanceInfoModal = () => {
                             показатель операционной прибыли низкий - то тогда
                             следует сокращать постоянные издержки
                         </p>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </Modal>

@@ -22,12 +22,14 @@ import { formatDateRu } from 'utils/formatDateRu';
 
 const defaultYAxisFormatter = (value) => {
     if (value === 0) return '0 тыс';
-    
+
+    if (value < 1000) return value;
+
     if (value >= 1000000) {
         const millions = (value / 1000000).toFixed(1).replace('.', ',');
         return `${millions} млн.`;
     }
-    
+
     return `${value / 1000} тыс`;
 };
 
@@ -85,19 +87,19 @@ const FinanceDiagram = ({
     const firstTickValue = xTicks[0];
     const lastTickIndex = xTicks.length - 1;
     const lastDataDate = data.length > 0 ? data[data.length - 1]?.date : null;
-    
+
     const seriesLabels = Object.fromEntries(
         series.map((item) => [item.key, item.name])
     );
 
-   
+
 
     const renderCustomTick = ({ x, y, payload, index }) => {
         const currentValue = payload?.value;
         const tickIndex = index !== undefined ? index : xTicks.findIndex(tick => String(tick) === String(currentValue));
-        const isLast = tickIndex === lastTickIndex || 
-                      String(currentValue) === String(lastTickValue) || 
-                      String(currentValue) === String(lastDataDate);
+        const isLast = tickIndex === lastTickIndex ||
+            String(currentValue) === String(lastTickValue) ||
+            String(currentValue) === String(lastDataDate);
         const isFirst = tickIndex === 0 || String(currentValue) === String(firstTickValue);
         const shiftLeftPx = 20;
         const shiftRightPx = 20
@@ -187,7 +189,7 @@ const FinanceDiagram = ({
                         axisLine={true}
                         stroke="#EAEAEA"
                         tickLine={false}
-                     
+
                     />
 
                     <YAxis

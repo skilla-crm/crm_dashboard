@@ -10,7 +10,7 @@ const FINANCE_STATISTICS_SERIES = [
     key: "marginalProfit",
     color: "#6EC6FF",
     gradient: ["#8ED1FC", "#8ED1FC"],
-    name: "Маржинальная прибыль",
+    name: "Комисия",
     isSwitch: false,
   },
   {
@@ -37,13 +37,13 @@ const TRANSACTION_SERIES = [
     name: "Исходящие",
     isSwitch: false,
   },
-  {
+ /*  {
     key: "cashlessOrders",
     color: "#A59ADC",
     gradient: ["#B8ADEB", "#B8ADEB"],
     name: "Заказы с оплатой на р/с",
     isSwitch: true,
-  },
+  }, */
 ];
 
 const INDICATORS_CONFIG = [

@@ -1,7 +1,7 @@
 const buildAppData = (data = {}) => {
     const config = {
         registered_percent: 'прошли регистрацию',
-        smz_percent: 'самозянятых',
+        smz_percent: 'оформили самозанятость',
         completed_order_percent: 'выполнили заказ',
         smz_pay_percent: 'оплата СМЗ',
         autoselect_orders_percent: 'заказов с автоподбором'

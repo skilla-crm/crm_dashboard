@@ -13,40 +13,40 @@ import Loader from "./Loader/Loader";
 import TitleWithLink from "components/ui/TitleWithLink/TitleWithLink";
 
 const Indicator = ({
-  isLoading,
-  title,
-  indicator,
-  increase,
-  prevPeriod,
-  info,
-  reverse,
-  percentOf,
-  navigateTo,
-  navigateToNewTab,
-  prevPeriodIndicator,
+    isLoading,
+    title,
+    indicator,
+    increase,
+    prevPeriod,
+    info,
+    reverse,
+    percentOf,
+    navigateTo,
+    navigateToNewTab,
+    prevPeriodIndicator,
 }) => {
-  const [hover, setHover] = useState(false);
-  const increaseState = useIncreaseState(reverse, increase);
+    const [hover, setHover] = useState(false);
+    const increaseState = useIncreaseState(reverse, increase);
 
     const increaseView =
-        increase !== 0 && indicator !== 0 && prevPeriodIndicator !== 0;
+        increase !== 0 && indicator !== 0 && prevPeriodIndicator !== 0 && increase < 1000;
 
-  const handleHover = () => {
-    setHover(true);
-  };
+    const handleHover = () => {
+        setHover(true);
+    };
 
-  const handleBlur = () => {
-    setHover(false);
-  };
-  return (
-    <div className={s.root}>
-      <TitleWithLink
-        title={title}
-        navigateTo={navigateTo}
-        size="small"
-        type="inner"
-        navigateToNewTab={navigateToNewTab}
-      />
+    const handleBlur = () => {
+        setHover(false);
+    };
+    return (
+        <div className={s.root}>
+            <TitleWithLink
+                title={title}
+                navigateTo={navigateTo}
+                size="small"
+                type="inner"
+                navigateToNewTab={navigateToNewTab}
+            />
 
             <div className={s.indicator}>
                 <div className={s.indicatorContent}>
@@ -80,7 +80,7 @@ const Indicator = ({
                     </div>
                 )}
             </div>
-            {increaseView  && (
+            {increaseView && (
                 <div
                     className={classNames(s.bottom, isLoading && s.bottom_load)}
                 >
@@ -104,11 +104,11 @@ const Indicator = ({
                 </div>
             )}
 
-      <div className={classNames(s.loader, isLoading && s.loader_load)}>
-        <Loader />
-      </div>
-    </div>
-  );
+            <div className={classNames(s.loader, isLoading && s.loader_load)}>
+                <Loader />
+            </div>
+        </div>
+    );
 };
 
 export default Indicator;

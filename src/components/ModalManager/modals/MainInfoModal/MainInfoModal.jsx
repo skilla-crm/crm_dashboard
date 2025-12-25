@@ -52,16 +52,14 @@ const FinanceInfoModal = () => {
                             <p className={s.itemText}>
                                 Рассчитывается как комиссия за вычетом
                                 операционных расходов (закупки, покупки, ручной
-                                учет)
+                                учет) и процентов менеджеров по работе с персоналом
                             </p>
                         </div>
 
                         <div className={s.item}>
                             <p className={s.itemTitle}>Упущенная выручка</p>
                             <p className={s.itemText}>
-                                Рассчитывается как сумма отмененных заказов,
-                                черновиков с датой меньше текущей и разницы
-                                плановой и итоговой стоимости заказов.
+                                Рассчитывается как разница между стоимостью закрытия заказа и стоимостью заказа при создании
                             </p>
                         </div>
                     </section>
@@ -104,12 +102,12 @@ const FinanceInfoModal = () => {
                             </p>
                         </div>
 
-                        <div className={s.item}>
+                        {/* <div className={s.item}>
                             <p className={s.itemTitle}>Самозанятых</p>
                             <p className={s.itemText}>
                                 Доля самозанятых исполнителей от общего списка.
                             </p>
-                        </div>
+                        </div> */}
 
                         <div className={s.item}>
                             <p className={s.itemTitle}>Заказы с автоподбором</p>
@@ -118,6 +116,79 @@ const FinanceInfoModal = () => {
                                 автоподбор, от общего списка.
                             </p>
                         </div>
+                    </section>
+
+                    <section className={s.section}>
+                        <h4 className={s.sectionTitle}>Прогноз</h4>
+
+                        <div className={s.item}>
+                            <p className={s.itemTitle}>Заказы с автоподбором</p>
+                            <p className={s.itemText}>
+                                Прогнозные показатели расчитываються на конец текущего месца, для расчета прогнозных значений мы используем данные за предыдущий месяц, а также данные за такой же период в прошлом году.
+                            </p>
+                        </div>
+                    </section>
+
+
+                    <section className={s.section}>
+                        <h4 className={s.sectionTitle}>Исполнители</h4>
+
+                        <div className={s.item}>
+                            <p className={s.itemTitle}>Добавлено новых</p>
+                            <p className={s.itemText}>
+                                Количество добавленных исполнителей за выбранный период
+                            </p>
+                        </div>
+
+                        <div className={s.item}>
+                            <p className={s.itemTitle}>Отправлено приглашений</p>
+                            <p className={s.itemText}>
+                                Количество приглашений в приложение отпраленное исполнителям за выбранный период
+                            </p>
+                        </div>
+
+                        <div className={s.item}>
+                            <p className={s.itemTitle}>Прошли регистрацию</p>
+                            <p className={s.itemText}>
+                                Количество исполнителей прошедших регистрацию за выбранный период
+                            </p>
+                        </div>
+
+                        <div className={s.item}>
+                            <p className={s.itemTitle}>Первый заказ в приложении</p>
+                            <p className={s.itemText}>
+                                Количество исполнителей выполнивших первый заказ за выбранный период
+                            </p>
+                        </div>
+
+                        <div className={s.item}>
+                            <p className={s.itemTitle}>Были на заказах</p>
+                            <p className={s.itemText}>
+                                Количество исполнителей выходившие на заказы за выбранный период
+                            </p>
+                        </div>
+
+
+                    </section>
+
+
+                    <section className={s.section}>
+                        <h4 className={s.sectionTitle}>Сотрудники</h4>
+
+                        <div className={s.item}>
+                            <p className={s.itemTitle}>План-факт по заказам</p>
+                            <p className={s.itemText}>
+                                Соотношение суммы закрытия заказов менеджерами по работе с персоналом к сумме заказов при создании
+                            </p>
+                        </div>
+
+                        <div className={s.item}>
+                            <p className={s.itemTitle}>Комиссии</p>
+                            <p className={s.itemText}>
+                                Сумма процентов менеджеров по работе с персоналом
+                            </p>
+                        </div>
+
                     </section>
                 </div>
             </div>

@@ -18,6 +18,8 @@ const ForecastBlock = ({
     refetch,
 }) => {
 
+    console.log(forecastingIndicators)
+
     const currentMonth = dayjs().format('D MMMM')?.split(' ')?.pop()
     return (
         <div className={s.wrapperWithTitle}>
@@ -31,7 +33,7 @@ const ForecastBlock = ({
                     refetch={refetch}
                     error={error}
                     isLoading={isLoading}
-                    // height={312}
+                // height={312}
                 />
 
                 <div
@@ -43,7 +45,7 @@ const ForecastBlock = ({
                         {forecastingIndicators.map((item) => (
                             <IndicatorForecasting
                                 key={item.key}
-                                title={item.title}
+                                title={item.title === 'Маржинальная прибыль' ? 'Комиссия' : item.title === 'Операционная прибыль' ? 'Прибыль' : item.title}
                                 value={
                                     forecastsData?.[item.key]?.indicator || 0
                                 }
