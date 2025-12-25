@@ -5,7 +5,7 @@ const buildCounterpartiesData = (data) => {
         id: item.id || index,
         name: item.name,
         label: item.label,
-        value: addSpaceNumber2(item.debt || 0),
+        value: addSpaceNumber2(Math.floor(item.debt) || 0),
     }));
 };
 

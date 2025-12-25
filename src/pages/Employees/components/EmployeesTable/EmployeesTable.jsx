@@ -17,7 +17,7 @@ const EmployeesTable = ({ list, total }) => {
                     <p>Закрытые заказы</p>
                 </div>
                 <div className={s.cell}>
-                    <p>Чел/смены</p>
+                    <p>Исполнителей на заказах</p>
                 </div>
                 <div className={classNames(s.cell, s.cell_small)}>
                     <p>С прилож.</p>

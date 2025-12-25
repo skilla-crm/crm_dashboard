@@ -12,11 +12,11 @@ const IndicatorCounterparties = ({ isLoading, title, data }) => {
             <p className={s.title}>{title}</p>
 
             <div className={s.indicator}>
-                <NumberFlow value={data?.debt_to_us || 0} />
+                <NumberFlow value={Math.floor(data?.debt_to_us) || 0} />
                 <div className={s.greenText}>Нам должны</div>
             </div>
             <div className={s.indicator}>
-                <NumberFlow value={data?.our_debt || 0} />
+                <NumberFlow value={Math.floor(data?.our_debt) || 0} />
                 <div className={s.redText}>Мы должны</div>
             </div>
 

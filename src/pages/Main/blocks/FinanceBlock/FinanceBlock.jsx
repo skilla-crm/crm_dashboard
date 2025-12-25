@@ -92,7 +92,7 @@ const FinanceBlock = ({ data, isLoading, datePeriod, error, refetch }) => {
                     increaseView={true}
                     increase={data?.marginal_profit?.increase || 0}
                     prevPeriod={getDatePeriodShort(datePeriod)}
-                    reverse={true}
+                    reverse={false}
                     isLoading={isLoading}
                     percentOf={getPercent(
                       data?.revenue?.indicator,

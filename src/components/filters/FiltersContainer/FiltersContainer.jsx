@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import DateFilter from "components/filters/DateFilter/DateFilter";
 import DetailsFilter from "components/filters/DetailsFilter/DetailsFilter";
 
-const FiltersContainer = ({ isFetching, isLoading }) => {
+const FiltersContainer = ({ isFetching, isLoading, noDetails }) => {
   const [activeFilter, setActiveFilter] = useState(null);
 
   const companiesList = useSelector(
@@ -21,7 +21,7 @@ const FiltersContainer = ({ isFetching, isLoading }) => {
 
   return (
     <>
-      <DetailsFilter
+      {!noDetails && <DetailsFilter
         key="company"
         name="company"
         data={companiesList || []}
@@ -30,7 +30,7 @@ const FiltersContainer = ({ isFetching, isLoading }) => {
         activeFilter={activeFilter}
         setActiveFilter={setActiveFilter}
         clearActiveFilter={clearActiveFilter}
-      />
+      />}
       <DateFilter
         isFetching={isFetching}
         setActiveFilter={setActiveFilter}

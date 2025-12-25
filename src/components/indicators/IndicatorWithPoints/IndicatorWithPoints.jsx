@@ -110,7 +110,7 @@ const IndicatorItem = ({
                     <div className={s.bottomRow}>
                         {' '}
                         <div className={s.itemTitle}>{title}</div>
-                        {increase !== undefined && indicator !== 0 && (
+                        {increase !== undefined && increase !== 0 && indicator !== 0 && (
                             <div
                                 className={classNames(
                                     s.itemBottom,

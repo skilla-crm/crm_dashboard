@@ -20,7 +20,7 @@ const Orders = () => {
   const params = {
     "filter[date_start]": dateStartPicker,
     "filter[date_end]": dateEndPicker,
-    "filter.partnership_id": selectedPartnerships,
+    "filter[partnership_id]": selectedPartnerships,
   };
 
   const { data, isLoading, isFetching } = useGetOrdersQuery(params, {

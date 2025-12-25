@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import classNames from 'classnames';
+import { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 
 // assets
@@ -43,6 +44,7 @@ const formatCurrency = (value) =>
         : '—';
 
 const Finance = () => {
+      const [anim, setAnim] = useState(false);
     const { showModal } = useModal();
     const handleDashboardClick = useDashboardNavigation();
     const { dateStartPicker, dateEndPicker, datePeriod } = useSelector(
@@ -56,7 +58,7 @@ const Finance = () => {
     const params = {
         'filter[date_start]': dateStartPicker,
         'filter[date_end]': dateEndPicker,
-        'filter.partnership_id': selectedPartnerships,
+        'filter[partnership_id]': selectedPartnerships,
     };
 
     const { data, isLoading, isFetching } = useGetFinanceQuery(params, {
@@ -67,8 +69,16 @@ const Finance = () => {
 
     const isLoadingData = isLoading || isFetching;
 
+    useEffect(() => {
+        setAnim(true)
+        window.scrollTo({
+            top: 0,
+            left: 0,
+        });
+    }, []);
+
     return (
-        <div className={s.root}>
+        <div className={classNames(s.root, anim && s.root_anim)}>
             <header className={s.header}>
                 <h2>
                     <span

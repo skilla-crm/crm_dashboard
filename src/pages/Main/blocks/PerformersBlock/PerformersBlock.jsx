@@ -41,7 +41,7 @@ const PerformersBlock = ({
         <Grid item size={12}>
           <TitleWithLink
             title="Исполнители"
-            navigateTo={"/performers"}
+           /*  navigateTo={"/performers"} */
             state={{ from: "/" }}
           />
         </Grid>
@@ -58,7 +58,7 @@ const PerformersBlock = ({
               <Grid item size={6}>
                 <IndicatorWithChart
                   buttonConfig={addPerformerButtonConfig}
-                  title={"Добавлены"}
+                  title={"Добавлено новых"}
                   indicator={performersData?.added?.indicator || 0}
                   increase={performersData?.added?.increase || 0}
                   prevPeriod={getDatePeriodShort(datePeriod)}
@@ -106,7 +106,7 @@ const PerformersBlock = ({
                 </Grid>
                 <Grid item size={6}>
                   <Indicator
-                    title={"Вышли на первый заказ"}
+                    title={"Первый заказ в приложении"}
                     indicator={performersData?.first_order?.indicator || 0}
                     increase={performersData?.first_order?.increase || 0}
                     prevPeriodIndicator={
@@ -120,7 +120,7 @@ const PerformersBlock = ({
                 </Grid>
                 <Grid item size={6}>
                   <Indicator
-                    title={"На заказах"}
+                    title={"Были на заказах"}
                     indicator={performersData?.in_orders?.indicator || 0}
                     prevPeriodIndicator={
                       performersData?.in_orders?.prev_period_indicator || 0

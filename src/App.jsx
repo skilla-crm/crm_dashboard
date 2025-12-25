@@ -1,5 +1,5 @@
 import s from './App.module.scss';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { resetDateRange } from './redux/filters/dateRangeSlice';
@@ -16,6 +16,7 @@ import Advertising from 'pages/Advertising/Advertising';
 import ModalManager from 'components/ModalManager/ModalManager';
 
 const CompaniesLoader = () => {
+
     const dispatch = useDispatch();
     const { data: companiesList, isLoading: isCompaniesLoading } = useGetCompaniesQuery();
 
@@ -32,9 +33,12 @@ const CompaniesLoader = () => {
     return null;
 };
 
+
+
 const App = () => {
+
     return (
-        <div className={s.root}>
+        <div id='scrollableDiv' className={s.root}>
             <CompaniesLoader />
             <Routes>
                 <Route

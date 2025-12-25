@@ -29,7 +29,7 @@ const Indicator = ({
     const increaseState = useIncreaseState(reverse, increase);
 
     const increaseView =
-        increase !== 0 || indicator !== 0 || prevPeriodIndicator !== 0;
+        increase !== 0 && indicator !== 0 && prevPeriodIndicator !== 0;
 
     const handleHover = () => {
         setHover(true);
@@ -80,7 +80,7 @@ const Indicator = ({
                     </div>
                 )}
             </div>
-            {increaseView && indicator !== 0 && (
+            {increaseView  && (
                 <div
                     className={classNames(s.bottom, isLoading && s.bottom_load)}
                 >

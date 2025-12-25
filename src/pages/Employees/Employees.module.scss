@@ -1,3 +1,12 @@
+.root {
+    opacity: 0;
+    transition: all 0.15s ease-in-out;
+
+    &_anim {
+        opacity: 1;
+    }
+}
+
 .header {
     display: flex;
     align-items: center;
