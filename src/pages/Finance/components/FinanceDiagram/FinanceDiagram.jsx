@@ -1,4 +1,5 @@
 import { useId, useState } from 'react';
+import classNames from 'classnames';
 import s from './FinanceDiagram.module.scss';
 import {
     ResponsiveContainer,
@@ -13,6 +14,7 @@ import { ReactComponent as IconInfo } from 'assets/icons/iconInfo.svg';
 import { useModal } from 'hooks/useModal';
 
 import FinanceTooltip from './ui/FinanceTooltip';
+import Loader from 'components/indicators/Indicator/Loader/Loader';
 
 //utils
 import { getDateTicks } from 'utils/getDataTicks';
@@ -60,6 +62,7 @@ const FinanceDiagram = ({
     xTickFormatter = formatDateRu,
     yTickFormatter = defaultYAxisFormatter,
     tooltipValueFormatter,
+    isLoading,
 }) => {
     const gradientPrefix = useId().replace(/:/g, '-');
     const { showModal } = useModal();
@@ -275,6 +278,10 @@ const FinanceDiagram = ({
                         </div>
                     );
                 })}
+            </div>
+
+            <div className={classNames(s.loader, isLoading && s.loader_load)}>
+                <Loader />
             </div>
         </div>
     );
