@@ -37,13 +37,13 @@ const TRANSACTION_SERIES = [
     name: "Исходящие",
     isSwitch: false,
   },
- /*  {
+  {
     key: "cashlessOrders",
     color: "#A59ADC",
     gradient: ["#B8ADEB", "#B8ADEB"],
     name: "Заказы с оплатой на р/с",
     isSwitch: true,
-  }, */
+  },
 ];
 
 const INDICATORS_CONFIG = [

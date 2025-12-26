@@ -15,7 +15,7 @@ const OrdersBlock = ({ ordersData, isLoading, datePeriod, error, refetch }) => {
     <div className={s.wrapperWithTitle}>
       <TitleWithLink
         title="Заказы"
-    /*     navigateTo={"/orders"} */
+        navigateTo={"/orders"}
         state={{ from: "/" }}
       />
 

@@ -55,7 +55,7 @@ const PerformersBlock = ({
             })}
           >
             <Grid container spacing={3}>
-              <Grid item size={6}>
+              <Grid item size={5}>
                 <IndicatorWithChart
                   buttonConfig={addPerformerButtonConfig}
                   title={"Добавлено новых"}
@@ -75,7 +75,7 @@ const PerformersBlock = ({
                   }}
                 />
               </Grid>
-              <Grid container spacing={3} item size={6}>
+              <Grid container spacing={3} item size={7}>
                 <Grid item size={6}>
                   <Indicator
                     title={"Отправлено приглашений"}
