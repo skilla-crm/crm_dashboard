@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { dashboardApiActions } from "./dashboardApiActions";
 import { financeApiActions } from "./financeApiActions";
+import { counterpartiesApiActions } from "./counterpartiesApiActions";
 import { ordersApiActions } from "./ordersApiActions";
 import { employeesApiActions } from "./employeesApiActions";
 import { filtersApiActions } from "./companiesForFilterApiActions";
@@ -20,6 +21,7 @@ export const store = configureStore({
 
     [dashboardApiActions.reducerPath]: dashboardApiActions.reducer,
     [financeApiActions.reducerPath]: financeApiActions.reducer,
+    [counterpartiesApiActions.reducerPath]: counterpartiesApiActions.reducer,
     [ordersApiActions.reducerPath]: ordersApiActions.reducer,
     [employeesApiActions.reducerPath]: employeesApiActions.reducer,
     [filtersApiActions.reducerPath]: filtersApiActions.reducer,
@@ -32,6 +34,7 @@ export const store = configureStore({
     }).concat(
       dashboardApiActions.middleware,
       financeApiActions.middleware,
+      counterpartiesApiActions.middleware,
       ordersApiActions.middleware,
       employeesApiActions.middleware,
       filtersApiActions.middleware
