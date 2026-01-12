@@ -35,7 +35,7 @@ const buildSlides = (data = {}) => {
           name: "Завершены",
           count: closed.count ?? 0,
           percent: closed.percent ?? 0,
-          color: "#A9F3C5",
+          color: "#70E093",
         },
         {
           key: "in_progress",

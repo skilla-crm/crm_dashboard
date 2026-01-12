@@ -87,6 +87,7 @@ const SmoothChart = ({
               <FinanceTooltip
                 seriesLabels={seriesLabelsMap}
                 valueFormatter={tooltipValueFormatter}
+                chartData={chartData}
               />
             }
           />
