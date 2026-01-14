@@ -32,6 +32,6 @@ jobs:
         host: ${{ secrets.SERVER_HOST_DEV }} # Хост сервера
         username: ${{ secrets.SERVER_USERNAME_DEV }} # Имя пользователя
         key: ${{ secrets.SSH_PRIVATE_KEY_DEV }} # Приватный ключ SSH
-        source: "build/static_dashboard/*" # Что копируем (обычно папка 'build' или 'dist')
-        target: "/var/www/alexholm200/data/crm/static/static_dashboard" # Куда копируем на сервере
+        source: "build/static_dashboard/" # Что копируем (обычно папка 'build' или 'dist')
+        target: "/var/www/alexholm200/data/crm/static/" # Куда копируем на сервере
    
