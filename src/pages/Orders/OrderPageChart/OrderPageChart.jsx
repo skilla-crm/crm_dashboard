@@ -31,6 +31,7 @@ const OrderPageChart = ({
     return acc;
   }, {});
 
+  
   const chartData = data.map((item) => {
     const date = item[dateKey];
     const transformedItem = {
