@@ -29,7 +29,7 @@ const Indicator = ({
     const increaseState = useIncreaseState(reverse, increase);
 
     const increaseView =
-        increase !== 0 && indicator !== 0 && prevPeriodIndicator !== 0 && increase < 1000;
+        increase !== 0 && indicator !== 0 && prevPeriodIndicator !== 0 && increase < 10000;
 
     const handleHover = () => {
         setHover(true);
