@@ -31,6 +31,6 @@ jobs:
         host: ${{ secrets.SERVER_HOST }} # Хост сервера
         username: ${{ secrets.SERVER_USERNAME }} # Имя пользователя
         key: ${{ secrets.SSH_PRIVATE_KEY }} # Приватный ключ SSH
-        source: "build/*" # Что копируем (обычно папка 'build' или 'dist')
-        target: "/var/www/html/your-frontend-app" # Куда копируем на сервере
-        # Если используете Docker, здесь будет другой скрипт деплоя
+        source: "build/static_dashboard/*" # Что копируем (обычно папка 'build' или 'dist')
+        target: "/var/www/html/static_dashboard" # Куда копируем на сервере
+   
