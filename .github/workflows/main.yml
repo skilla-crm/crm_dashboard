@@ -3,7 +3,7 @@ name: Deploy Fronted Dashboard dev
 on:
   push:
     branches:
-      - dev
+      - main
   workflow_dispatch:
 jobs:
   build-and-deploy:
