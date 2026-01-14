@@ -97,6 +97,7 @@ const Orders = () => {
             yAxisFormatter={(v) => v.toString()}
             isLoading={isLoading || isFetching}
           /> */}
+          
         </div>
         <div className={s.rightSide}>
           <Indicator
