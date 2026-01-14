@@ -101,11 +101,11 @@ const Orders = () => {
         <div className={s.rightSide}>
           <Indicator
             title={"Заказы"}
-            indicator={data?.orders_count || 0}
-            increase={data?.closed_orders?.increase || 0}
+            indicator={data?.orders_count?.indicator || 0}
+            increase={data?.orders_count?.increase || 0}
             prevPeriod={prevPeriod}
             prevPeriodIndicator={
-              data?.closed_orders?.prev_period_indicator || 0
+              data?.orders_count?.prev_period_indicator || 0
             }
             info={null}
             isLoading={isLoading || isFetching}
@@ -113,11 +113,11 @@ const Orders = () => {
 
             <Indicator
             title={"Завершенные заказы"}
-            indicator={data?.orders_count || 0}
-            increase={data?.closed_orders?.increase || 0}
+            indicator={data?.orders_count_close?.indicator || 0}
+            increase={data?.orders_count_close?.increase || 0}
             prevPeriod={prevPeriod}
             prevPeriodIndicator={
-              data?.closed_orders?.prev_period_indicator || 0
+              data?.orders_count_close?.prev_period_indicator || 0
             }
             info={null}
             isLoading={isLoading || isFetching}
@@ -125,7 +125,7 @@ const Orders = () => {
 
           <Indicator
             title={"Сумма завершенных заказов"}
-            indicator={data?.orders_sum || 0}
+            indicator={data?.orders_sum?.indicator || 0}
             increase={data?.orders_sum?.increase || 0}
             prevPeriod={prevPeriod}
             prevPeriodIndicator={data?.orders_sum?.prev_period_indicator || 0}

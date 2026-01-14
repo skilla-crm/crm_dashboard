@@ -64,160 +64,96 @@ const PerformersBlock = ({
                         isLoading={isLoading}
                     />
 
-                    <div
-                        className={classNames(s.content, {
-                            [s.contentBlurred]: error && !isLoading,
-                        })}
-                    >
-                        <Grid
-                            container
-                            spacing={3}
-                        >
-                            <Grid
-                                item
-                                size={6}
-                            >
-                                <IndicatorWithChart
-                                    buttonConfig={addPerformerButtonConfig}
-                                    title={'Добавлено новых'}
-                                    indicator={
-                                        performersData?.added?.indicator || 0
-                                    }
-                                    increase={
-                                        performersData?.added?.increase || 0
-                                    }
-                                    prevPeriod={getDatePeriodShort(datePeriod)}
-                                    info={null}
-                                    prevPeriodIndicator={
-                                        performersData?.added
-                                            ?.prev_period_indicator || 0
-                                    }
-                                    reverse={false}
-                                    isLoading={isLoading}
-                                    chartData={performersData?.graphics || []}
-                                    chartConfig={{
-                                        color: '#A59ADC',
-                                        gradient: ['#A59ADC', '#8B7FD9'],
-                                    }}
-                                />
-                            </Grid>
-                            <Grid
-                                container
-                                spacing={3}
-                                item
-                                size={6}
-                            >
-                                <Grid
-                                    item
-                                    size={6}
-                                >
-                                    <Indicator
-                                        title={'Отправлено приглашений'}
-                                        indicator={
-                                            performersData?.invitations
-                                                ?.indicator || 0
-                                        }
-                                        increase={
-                                            performersData?.invitations
-                                                ?.increase || 0
-                                        }
-                                        prevPeriodIndicator={
-                                            performersData?.invitations
-                                                ?.prev_period_indicator || 0
-                                        }
-                                        prevPeriod={getDatePeriodShort(
-                                            datePeriod
-                                        )}
-                                        info={null}
-                                        reverse={false}
-                                        isLoading={isLoading}
-                                    />
-                                </Grid>
-                                <Grid
-                                    item
-                                    size={6}
-                                >
-                                    <Indicator
-                                        title={'Прошли регистрацию'}
-                                        indicator={
-                                            performersData?.registered
-                                                ?.indicator || 0
-                                        }
-                                        prevPeriodIndicator={
-                                            performersData?.registered
-                                                ?.prev_period_indicator || 0
-                                        }
-                                        increase={
-                                            performersData?.registered
-                                                ?.increase || 0
-                                        }
-                                        prevPeriod={getDatePeriodShort(
-                                            datePeriod
-                                        )}
-                                        info={null}
-                                        reverse={false}
-                                        isLoading={isLoading}
-                                    />
-                                </Grid>
-                                <Grid
-                                    item
-                                    size={6}
-                                >
-                                    <Indicator
-                                        title={'Первый заказ в приложении'}
-                                        indicator={
-                                            performersData?.first_order
-                                                ?.indicator || 0
-                                        }
-                                        increase={
-                                            performersData?.first_order
-                                                ?.increase || 0
-                                        }
-                                        prevPeriodIndicator={
-                                            performersData?.first_order
-                                                ?.prev_period_indicator || 0
-                                        }
-                                        prevPeriod={getDatePeriodShort(
-                                            datePeriod
-                                        )}
-                                        info={null}
-                                        reverse={false}
-                                        isLoading={isLoading}
-                                    />
-                                </Grid>
-                                <Grid
-                                    item
-                                    size={6}
-                                >
-                                    <Indicator
-                                        title={'Были на заказах'}
-                                        indicator={
-                                            performersData?.in_orders
-                                                ?.indicator || 0
-                                        }
-                                        prevPeriodIndicator={
-                                            performersData?.in_orders
-                                                ?.prev_period_indicator || 0
-                                        }
-                                        increase={
-                                            performersData?.in_orders
-                                                ?.increase || 0
-                                        }
-                                        prevPeriod={getDatePeriodShort(
-                                            datePeriod
-                                        )}
-                                        info={null}
-                                        reverse={false}
-                                        isLoading={isLoading}
-                                    />
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </div>
+          <div
+            className={classNames(s.content, {
+              [s.contentBlurred]: error && !isLoading,
+            })}
+          >
+            <Grid container spacing={3}>
+              <Grid item size={5}>
+                <IndicatorWithChart
+                  buttonConfig={addPerformerButtonConfig}
+                  title={"Добавлено новых"}
+                  indicator={performersData?.added?.indicator || 0}
+                  increase={performersData?.added?.increase || 0}
+                  prevPeriod={getDatePeriodShort(datePeriod)}
+                  info={null}
+                  prevPeriodIndicator={
+                    performersData?.added?.prev_period_indicator || 0
+                  }
+                  reverse={false}
+                  isLoading={isLoading}
+                  chartData={performersData?.graphics || []}
+                  chartConfig={{
+                    color: "#A59ADC",
+                    gradient: ["#A59ADC", "#8B7FD9"],
+                  }}
+                />
+              </Grid>
+              <Grid container spacing={3} item size={7}>
+                <Grid item size={6}>
+                  <Indicator
+                    title={"Отправлено приглашений"}
+                    indicator={performersData?.invitations?.indicator || 0}
+                    increase={performersData?.invitations?.increase || 0}
+                    prevPeriodIndicator={
+                      performersData?.invitations?.prev_period_indicator || 0
+                    }
+                    prevPeriod={getDatePeriodShort(datePeriod)}
+                    info={null}
+                    reverse={false}
+                    isLoading={isLoading}
+                  />
                 </Grid>
+                <Grid item size={6}>
+                  <Indicator
+                    title={"Прошли регистрацию"}
+                    indicator={performersData?.registered?.indicator || 0}
+                    prevPeriodIndicator={
+                      performersData?.registered?.prev_period_indicator || 0
+                    }
+                    increase={performersData?.registered?.increase || 0}
+                    prevPeriod={getDatePeriodShort(datePeriod)}
+                    info={null}
+                    reverse={false}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+                <Grid item size={6}>
+                  <Indicator
+                    title={"Первый заказ в приложении"}
+                    indicator={performersData?.first_order?.indicator || 0}
+                    increase={performersData?.first_order?.increase || 0}
+                    prevPeriodIndicator={
+                      performersData?.first_order?.prev_period_indicator || 0
+                    }
+                    prevPeriod={getDatePeriodShort(datePeriod)}
+                    info={null}
+                    reverse={false}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+                <Grid item size={6}>
+                  <Indicator
+                    title={"Были на заказах"}
+                    indicator={performersData?.in_orders?.indicator || 0}
+                    prevPeriodIndicator={
+                      performersData?.in_orders?.prev_period_indicator || 0
+                    }
+                    increase={performersData?.in_orders?.increase || 0}
+                    prevPeriod={getDatePeriodShort(datePeriod)}
+                    info={null}
+                    reverse={false}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+              </Grid>
             </Grid>
-        </ThemeProvider>
-    );
+          </div>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
+  );
 };
 
 export default PerformersBlock;
