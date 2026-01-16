@@ -1,140 +1,61 @@
+// styles
 import s from './Counterparties.module.scss';
-import FiltersContainer from 'components/filters/FiltersContainer/FiltersContainer';
+import classNames from 'classnames';
+
+// dependencies
+import { useEffect, useState, useMemo, useCallback } from 'react';
+import { Grid } from '@mui/material';
+import { useSelector } from 'react-redux';
+
+// dssets
 import { ReactComponent as IconBackForward } from 'assets/icons/iconBackForwardBlack.svg';
-import { useDashboardNavigation } from 'hooks/useDashboardNavigation';
+
+// Components
+import FiltersContainer from 'components/filters/FiltersContainer/FiltersContainer';
 import TitleWithLink from 'components/ui/TitleWithLink/TitleWithLink';
 import Indicator from 'components/indicators/Indicator/Indicator';
-import { Grid } from '@mui/material';
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import Dropdown from 'components/ui/Dropdown/Dropdown';
+
+// Hooks
+import { useDashboardNavigation } from 'hooks/useDashboardNavigation';
+
+// Redux
 import { useGetCounterpartiesQuery } from '../../redux/counterpartiesApiActions';
+
+// Utils
 import { getDatePeriodShort } from 'utils/datePeriodMap';
+
+// Local components
 import CounterpartiesDiagram from './components/CounterpartiesDiagram/CounterpartiesDiagram';
 import OrdersFrequencyDiagram from './components/OrdersFrequencyDiagram/OrdersFrequencyDiagram';
+
+// Local config
 import {
     COUNTERPARTIES_STATISTICS_SERIES,
     ORDERS_FREQUENCY_SERIES,
 } from './config';
-import { mapCounterpartiesIndicators } from '../../utils/counterpartiesChartMapper';
 
-const formatCurrency = (value) =>
-    typeof value === 'number'
-        ? value.toLocaleString('ru-RU', { maximumFractionDigits: 0 })
-        : '—';
+// Local constants
+import {
+    FILTER_VALUES,
+    DEFAULT_COUNTERPARTY,
+    DEFAULT_CONTRACT,
+} from './constants';
 
-const mockCounterpartiesGraphics = [
-    {
-        date: '2024-01-01',
-        orders_sum: 300000,
-        completed_orders_sum: 180000,
-        receipts: 120000,
-    },
-    {
-        date: '2024-01-08',
-        orders_sum: 320000,
-        completed_orders_sum: 200000,
-        receipts: 140000,
-    },
-    {
-        date: '2024-01-15',
-        orders_sum: 350000,
-        completed_orders_sum: 220000,
-        receipts: 1600,
-    },
-    {
-        date: '2024-01-22',
-        orders_sum: 330000,
-        completed_orders_sum: 210000,
-        receipts: 150000,
-    },
-    {
-        date: '2024-01-29',
-        orders_sum: 380000,
-        completed_orders_sum: 240000,
-        receipts: 180000,
-    },
-    {
-        date: '2024-02-05',
-        orders_sum: 40020,
-        completed_orders_sum: 260000,
-        receipts: 200000,
-    },
-    {
-        date: '2024-02-12',
-        orders_sum: 390000,
-        completed_orders_sum: 250000,
-        receipts: 190000,
-    },
-    {
-        date: '2024-02-19',
-        orders_sum: 420000,
-        completed_orders_sum: 280000,
-        receipts: 220000,
-    },
-    {
-        date: '2024-02-26',
-        orders_sum: 450000,
-        completed_orders_sum: 300000,
-        receipts: 240000,
-    },
-    // {
-    //     date: '2024-03-05',
-    //     orders_sum: 470000,
-    //     completed_orders_sum: 320000,
-    //     receipts: 260000,
-    // },
-];
-
-const mockOrdersFrequencyGraphics = [
-    {
-        date: '2024-01-01',
-        executorsOnOrders: 15,
-        ordersFrequency: 25,
-    },
-    {
-        date: '2024-01-08',
-        executorsOnOrders: 18,
-        ordersFrequency: 28,
-    },
-    {
-        date: '2024-01-15',
-        executorsOnOrders: 20,
-        ordersFrequency: 32,
-    },
-    {
-        date: '2024-01-22',
-        executorsOnOrders: 17,
-        ordersFrequency: 30,
-    },
-    {
-        date: '2024-01-29',
-        executorsOnOrders: 22,
-        ordersFrequency: 35,
-    },
-    {
-        date: '2024-02-05',
-        executorsOnOrders: 25,
-        ordersFrequency: 38,
-    },
-    {
-        date: '2024-02-12',
-        executorsOnOrders: 23,
-        ordersFrequency: 36,
-    },
-    {
-        date: '2024-02-19',
-        executorsOnOrders: 26,
-        ordersFrequency: 40,
-    },
-    {
-        date: '2024-02-26',
-        executorsOnOrders: 28,
-        ordersFrequency: 42,
-    },
-];
+// Local utils
+import {
+    formatCurrency,
+    formatContractDate,
+    formatContractNumber,
+    formatCounterpartyDetails,
+} from './utils';
+import Loader from 'components/indicators/Indicator/Loader/Loader';
 
 const Counterparties = () => {
     const handleDashboardClick = useDashboardNavigation();
+    const [selectedCounterparty, setSelectedCounterparty] =
+        useState(DEFAULT_COUNTERPARTY);
+    const [selectedContract, setSelectedContract] = useState(null);
     const { dateStartPicker, dateEndPicker, datePeriod } = useSelector(
         (state) => state.dateRange || {}
     );
@@ -143,25 +64,223 @@ const Counterparties = () => {
     );
     const prevPeriod = getDatePeriodShort(datePeriod);
 
-    const params = {
-        'filter[date_start]': dateStartPicker,
-        'filter[date_end]': dateEndPicker,
-        'filter[partnership_id]': selectedPartnerships,
-    };
+    const params = useMemo(
+        () => ({
+            'filter[date_start]': dateStartPicker,
+            'filter[date_end]': dateEndPicker,
+            'filter[partnership_id]': selectedPartnerships,
+            'filter[type_company]':
+                selectedCounterparty?.id &&
+                selectedCounterparty.id !== FILTER_VALUES.ALL
+                    ? selectedCounterparty.id
+                    : undefined,
+            'filter[contract_id]':
+                selectedContract?.id &&
+                selectedContract.id !== FILTER_VALUES.NOT_SELECTED
+                    ? selectedContract.id
+                    : undefined,
+        }),
+        [
+            dateStartPicker,
+            dateEndPicker,
+            selectedPartnerships,
+            selectedCounterparty,
+            selectedContract,
+        ]
+    );
 
     const { data, isLoading, isFetching } = useGetCounterpartiesQuery(params, {
         skip: !dateStartPicker || !dateEndPicker,
     });
 
     const isLoadingData = isLoading || isFetching;
-    const { counterparties_graphics } = data || {};
+    const { orders_receipts, performers_order_frequency, counterparties } =
+        data || {};
+
+    const handleCounterpartyChange = useCallback((counterparty) => {
+        setSelectedCounterparty(counterparty);
+        if (
+            counterparty?.id &&
+            counterparty.id !== FILTER_VALUES.ALL &&
+            counterparty?.contracts &&
+            counterparty.contracts.length > 0
+        ) {
+            setSelectedContract(DEFAULT_CONTRACT);
+        } else {
+            setSelectedContract(null);
+        }
+    }, []);
+
+    const renderOption = useCallback((item, isSpecial = false) => {
+        const details = formatCounterpartyDetails(item);
+        return (
+            <div className={s.optionCompany}>
+                <div className={isSpecial ? s.companyNameAll : s.companyName}>
+                    {item.name ?? ''}
+                </div>
+                {details && <div className={s.companyDetails}>{details}</div>}
+            </div>
+        );
+    }, []);
+
+    // отображение договора в Dropdown
+    const renderContractOption = useCallback((contract) => {
+        if (contract?.id === FILTER_VALUES.NOT_SELECTED) {
+            return renderOption(contract, true);
+        }
+
+        const contractNumber = formatContractNumber(
+            contract.prefix,
+            contract.number
+        );
+        const contractDate = formatContractDate(contract.created_at);
+
+        return (
+            <div className={s.optionCompany}>
+                <div className={s.companyName}>
+                    {contractNumber}
+                    {contractDate && (
+                        <span className={s.contractDate}>
+                            {' '}
+                            ({contractDate})
+                        </span>
+                    )}
+                </div>
+            </div>
+        );
+    }, []);
+
+    const renderCounterpartyOption = useCallback(
+        (counterparty) =>
+            renderOption(counterparty, counterparty?.id === FILTER_VALUES.ALL),
+        [renderOption]
+    );
+
+    const renderCounterpartyValue = useCallback(
+        (counterparty) => {
+            if (!counterparty) return null;
+            return renderOption(
+                counterparty,
+                counterparty.id === FILTER_VALUES.ALL
+            );
+        },
+        [renderOption]
+    );
+
+    const counterpartiesWithAll = useMemo(
+        () => [DEFAULT_COUNTERPARTY, ...(counterparties || [])],
+        [counterparties]
+    );
+
+    // Получение опций для договоров
+    const contractOptions = useMemo(() => {
+        if (
+            selectedCounterparty?.id === FILTER_VALUES.ALL ||
+            !selectedCounterparty ||
+            selectedCounterparty?.contracts?.length === 0
+        ) {
+            return [];
+        }
+        return [DEFAULT_CONTRACT, ...(selectedCounterparty?.contracts || [])];
+    }, [selectedCounterparty]);
+
+    // должен ли быть disabled dropdown договоров
+    const isContractDisabled = useMemo(
+        () =>
+            !selectedCounterparty ||
+            selectedCounterparty?.id === FILTER_VALUES.ALL ||
+            selectedCounterparty?.contracts?.length === 0,
+        [selectedCounterparty]
+    );
+
+    // Конфигурация индикаторов для Grid
+    const gridIndicators = useMemo(
+        () => [
+            {
+                key: 'transaction_income',
+                title: 'Поступления на р/с',
+                dataKey: 'transaction_income',
+            },
+            {
+                key: 'transaction_outcome',
+                title: 'Выплаты',
+                dataKey: 'transaction_outcome',
+            },
+            {
+                key: 'their_debts',
+                title: 'Нам должны',
+                dataKey: 'their_debts',
+            },
+            {
+                key: 'our_debts',
+                title: 'Мы должны',
+                dataKey: 'our_debts',
+            },
+        ],
+        []
+    );
 
     useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            left: 0,
-        });
+        window.scrollTo({ top: 0, left: 0 });
     }, []);
+
+    useEffect(() => {
+        if (!selectedCounterparty || !counterparties) return;
+        if (selectedCounterparty.id === FILTER_VALUES.ALL) return;
+
+        const counterpartyExists = counterparties.some(
+            (cp) => cp.id === selectedCounterparty.id
+        );
+        if (!counterpartyExists) {
+            setSelectedCounterparty(DEFAULT_COUNTERPARTY);
+            setSelectedContract(null);
+        }
+    }, [counterparties, selectedCounterparty]);
+
+    useEffect(() => {
+        if (!selectedContract || !selectedCounterparty?.contracts) return;
+        if (selectedContract.id === FILTER_VALUES.NOT_SELECTED) return;
+
+        const contractExists = selectedCounterparty.contracts.some(
+            (contract) => contract.id === selectedContract.id
+        );
+        if (!contractExists) {
+            if (
+                selectedCounterparty?.id &&
+                selectedCounterparty.id !== FILTER_VALUES.ALL &&
+                selectedCounterparty.contracts.length > 0
+            ) {
+                setSelectedContract(DEFAULT_CONTRACT);
+            } else {
+                setSelectedContract(null);
+            }
+        }
+    }, [selectedCounterparty, selectedContract]);
+
+    useEffect(() => {
+        if (
+            selectedCounterparty?.id &&
+            selectedCounterparty.id !== FILTER_VALUES.ALL &&
+            selectedCounterparty?.contracts &&
+            selectedCounterparty.contracts.length > 0 &&
+            !selectedContract
+        ) {
+            setSelectedContract(DEFAULT_CONTRACT);
+        }
+    }, [selectedCounterparty, selectedContract]);
+
+    // Сброс выбранного договора, если у контрагента нет договоров
+    useEffect(() => {
+        if (
+            selectedCounterparty?.id &&
+            selectedCounterparty.id !== FILTER_VALUES.ALL &&
+            selectedContract &&
+            (!selectedCounterparty?.contracts ||
+                selectedCounterparty.contracts.length === 0)
+        ) {
+            setSelectedContract(null);
+        }
+    }, [selectedCounterparty, selectedContract]);
 
     return (
         <div className={s.root}>
@@ -175,7 +294,6 @@ const Counterparties = () => {
                     </span>{' '}
                     <IconBackForward /> Контрагенты
                 </h2>
-                <div style={{ color: 'red' }}>Моковые данные!</div>
                 <div className={s.headerBtns}>
                     <FiltersContainer
                         isFetching={isFetching}
@@ -185,19 +303,58 @@ const Counterparties = () => {
             </header>
             <main className={s.main}>
                 <div className={s.leftSide}>
+                    <div className={s.dropdowns}>
+                        <h4 className={s.headerTitle}>
+                            Выбор контрагента и договора
+                        </h4>
+                        <Dropdown
+                            description="Контрагент"
+                            options={counterpartiesWithAll}
+                            value={selectedCounterparty}
+                            onChange={handleCounterpartyChange}
+                            placeholder="Выберите контрагента"
+                            autoSelectFirst={false}
+                            renderOption={renderCounterpartyOption}
+                            renderValue={renderCounterpartyValue}
+                        />
+                        <Dropdown
+                            description="Договор"
+                            options={contractOptions}
+                            value={selectedContract}
+                            onChange={setSelectedContract}
+                            placeholder={
+                                selectedCounterparty?.id === FILTER_VALUES.ALL
+                                    ? 'Договор не выбран'
+                                    : !selectedCounterparty?.contracts ||
+                                      selectedCounterparty?.contracts
+                                          ?.length === 0
+                                    ? 'Договоры не найдены'
+                                    : 'Выберите договор'
+                            }
+                            disabled={isContractDisabled}
+                            renderOption={renderContractOption}
+                            renderValue={renderContractOption}
+                            autoSelectFirst={false}
+                        />
+
+                        <div
+                            className={classNames(
+                                s.loader,
+                                isLoading && s.loader_load
+                            )}
+                        >
+                            <Loader />
+                        </div>
+                    </div>
                     <CounterpartiesDiagram
-                        data={mapCounterpartiesIndicators(
-                            counterparties_graphics ||
-                                mockCounterpartiesGraphics
-                        )}
+                        data={orders_receipts || []}
                         title="Заказы и поступления"
                         series={COUNTERPARTIES_STATISTICS_SERIES}
-                        dataMapper={mapCounterpartiesIndicators}
                         tooltipValueFormatter={formatCurrency}
                         isLoading={isLoadingData}
                     />
                     <OrdersFrequencyDiagram
-                        data={mockOrdersFrequencyGraphics}
+                        data={performers_order_frequency || []}
                         title="Частота заказов и исполнители"
                         series={ORDERS_FREQUENCY_SERIES}
                         isLoading={isLoadingData}
@@ -211,8 +368,8 @@ const Counterparties = () => {
                     <Indicator
                         isLoading={isLoadingData}
                         title="Сумма завершенных заказов"
-                        indicator={data?.completed_orders_sum?.indicator || 0}
-                        increase={data?.completed_orders_sum?.increase || 0}
+                        indicator={data?.order_closed_sum?.indicator || 0}
+                        increase={data?.order_closed_sum?.increase || 0}
                         prevPeriod={prevPeriod}
                         info={null}
                         reverse={false}
@@ -221,66 +378,29 @@ const Counterparties = () => {
                         container
                         spacing={1.5}
                     >
-                        <Grid
-                            item
-                            size={6}
-                        >
-                            {' '}
-                            <Indicator
-                                isLoading={isLoadingData}
-                                title="Поступления на р/с"
-                                indicator={data?.receipts?.indicator || 0}
-                                increase={data?.receipts?.increase || 0}
-                                prevPeriod={prevPeriod}
-                                info={null}
-                                reverse={false}
-                            />
-                        </Grid>
-                        <Grid
-                            item
-                            size={6}
-                        >
-                            {' '}
-                            <Indicator
-                                isLoading={isLoadingData}
-                                title="Выплаты"
-                                indicator={data?.payments?.indicator || 0}
-                                increase={data?.payments?.increase || 0}
-                                prevPeriod={prevPeriod}
-                                info={null}
-                                reverse={false}
-                            />
-                        </Grid>
-                        <Grid
-                            item
-                            size={6}
-                        >
-                            {' '}
-                            <Indicator
-                                isLoading={isLoadingData}
-                                title="Нам должны"
-                                indicator={data?.we_owe?.indicator || 0}
-                                increase={data?.we_owe?.increase || 0}
-                                prevPeriod={prevPeriod}
-                                info={null}
-                                reverse={false}
-                            />
-                        </Grid>
-                        <Grid
-                            item
-                            size={6}
-                        >
-                            {' '}
-                            <Indicator
-                                isLoading={isLoadingData}
-                                title="Мы должны"
-                                indicator={data?.they_owe?.indicator || 0}
-                                increase={data?.they_owe?.increase || 0}
-                                prevPeriod={prevPeriod}
-                                info={null}
-                                reverse={false}
-                            />
-                        </Grid>
+                        {gridIndicators.map((indicatorConfig) => {
+                            const indicatorData =
+                                data?.[indicatorConfig.dataKey];
+                            return (
+                                <Grid
+                                    key={indicatorConfig.key}
+                                    item
+                                    size={6}
+                                >
+                                    <Indicator
+                                        isLoading={isLoadingData}
+                                        title={indicatorConfig.title}
+                                        indicator={
+                                            indicatorData?.indicator || 0
+                                        }
+                                        increase={indicatorData?.increase || 0}
+                                        prevPeriod={prevPeriod}
+                                        info={null}
+                                        reverse={false}
+                                    />
+                                </Grid>
+                            );
+                        })}
                     </Grid>
                 </div>
             </main>

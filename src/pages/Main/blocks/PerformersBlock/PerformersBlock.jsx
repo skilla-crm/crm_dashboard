@@ -64,7 +64,6 @@ const PerformersBlock = ({
                         isLoading={isLoading}
                     />
 
-<<<<<<< HEAD
                     <div
                         className={classNames(s.content, {
                             [s.contentBlurred]: error && !isLoading,
@@ -215,48 +214,6 @@ const PerformersBlock = ({
                             </Grid>
                         </Grid>
                     </div>
-=======
-          <div
-            className={classNames(s.content, {
-              [s.contentBlurred]: error && !isLoading,
-            })}
-          >
-            <Grid container spacing={3}>
-              <Grid item size={5}>
-                <IndicatorWithChart
-                  buttonConfig={addPerformerButtonConfig}
-                  title={"Добавлено новых"}
-                  indicator={performersData?.added?.indicator || 0}
-                  increase={performersData?.added?.increase || 0}
-                  prevPeriod={getDatePeriodShort(datePeriod)}
-                  info={null}
-                  prevPeriodIndicator={
-                    performersData?.added?.prev_period_indicator || 0
-                  }
-                  reverse={false}
-                  isLoading={isLoading}
-                  chartData={performersData?.graphics || []}
-                  chartConfig={{
-                    color: "#A59ADC",
-                    gradient: ["#A59ADC", "#8B7FD9"],
-                  }}
-                />
-              </Grid>
-              <Grid container spacing={3} item size={7}>
-                <Grid item size={6}>
-                  <Indicator
-                    title={"Отправлено приглашений"}
-                    indicator={performersData?.invitations?.indicator || 0}
-                    increase={performersData?.invitations?.increase || 0}
-                    prevPeriodIndicator={
-                      performersData?.invitations?.prev_period_indicator || 0
-                    }
-                    prevPeriod={getDatePeriodShort(datePeriod)}
-                    info={null}
-                    reverse={false}
-                    isLoading={isLoading}
-                  />
->>>>>>> main
                 </Grid>
             </Grid>
         </ThemeProvider>
