@@ -95,7 +95,40 @@
     line-height: 16px;
     white-space: nowrap;
 }
+.optionContract {
+    display: flex;
+    flex-direction: column;
 
+    gap: 6px;
+    min-width: 0;
+    width: 100%;
+}
+.contractType {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+}
+.label {
+    max-width: 150px;
+    border-radius: 4px;
+    background: var(--Icon-Light-BG, #f1f4f9);
+    display: flex;
+    height: 24px;
+    padding: 0 8px;
+    align-items: center;
+    gap: 4px;
+    overflow: hidden;
+    color: var(--Text-Secondary, #71869d);
+    text-overflow: ellipsis;
+
+    /* Body 2 Regular */
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px; /* 128.571% */
+}
 .optionCompany {
     display: flex;
     flex-direction: row;

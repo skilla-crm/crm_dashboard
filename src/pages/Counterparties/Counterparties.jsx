@@ -50,6 +50,7 @@ import {
     formatCounterpartyDetails,
 } from './utils';
 import Loader from 'components/indicators/Indicator/Loader/Loader';
+import EllipsisWithTooltip from 'components/ui/EllipsisWithTooltip/EllipsisWithTooltip';
 
 const Counterparties = () => {
     const handleDashboardClick = useDashboardNavigation();
@@ -129,22 +130,28 @@ const Counterparties = () => {
             return renderOption(contract, true);
         }
 
-        const contractNumber = formatContractNumber(
-            contract.prefix,
-            contract.number
-        );
-        const contractDate = formatContractDate(contract.created_at);
+        // const contractNumber = formatContractNumber(
+        //     contract.prefix,
+        //     contract.number
+        // );
+        // const contractDate = formatContractDate(contract.created_at);
 
         return (
-            <div className={s.optionCompany}>
-                <div className={s.companyName}>
-                    {contractNumber}
-                    {contractDate && (
-                        <span className={s.contractDate}>
-                            {' '}
-                            ({contractDate})
-                        </span>
+            <div className={s.optionContract}>
+                <div className={s.contractType}>
+                    {`${contract.contract_type ?? ''} ${contract.number ?? ''}${
+                        contract.date ? ` от ${contract.date}` : ''
+                    }`}
+                    {contract.label && (
+                        <div className={s.label}>
+                            <EllipsisWithTooltip text={contract.label} />
+                        </div>
                     )}
+                </div>
+                <div className={s.companyDetails}>
+                    {`${contract.name ?? ''} ${contract.bank_rs_zipped ?? ''} ${
+                        contract.bank ?? ''
+                    }`}
                 </div>
             </div>
         );
@@ -318,6 +325,7 @@ const Counterparties = () => {
                             renderValue={renderCounterpartyValue}
                         />
                         <Dropdown
+                            itemHeight={56}
                             description="Договор"
                             options={contractOptions}
                             value={selectedContract}

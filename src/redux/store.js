@@ -5,6 +5,7 @@ import { financeApiActions } from "./financeApiActions";
 import { counterpartiesApiActions } from "./counterpartiesApiActions";
 import { ordersApiActions } from "./ordersApiActions";
 import { employeesApiActions } from "./employeesApiActions";
+import { performersApiActions } from "./performersApiActions";
 import { filtersApiActions } from "./companiesForFilterApiActions";
 //slice
 import indicatorsGridSlice from "./indicatorsGrid/slice";
@@ -24,6 +25,7 @@ export const store = configureStore({
     [counterpartiesApiActions.reducerPath]: counterpartiesApiActions.reducer,
     [ordersApiActions.reducerPath]: ordersApiActions.reducer,
     [employeesApiActions.reducerPath]: employeesApiActions.reducer,
+    [performersApiActions.reducerPath]: performersApiActions.reducer,
     [filtersApiActions.reducerPath]: filtersApiActions.reducer,
   },
 
@@ -37,6 +39,7 @@ export const store = configureStore({
       counterpartiesApiActions.middleware,
       ordersApiActions.middleware,
       employeesApiActions.middleware,
+      performersApiActions.middleware,
       filtersApiActions.middleware
     ),
 });

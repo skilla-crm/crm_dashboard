@@ -33,10 +33,12 @@ const Dropdown = ({
     info = '',
     containerWidth,
     autoSelectFirst = true,
+    itemHeight,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [hover, setHover] = useState(false);
     const wrapperRef = useRef(null);
+    const fieldRef = useRef(null);
 
     const hasOptions = options.length > 0;
     const hasSelectedValue = !!value?.id || !!value;
@@ -80,6 +82,9 @@ const Dropdown = ({
     }
     if (containerWidth && typeof containerWidth === 'number') {
         wrapperStyle.width = `${containerWidth}px`;
+    }
+    if (itemHeight && typeof itemHeight === 'number') {
+        wrapperStyle['--item-height'] = `${itemHeight}px`;
     }
 
     const handleHover = () => {
@@ -149,6 +154,11 @@ const Dropdown = ({
                         [s.selected]: isSelected,
                     })}
                     onClick={() => handleOptionClick(option)}
+                    style={
+                        itemHeight && typeof itemHeight === 'number'
+                            ? { height: `${itemHeight}px` }
+                            : undefined
+                    }
                 >
                     {content}
                 </div>
@@ -184,8 +194,14 @@ const Dropdown = ({
             )}
 
             <div
+                ref={fieldRef}
                 className={classNames(s.field, disabled && s.field_disabled)}
                 onClick={toggleDropdown}
+                style={
+                    itemHeight && typeof itemHeight === 'number'
+                        ? { height: `${itemHeight}px` }
+                        : undefined
+                }
             >
                 {renderSelectedValue()}
                 {!disabled && canOpen && (
@@ -205,6 +221,17 @@ const Dropdown = ({
                         options.length > 6 && s.optionsBlock_scroll,
                         s.optionsBlock_open
                     )}
+                    style={
+                        fieldRef.current
+                            ? {
+                                  top: `${
+                                      fieldRef.current.offsetTop +
+                                      fieldRef.current.offsetHeight +
+                                      6
+                                  }px`,
+                              }
+                            : undefined
+                    }
                 >
                     <div className={s.list}>{renderOptionsList()}</div>
                 </ul>
