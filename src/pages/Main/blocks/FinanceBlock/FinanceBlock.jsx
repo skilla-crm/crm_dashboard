@@ -26,7 +26,7 @@ const theme = createTheme({
 
 const FinanceBlock = ({ data, isLoading, datePeriod, error, refetch }) => {
   const buttonAddBankAccountConfig = {
-    buttonText: "Добавить заказ",
+    buttonText: "Добавить счет",
     onButtonClick: () => {
       window.open("https://lk.skilla.ru/new/bank?section=detail", "_blank");
     },
