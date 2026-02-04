@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  selectedPartnerships: [],
+  selectedPartnerships: JSON.parse(localStorage.getItem('filterCompanys')) || [],
   companiesList: [],
   isLoadingCompanies: false,
 };
