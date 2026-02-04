@@ -33,6 +33,6 @@ jobs:
         username: ${{ secrets.SERVER_USERNAME_DEV }} # Имя пользователя
         key: ${{ secrets.SSH_PRIVATE_KEY_DEV }} # Приватный ключ SSH
         source: "build/static_dashboard/" # Что копируем (обычно папка 'build' или 'dist')
-        target: "var/www/fastuser/data/www/lk.dev.skilla.ru/crm/static/" # Куда копируем на сервере
+        target: "/var/www/fastuser/data/www/lk.dev.skilla.ru/crm/static/" # Куда копируем на сервере
         strip_components: 1
    
