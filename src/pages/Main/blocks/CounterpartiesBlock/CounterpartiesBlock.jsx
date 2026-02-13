@@ -38,7 +38,7 @@ const CounterpartiesBlock = ({
                 >
                     <TitleWithLink
                         title="Контрагенты"
-                        // navigateTo={'/counterparties'}
+                        navigateTo={'/counterparties'}
                         state={{ from: '/' }}
                     />
                 </Grid>

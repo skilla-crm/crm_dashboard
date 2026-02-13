@@ -6,39 +6,61 @@ import { addSpaceNumber2 } from 'utils/addSpaceNumber';
 import Loader from './ui/Loader/Loader';
 
 const NestedDonutChart = ({ data, isLoading }) => {
-    const {
-        verified,
-        verifiedPercent,
-        unverified,
-        unverifiedPercent,
-        smz,
-        smzPercent,
-        notSmz,
-        notSmzPercent,
-    } = data;
+    if (!data) {
+        data = {
+            checked: 0,
+            smz: 0,
+            no_smz: 0,
+            contacts: 0,
+        };
+    }
 
-    const outerData = [
-        { name: 'Проверенные', value: verified, color: '#80DEF1' },
-        { name: 'Непроверенные', value: unverified, color: '#C0CADD' },
-    ];
+    const checked = data.checked || 0;
+    const smz = data.smz || 0;
+    const noSmz = data.no_smz || 0;
+    const allContacts = data.contacts || 0;
 
-    const innerData = [
-        { name: 'СМЗ', value: smz, color: '#A59ADC' },
-        { name: 'Не СМЗ', value: notSmz, color: '#7EA6F5' },
-        {
-            name: 'padding',
-            value: (smz + notSmz) * 0.025,
-            color: 'transparent',
-        },
-    ];
+    const isAllZero =
+        checked === 0 && smz === 0 && noSmz === 0 && allContacts === 0;
 
-    const total = verified + unverified;
-    const verifiedAngle = total > 0 ? (verified / total) * 360 : 0;
+    //  непроверенные
+    const unverified = Math.max(0, allContacts - checked);
+
+    // проценты для СМЗ и не СМЗ относительно проверенных
+    const smzPercent = checked > 0 ? (smz / checked) * 100 : 0;
+    const noSmzPercent = checked > 0 ? (noSmz / checked) * 100 : 0;
+
+    // процент для внешнего круга
+    const total = checked + unverified;
+    const verifiedPercent = total > 0 ? (checked / total) * 100 : 0;
+    const unverifiedPercent = total > 0 ? (unverified / total) * 100 : 0;
+
+    //  все данные 0 то полностью серое кольцо
+    const outerData = isAllZero
+        ? [{ name: 'Все данные', value: 1, color: '#ECF2FC' }]
+        : [
+              { name: 'Проверенные', value: checked, color: '#80DEF1' },
+              { name: 'Непроверенные', value: unverified, color: '#C0CADD' },
+          ];
+
+    const innerData = isAllZero
+        ? []
+        : [
+              { name: 'СМЗ', value: smz, color: '#A59ADC' },
+              { name: 'Не СМЗ', value: noSmz, color: '#7EA6F5' },
+              {
+                  name: 'padding',
+                  value: (smz + noSmz) * 0.025,
+                  color: 'transparent',
+              },
+          ];
+
+    const verifiedAngle = total > 0 ? (checked / total) * 360 : 0;
 
     const legendData = [
         {
             name: 'Проверенные',
-            count: verified,
+            count: checked,
             percent: verifiedPercent || 0,
             color: '#80DEF1',
             isNested: false,
@@ -52,8 +74,8 @@ const NestedDonutChart = ({ data, isLoading }) => {
         },
         {
             name: 'Не СМЗ',
-            count: notSmz,
-            percent: notSmzPercent || 0,
+            count: noSmz,
+            percent: noSmzPercent || 0,
             color: '#7EA6F5',
             isNested: true,
         },
@@ -85,8 +107,8 @@ const NestedDonutChart = ({ data, isLoading }) => {
                                 innerRadius={36}
                                 outerRadius={73}
                                 startAngle={90}
-                                endAngle={-270}
-                                paddingAngle={4}
+                                endAngle={isAllZero ? -270 : -270}
+                                paddingAngle={isAllZero ? 0 : 4}
                                 stroke="none"
                                 cornerRadius={4}
                             >
@@ -98,25 +120,27 @@ const NestedDonutChart = ({ data, isLoading }) => {
                                 ))}
                             </Pie>
 
-                            <Pie
-                                data={innerData}
-                                dataKey="value"
-                                cx="50%"
-                                cy="50%"
-                                innerRadius={55}
-                                outerRadius={73}
-                                startAngle={90}
-                                endAngle={90 - verifiedAngle}
-                                stroke="none"
-                                cornerRadius={4}
-                            >
-                                {innerData.map((item, index) => (
-                                    <Cell
-                                        key={index}
-                                        fill={item.color}
-                                    />
-                                ))}
-                            </Pie>
+                            {!isAllZero && (
+                                <Pie
+                                    data={innerData}
+                                    dataKey="value"
+                                    cx="50%"
+                                    cy="50%"
+                                    innerRadius={55}
+                                    outerRadius={73}
+                                    startAngle={90}
+                                    endAngle={90 - verifiedAngle}
+                                    stroke="none"
+                                    cornerRadius={4}
+                                >
+                                    {innerData.map((item, index) => (
+                                        <Cell
+                                            key={index}
+                                            fill={item.color}
+                                        />
+                                    ))}
+                                </Pie>
+                            )}
                         </PieChart>
                     </ResponsiveContainer>
                 </div>
@@ -139,7 +163,7 @@ const NestedDonutChart = ({ data, isLoading }) => {
                                 {Boolean(item.percent) && (
                                     <span className={s.percent}>
                                         {' '}
-                                        ({Number(item.percent.toFixed(1))}%)
+                                        ({item.percent.toFixed(1)}%)
                                     </span>
                                 )}
                             </p>

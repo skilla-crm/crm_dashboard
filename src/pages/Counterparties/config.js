@@ -1,18 +1,19 @@
 const COUNTERPARTIES_STATISTICS_SERIES = [
     {
-        key: 'ordersSum',
+        key: 'order_closed_summ',
+
         color: '#80DEF1',
         name: 'Сумма заказов',
         isSwitch: false,
     },
     {
-        key: 'completedOrdersSum',
+        key: 'order_created_summ',
         color: '#A59ADC',
         name: 'Сумма завершенных заказов',
         isSwitch: false,
     },
     {
-        key: 'receipts',
+        key: 'transaction_income',
         color: '#70E093',
         name: 'Сумма поступлений на р/с',
         isSwitch: false,
@@ -21,13 +22,13 @@ const COUNTERPARTIES_STATISTICS_SERIES = [
 
 const ORDERS_FREQUENCY_SERIES = [
     {
-        key: 'executorsOnOrders',
+        key: 'orders_freq',
         color: '#80DEF1',
         name: 'Исполнители на заказах',
         isSwitch: true,
     },
     {
-        key: 'ordersFrequency',
+        key: 'workers_shift',
         color: '#7499E8',
         name: 'Частота заказов',
         isSwitch: true,
