@@ -56,9 +56,14 @@
 }
 
 .footerDiaItemTitle {
-    color: var(--Text-Secondary, #4f5a69);
-    font-size: 14px;
-    line-height: 16px;
+    color: var(--Text-Primary, #121922);
+
+    /* Body normal */
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 100% */
 }
 
 .footerDiaItemDot {
@@ -134,4 +139,3 @@
         visibility: visible;
     }
 }
-

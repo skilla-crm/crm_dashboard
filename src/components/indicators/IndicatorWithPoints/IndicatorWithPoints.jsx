@@ -110,33 +110,40 @@ const IndicatorItem = ({
                     <div className={s.bottomRow}>
                         {' '}
                         <div className={s.itemTitle}>{title}</div>
-                        {increase !== undefined && increase !== 0 && indicator !== 0 && (
-                            <div
-                                className={classNames(
-                                    s.itemBottom,
-                                    isLoading && s.itemBottom_load
-                                )}
-                            >
-                                <p
+                        {increase !== undefined &&
+                            increase !== 0 &&
+                            indicator !== 0 && (
+                                <div
                                     className={classNames(
-                                        s.itemIncrease,
-                                        increaseState.negaive &&
-                                            s.itemIncrease_red
+                                        s.itemBottom,
+                                        isLoading && s.itemBottom_load
                                     )}
                                 >
-                                    <IconArrow
+                                    <p
                                         className={classNames(
-                                            increaseState.down && s.arrow_down
+                                            s.itemIncrease,
+                                            increaseState.negaive &&
+                                                s.itemIncrease_red
                                         )}
-                                    />
-                                    {Number(Math.abs(increase || 0).toFixed(1))}
-                                    %
-                                </p>
-                                {prevPeriodIndicator !== undefined && (
-                                    <span>{/* отн. {prevPeriodIndicator} */}</span>
-                                )}
-                            </div>
-                        )}
+                                    >
+                                        <IconArrow
+                                            className={classNames(
+                                                increaseState.down &&
+                                                    s.arrow_down
+                                            )}
+                                        />
+                                        {Number(
+                                            Math.abs(increase || 0).toFixed(1)
+                                        )}
+                                        %
+                                    </p>
+                                    {prevPeriodIndicator !== undefined && (
+                                        <span>
+                                            {/* отн. {prevPeriodIndicator} */}
+                                        </span>
+                                    )}
+                                </div>
+                            )}
                     </div>
                 </div>
             </div>

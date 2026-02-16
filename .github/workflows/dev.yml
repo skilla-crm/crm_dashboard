@@ -21,7 +21,7 @@ jobs:
       run: npm install
 
     - name: Build frontend # 4. Собираем фронтенд
-      run: npm run build # Команда сборки вашего проекта (например, React, Vue, Angular)
+      run: npm run build_dev # Команда сборки вашего проекта (например, React, Vue, Angular)
       env:
         NODE_ENV: development
         CI: false
@@ -33,6 +33,6 @@ jobs:
         username: ${{ secrets.SERVER_USERNAME_DEV }} # Имя пользователя
         key: ${{ secrets.SSH_PRIVATE_KEY_DEV }} # Приватный ключ SSH
         source: "build/static_dashboard/" # Что копируем (обычно папка 'build' или 'dist')
-        target: "/var/www/alexholm200/data/crm/static/" # Куда копируем на сервере
+        target: "/var/www/fastuser/data/www/static.dev.skilla.ru/" # Куда копируем на сервере
         strip_components: 1
    
